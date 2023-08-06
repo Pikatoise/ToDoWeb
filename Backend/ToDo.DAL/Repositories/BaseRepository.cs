@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using ToDo.DAL.Interfaces;
 
 namespace ToDo.DAL.Repositories
@@ -12,40 +13,42 @@ namespace ToDo.DAL.Repositories
             _appDbContext = appDbContext;
         }
 
-        public async Task<TEntity> CreateAsync(TEntity entity)
+        public TEntity Create(TEntity entity)
         {
             if (entity == null)
-                throw new ArgumentNullException("Entity is null");
+                throw new ArgumentNullException("Create error: Entity is null");
 
-            await _appDbContext.AddAsync(entity);
-            await _appDbContext.SaveChangesAsync();
+            _appDbContext.Add(entity);
 
             return entity;
         }
 
-        public async Task<TEntity> DeleteAsync(TEntity entity)
+        public IQueryable<TEntity> ReadAll()
         {
-            if (entity == null)
-                throw new ArgumentNullException("Entity is null");
-
-            _appDbContext.Remove(entity);
-            await _appDbContext.SaveChangesAsync();
-
-            return entity;
+            return _appDbContext.Set<TEntity>().AsNoTracking();
         }
 
-        public IQueryable<TEntity> ReadAsync()
+        public IQueryable<TEntity> ReadByCondition(Expression<Func<TEntity, bool>> expression)
         {
-            return _appDbContext.Set<TEntity>();
+            return _appDbContext.Set<TEntity>().Where(expression).AsNoTracking();
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public TEntity Update(TEntity entity)
         {
             if (entity == null)
-                throw new ArgumentNullException("Entity is null");
+                throw new ArgumentNullException("Update error: Entity is null");
 
             _appDbContext.Update(entity);
-            await _appDbContext.SaveChangesAsync();
+
+            return entity;
+        }
+
+        public TEntity Delete(TEntity entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException("Delete error: Entity is null");
+
+            _appDbContext.Remove(entity);
 
             return entity;
         }

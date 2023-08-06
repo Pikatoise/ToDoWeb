@@ -18,9 +18,7 @@ namespace ToDo.AspApi
             builder.Services.AddEndpointsApiExplorer();
             //builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
-            builder.Services.AddScoped<IBaseRepository<Profile>, BaseRepository<Profile>>();
-            builder.Services.AddScoped<IBaseRepository<Domain.Models.Task>, BaseRepository<Domain.Models.Task>>();
+            builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration["ConnectionStrings:PgSql"]);

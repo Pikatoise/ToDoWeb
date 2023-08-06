@@ -1,10 +1,13 @@
-﻿namespace ToDo.DAL.Interfaces
+﻿using System.Linq.Expressions;
+
+namespace ToDo.DAL.Interfaces
 {
     public interface IBaseRepository<TEntity>
     {
-        Task<TEntity> CreateAsync(TEntity entity);
-        IQueryable<TEntity> ReadAsync();
-        Task<TEntity> UpdateAsync(TEntity entity);
-        Task<TEntity> DeleteAsync(TEntity entity);
+        TEntity Create(TEntity entity);
+        IQueryable<TEntity> ReadAll();
+        TEntity Update(TEntity entity);
+        TEntity Delete(TEntity entity);
+        IQueryable<TEntity> ReadByCondition(Expression<Func<TEntity, bool>> expression);
     }
 }
