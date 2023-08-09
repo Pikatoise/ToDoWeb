@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDo.DAL.Interfaces;
+﻿using ToDo.DAL.Interfaces;
 using ToDo.Domain.Models;
 
 namespace ToDo.DAL.Repositories
@@ -12,7 +7,10 @@ namespace ToDo.DAL.Repositories
     {
         public UserRepository(AppDbContext appDbContext) : base(appDbContext)
         {
-            
+
         }
+        
+        public User? GetByLogin(string login) =>
+            _appDbContext.Set<User>().Where(x => x.Login.Equals(login)).FirstOrDefault();
     }
 }

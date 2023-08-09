@@ -26,10 +26,7 @@ namespace ToDo.AspApi.Controllers
         [HttpGet("User/{login}")]
         public ActionResult FindUserByLogin(string login)
         {
-            var requestedUser = _repository
-                                    .Users
-                                    .ReadByCondition(x => x.Login.Equals(login))
-                                    .FirstOrDefault();
+            var requestedUser = _repository.Users.GetByLogin(login);
 
             if (requestedUser == null)
                 return BadRequest("Пользователь не найден");
@@ -40,10 +37,7 @@ namespace ToDo.AspApi.Controllers
         [HttpGet("User/{login}&{password}")]
         public ActionResult AuthUser(string login, string password)
         {
-            var requestedUser = _repository
-                                    .Users
-                                    .ReadByCondition(x => x.Login.Equals(login))
-                                    .FirstOrDefault();
+            var requestedUser = _repository.Users.GetByLogin(login);
 
             if (requestedUser == null)
                 return BadRequest("Пользователь не найден");
@@ -54,36 +48,14 @@ namespace ToDo.AspApi.Controllers
             return BadRequest("Неверный пароль");
         }
 
-        /*[HttpPost("CreateUser/{login}&{password}")]
-        public async Task<ActionResult> RegisterUser(string login, string password)
-        {
-            bool isLoginBusy = _userRepository.ReadAsync().Any(x => x.Login.Equals(login));
-
-            if (isLoginBusy)
-                return BadRequest("Login is busy");
-
-            var newUser = new User() { Login = login, Password = password };
-            await _userRepository.CreateAsync(newUser);
-
-            var newProfile = new Profile();
-            await _profileRepository.CreateAsync(newProfile);
-
-            newUser.Profile = newProfile;
-            await _userRepository.UpdateAsync(newUser);
-
-            return Ok(newUser);
-
-        }*/
-
         [HttpPost("CreateUser/")]
         public ActionResult RegisterUser([FromForm]CreateUserData createUserData)
         {
-            bool isLoginBusy = _repository
+            User? sameLoginUser = _repository
                                    .Users
-                                   .ReadAll()
-                                   .Any(x => x.Login.Equals(createUserData.Login));
+                                   .GetByLogin(createUserData.Login);
 
-            if (isLoginBusy)
+            if (sameLoginUser != null)
                 return BadRequest("Логин занят");
 
             var newUser = UserMapper.ToDomain(createUserData);

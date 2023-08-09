@@ -5,9 +5,9 @@ namespace ToDo.DAL.Interfaces
     public interface IBaseRepository<TEntity>
     {
         TEntity Create(TEntity entity);
-        IQueryable<TEntity> ReadAll();
+        IQueryable<TEntity> GetAll();
         TEntity Update(TEntity entity);
         TEntity Delete(TEntity entity);
-        IQueryable<TEntity> ReadByCondition(Expression<Func<TEntity, bool>> expression);
+        IQueryable<TEntity> GetByCondition(Expression<Func<TEntity, bool>> expression);
     }
 }

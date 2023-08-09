@@ -23,12 +23,12 @@ namespace ToDo.DAL.Repositories
             return entity;
         }
 
-        public IQueryable<TEntity> ReadAll()
+        public IQueryable<TEntity> GetAll()
         {
             return _appDbContext.Set<TEntity>().AsNoTracking();
         }
 
-        public IQueryable<TEntity> ReadByCondition(Expression<Func<TEntity, bool>> expression)
+        public IQueryable<TEntity> GetByCondition(Expression<Func<TEntity, bool>> expression)
         {
             return _appDbContext.Set<TEntity>().Where(expression).AsNoTracking();
         }
