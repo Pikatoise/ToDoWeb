@@ -14,5 +14,8 @@ namespace ToDo.DAL.Repositories
         {
             
         }
+
+        public Profile? GetById(int id) =>
+            _appDbContext.Set<Profile>().Where(x => x.Id == id).FirstOrDefault();
     }
 }

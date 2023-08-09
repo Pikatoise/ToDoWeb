@@ -14,22 +14,20 @@ namespace ToDo.AspApi.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly ILogger<AccountController> _logger;
         private readonly IRepositoryWrapper _repository;
 
         public AccountController(ILogger<AccountController> logger, IRepositoryWrapper repositoryWrapper)
         {
-            _logger = logger;
             _repository = repositoryWrapper;
         }
 
-        [HttpGet("User/")]
+        [HttpGet("")]
         public ActionResult GetAllUser()
         {
             return Ok(_repository.Users.GetAll());
         }
 
-        [HttpGet("User/{id}")]
+        [HttpGet("{id}")]
         public ActionResult GetUserById(int id)
         {
             var requestedUser = _repository.Users.GetById(id);
@@ -40,7 +38,7 @@ namespace ToDo.AspApi.Controllers
             return Ok(requestedUser);
         }
 
-        [HttpGet("User/{login}&{password}")]
+        [HttpGet("{login}&{password}")]
         public ActionResult AuthUser(string login, string password)
         {
             var requestedUser = _repository.Users.GetByLogin(login);
@@ -54,12 +52,10 @@ namespace ToDo.AspApi.Controllers
             return BadRequest("Неверный пароль");
         }
 
-        [HttpPost("CreateUser/")]
+        [HttpPost("Create")]
         public ActionResult RegisterUser([FromForm]CreateUserData createUserData)
         {
-            User? sameLoginUser = _repository
-                                   .Users
-                                   .GetByLogin(createUserData.Login);
+            User? sameLoginUser = _repository.Users.GetByLogin(createUserData.Login);
 
             if (sameLoginUser != null)
                 return BadRequest("Логин занят");
@@ -78,7 +74,26 @@ namespace ToDo.AspApi.Controllers
             _repository.Save();
 
             return Ok(newUser.Id);
+        }
 
+        [HttpPost("ChangePassword")]
+        public ActionResult ChangePassword([FromForm]ChangePasswordData changePasswordData)
+        {
+            User? user = _repository.Users.GetById(changePasswordData.UserId);
+
+            if (user == null)
+                return BadRequest("Пользователь не найден");
+
+            if (!user.Password.Equals(changePasswordData.OldPassword))
+                return BadRequest("Неверный пароль");
+
+            user.Password = changePasswordData.NewPassword;
+
+            _repository.Users.Update(user);
+
+            _repository.Save();
+
+            return Ok("Пароль успешно изменен");
         }
     }
 }

@@ -9,6 +9,6 @@ namespace ToDo.DAL.Interfaces
 {
     public interface IProfileRepository : IBaseRepository<Profile>
     {
-
+        public Profile? GetById(int id);
     }
 }
