@@ -23,15 +23,21 @@ namespace ToDo.AspApi.Controllers
             _repository = repositoryWrapper;
         }
 
-        [HttpGet("User/{login}")]
-        public ActionResult FindUserByLogin(string login)
+        [HttpGet("User/")]
+        public ActionResult GetAllUser()
         {
-            var requestedUser = _repository.Users.GetByLogin(login);
+            return Ok(_repository.Users.GetAll());
+        }
+
+        [HttpGet("User/{id}")]
+        public ActionResult GetUserById(int id)
+        {
+            var requestedUser = _repository.Users.GetById(id);
 
             if (requestedUser == null)
                 return BadRequest("Пользователь не найден");
 
-            return Ok("Пользователь существует");
+            return Ok(requestedUser);
         }
 
         [HttpGet("User/{login}&{password}")]
@@ -43,7 +49,7 @@ namespace ToDo.AspApi.Controllers
                 return BadRequest("Пользователь не найден");
 
             if (requestedUser.Password.Equals(password))
-                return Ok(requestedUser);
+                return Ok(requestedUser.Id);
 
             return BadRequest("Неверный пароль");
         }
@@ -71,7 +77,7 @@ namespace ToDo.AspApi.Controllers
 
             _repository.Save();
 
-            return Ok(newUser);
+            return Ok(newUser.Id);
 
         }
     }

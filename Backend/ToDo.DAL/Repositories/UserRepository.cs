@@ -12,5 +12,8 @@ namespace ToDo.DAL.Repositories
         
         public User? GetByLogin(string login) =>
             _appDbContext.Set<User>().Where(x => x.Login.Equals(login)).FirstOrDefault();
+
+        public User? GetById(int id) =>
+            _appDbContext.Set<User>().Where(x => x.Id == id).FirstOrDefault();
     }
 }
