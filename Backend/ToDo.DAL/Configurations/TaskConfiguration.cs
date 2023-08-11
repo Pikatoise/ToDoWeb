@@ -27,7 +27,7 @@ namespace ToDo.DAL.Configurations
             builder.Property(x => x.Description)
                 .HasColumnName("Description")
                 .HasColumnType("text")
-                .HasMaxLength(250);
+                .HasMaxLength(500);
 
             builder.Property(x => x.ExpiryDate)
                 .HasColumnName("ExpiryDate")
