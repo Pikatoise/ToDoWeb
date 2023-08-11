@@ -33,7 +33,7 @@ namespace ToDo.AspApi.Controllers
             var requestedUser = _repository.Users.GetById(id);
 
             if (requestedUser == null)
-                return BadRequest("Пользователь не найден");
+                return NotFound("Пользователь не найден");
 
             return Ok(requestedUser);
         }
@@ -44,7 +44,7 @@ namespace ToDo.AspApi.Controllers
             var requestedUser = _repository.Users.GetByLogin(login);
 
             if (requestedUser == null)
-                return BadRequest("Пользователь не найден");
+                return NotFound("Пользователь не найден");
 
             if (requestedUser.Password.Equals(password))
                 return Ok(requestedUser.Id);
@@ -76,13 +76,13 @@ namespace ToDo.AspApi.Controllers
             return Ok(newUser.Id);
         }
 
-        [HttpPost("ChangePassword")]
+        [HttpPut("ChangePassword")]
         public ActionResult ChangePassword([FromForm]ChangePasswordData changePasswordData)
         {
             User? user = _repository.Users.GetById(changePasswordData.UserId);
 
             if (user == null)
-                return BadRequest("Пользователь не найден");
+                return NotFound("Пользователь не найден");
 
             if (!user.Password.Equals(changePasswordData.OldPassword))
                 return BadRequest("Неверный пароль");
