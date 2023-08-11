@@ -12,6 +12,7 @@ namespace ToDo.DAL.Repositories
         AppDbContext _appDbContext;
         IUserRepository _users;
         IProfileRepository _profiles;
+        ITaskRepository _tasks;
 
         public IUserRepository Users { 
             get
@@ -31,6 +32,17 @@ namespace ToDo.DAL.Repositories
                     _profiles = new ProfileRepository(_appDbContext);
 
                 return _profiles;
+            }
+        }
+
+        public ITaskRepository Tasks
+        {
+            get
+            {
+                if (_tasks == null)
+                    _tasks = new TaskRepository(_appDbContext);
+
+                return _tasks;
             }
         }
 

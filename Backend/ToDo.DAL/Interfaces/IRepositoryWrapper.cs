@@ -10,6 +10,7 @@ namespace ToDo.DAL.Interfaces
     {
         IUserRepository Users { get; }
         IProfileRepository Profiles { get; }
+        ITaskRepository Tasks { get; }
         void Save();
     }
 }
