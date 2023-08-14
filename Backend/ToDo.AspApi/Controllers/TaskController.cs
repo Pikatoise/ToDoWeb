@@ -34,6 +34,12 @@ namespace ToDo.AspApi.Controllers
             return Ok(task);
         }
 
+        [HttpGet("FolderId={id}")]
+        public IActionResult GetTasksByFolderId(int id)
+        {
+            return Ok(_repository.Tasks.GetAll().Where(x => x.FolderId == id));
+        }
+
         [HttpPost("Create")]
         public IActionResult CreateTask([FromForm]CreateTaskData createTaskData)
         {
@@ -84,7 +90,7 @@ namespace ToDo.AspApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("Delete/id={id}")]
+        [HttpDelete("Delete/{id}")]
         public IActionResult DeleteTask(int id)
         {
             var task = _repository.Tasks.GetById(id);

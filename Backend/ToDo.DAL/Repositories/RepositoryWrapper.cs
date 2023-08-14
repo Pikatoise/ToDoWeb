@@ -13,6 +13,7 @@ namespace ToDo.DAL.Repositories
         IUserRepository _users;
         IProfileRepository _profiles;
         ITaskRepository _tasks;
+        IFolderRepository _folders;
 
         public IUserRepository Users { 
             get
@@ -43,6 +44,17 @@ namespace ToDo.DAL.Repositories
                     _tasks = new TaskRepository(_appDbContext);
 
                 return _tasks;
+            }
+        }
+
+        public IFolderRepository Folders
+        {
+            get
+            {
+                if (_folders == null)
+                    _folders = new FolderRepository(_appDbContext);
+                
+                return _folders;
             }
         }
 
