@@ -34,7 +34,7 @@ namespace ToDo.AspApi.Controllers
             return Ok(task);
         }
 
-        [HttpGet("FolderId={id}")]
+        [HttpGet("folderId={id}")]
         public IActionResult GetTasksByFolderId(int id)
         {
             return Ok(_repository.Tasks.GetAll().Where(x => x.FolderId == id));
