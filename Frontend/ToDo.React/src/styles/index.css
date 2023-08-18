@@ -69,14 +69,25 @@
 @layer base {
   * {
     @apply border-border;
+    @apply font-sans
   }
-  body {
-    @apply bg-background text-foreground;
+  body, html {
+    @apply m-0 h-full min-h-full;
   }
-}
 
-@layer base {
-    .fg-red-4xl{
-        @apply text-red-600 font-light text-4xl;
-    }
+  body {
+    @apply flex;
+    @apply flex-col;
+    @apply m-0;
+  }
+
+  header, footer {
+    @apply flex-none;
+  }
+
+  main {
+    @apply grid;
+    @apply h-full;
+    grid-template-rows: 68px calc(100vh - 68px);
+  }
 }
