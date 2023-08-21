@@ -1,32 +1,39 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useLoginForm } from '@/hooks/useLoginForm';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
+import { useRegisterForm } from "@/hooks/useRegisterForm";
 import styles from '@/styles/SignForm.module.css';
 import { FC } from 'react';
+import { ArrowLeft } from "lucide-react";
 
-export interface LoginFormProps {
+export interface RegisterFormProps {
     changeSign: Function;
 }
 
-export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
+export const RegisterForm: FC<RegisterFormProps> = ({ changeSign }) => {
     const {
         registerLogin,
         registerPassword,
+        registerConfirmPassword,
         onSubmit,
         errors
-    } = useLoginForm();
+    } = useRegisterForm();
 
     return (
         <form
             className={styles.form}
             onSubmit={onSubmit}>
             <Card className={styles.card}>
-                <CardHeader>
-                    <CardTitle className="text-center">
-                        Авторизация
+                <CardHeader className="relative flex flex-row justify-center -left-5">
+                    <Button
+                        variant="ghost"
+                        type="button"
+                        onClick={() => changeSign()}>
+                        <ArrowLeft />
+                    </Button>
+
+                    <CardTitle>
+                        Регистрация
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -53,33 +60,24 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
 
                     <div className="mb-4" />
 
-                    <div className="flex justify-end">
-                        <Checkbox
-                            id="remember"
-                            className="mx-2"/>
-                        <Label 
-                            htmlFor="remember"
-                            className="font-normal">
-                            Запомнить аккаунт
-                        </Label>
+                    <Input
+                        {...registerConfirmPassword}
+                        type="password"
+                        placeholder="Повторите пароль"
+                        className={styles.input} />
+
+                    <div className={styles.errorText}>
+                        {errors?.confirmPassword && <p>{errors.confirmPassword.message}</p>}
                     </div>
                 </CardContent>
 
-                <div className="mb-2" />
+                <div className="mb-4" />
 
                 <CardFooter className={styles.footer}>
                     <Button
                         className={styles.buttonSubmit}
                         type="submit">
-                        Войти
-                    </Button>
-
-                    <Button
-                        variant="link"
-                        type="button"
-                        className="w-28 h-8 mb-4"
-                        onClick={() => changeSign()}>
-                        Регистрация
+                        Зарегистрироваться
                     </Button>
                 </CardFooter>
             </Card>

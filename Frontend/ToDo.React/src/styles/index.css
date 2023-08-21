@@ -90,4 +90,8 @@
     @apply h-full;
     grid-template-rows: 68px calc(100vh - 68px);
   }
+
+  .min-h-half {
+    min-height: 50%;
+  }
 }
