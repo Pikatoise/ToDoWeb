@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLoginForm } from '@/hooks/useLoginForm';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 import styles from '@/styles/SignForm.module.css';
 import { FC } from 'react';
 
@@ -15,6 +14,7 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
     const {
         registerLogin,
         registerPassword,
+        registerRemember,
         onSubmit,
         errors
     } = useLoginForm();
@@ -54,12 +54,14 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                     <div className="mb-4" />
 
                     <div className="flex justify-end">
-                        <Checkbox
+                        <input
+                            {...registerRemember}
                             id="remember"
-                            className="mx-2"/>
-                        <Label 
+                            type="checkbox"
+                            className={styles.checkboxRemember} />
+                        <Label
                             htmlFor="remember"
-                            className="font-normal">
+                            className="font-normal -mt-px cursor-pointer">
                             Запомнить аккаунт
                         </Label>
                     </div>

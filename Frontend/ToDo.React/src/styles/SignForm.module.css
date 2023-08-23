@@ -29,3 +29,10 @@
     @apply w-48 mb-2;
     @apply bg-zinc-800 hover:bg-zinc-700;
 }
+
+.checkboxRemember{
+    @apply w-3 mx-2;
+    @apply checked:bg-zinc-800 appearance-none; 
+    @apply border-slate-900 border-x border-y rounded-full;
+    @apply cursor-pointer;
+}

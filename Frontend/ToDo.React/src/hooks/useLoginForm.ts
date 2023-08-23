@@ -1,48 +1,77 @@
-import { useForm } from 'react-hook-form'
+import { useState } from 'react';
+import { useForm, UseFormSetError } from 'react-hook-form';
+import { useAuth } from './useAuth';
+import User from '@/models/User';
+import { useNavigate } from 'react-router-dom';
+import ErrorType from '@/models/errorTypes';
 
 interface FormData {
-    login: string,
-    password: string;
+	login: string;
+	password: string;
+	isRemember: boolean;
 }
 
 export const useLoginForm = () => {
-    const {
-        register,
-        formState: {
-            errors
-        },
-        setError,
-        handleSubmit,
-        reset
-    } = useForm<FormData>({ mode: "onSubmit" });
+	const {
+		register,
+		formState: { errors },
+		setError,
+		handleSubmit,
+		reset,
+	} = useForm<FormData>({ mode: 'onSubmit' });
 
-    const tryLogin = (data: FormData) => {
-        // if (data.login !== "Pikatoise") {
-        //     setError("login", { type: "custom", message: "Пользователь не найден" });
-        //     return;
-        // }
-        alert(JSON.stringify(data));
+	const auth = useAuth();
+	const navigate = useNavigate();
 
-        reset();
-    };
+	const tryLogin = (data: FormData) => {
+		const user: User = { Login: data.login, Password: data.password };
 
-    const onSubmit = handleSubmit(tryLogin);
+		const successful = () => {
+			navigate('/', { replace: true });
+		};
 
-    const registerLogin = register('login', {
-        required: "Введите логин",
-        minLength: {
-            value: 2,
-            message: "Неверный логин"
-        }
-    });
+		const error = (type: ErrorType, message: string) => {
+			switch (type) {
+				case ErrorType.login: {
+					setError('login', { type: 'custom', message: message });
+					return;
+				}
+				case ErrorType.password:
+					setError('password', { type: 'custom', message: message });
+					return;
+			}
+		};
 
-    const registerPassword = register('password', {
-        required: "Введите пароль",
-        minLength: {
-            value: 2,
-            message: "Неверный пароль"
-        }
-    });
+		auth?.signIn(user, data.isRemember, successful, error);
 
-    return {registerLogin, registerPassword, onSubmit, errors};
-}
+		reset();
+	};
+
+	const onSubmit = handleSubmit(tryLogin);
+
+	const registerLogin = register('login', {
+		required: 'Введите логин',
+		minLength: {
+			value: 2,
+			message: 'Неверный логин',
+		},
+	});
+
+	const registerPassword = register('password', {
+		required: 'Введите пароль',
+		minLength: {
+			value: 2,
+			message: 'Неверный пароль',
+		},
+	});
+
+	const registerRemember = register('isRemember');
+
+	return {
+		registerLogin,
+		registerPassword,
+		registerRemember,
+		onSubmit,
+		errors,
+	};
+};
