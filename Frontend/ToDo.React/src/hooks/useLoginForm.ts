@@ -20,8 +20,8 @@ export const useLoginForm = () => {
 		reset,
 	} = useForm<FormData>({ mode: 'onSubmit' });
 
-	const auth = useAuth();
-	const navigate = useNavigate();
+        const auth = useAuth();
+        const navigate = useNavigate();
 
 	const tryLogin = (data: FormData) => {
 		const user: User = { Login: data.login, Password: data.password };
@@ -30,7 +30,7 @@ export const useLoginForm = () => {
 			navigate('/', { replace: true });
 		};
 
-		const error = (type: ErrorType, message: string) => {
+		const throwError = (type: ErrorType, message: string) => {
 			switch (type) {
 				case ErrorType.login: {
 					setError('login', { type: 'custom', message: message });
@@ -42,7 +42,7 @@ export const useLoginForm = () => {
 			}
 		};
 
-		auth?.signIn(user, data.isRemember, successful, error);
+		auth?.signIn(user, data.isRemember, successful, throwError);
 
 		reset();
 	};
@@ -67,11 +67,5 @@ export const useLoginForm = () => {
 
 	const registerRemember = register('isRemember');
 
-	return {
-		registerLogin,
-		registerPassword,
-		registerRemember,
-		onSubmit,
-		errors,
-	};
+	return { registerLogin, registerPassword, registerRemember, onSubmit, errors };
 };

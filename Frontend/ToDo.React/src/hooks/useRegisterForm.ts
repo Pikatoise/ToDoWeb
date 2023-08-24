@@ -1,53 +1,77 @@
-import { useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form';
+import { useAuth } from './useAuth';
+import { useNavigate } from 'react-router-dom';
+import ErrorType from '@/models/errorTypes';
+import User from '@/models/User';
 
 interface FormData {
-    login: string,
-    password: string;
-    confirmPassword: string;
+	login: string;
+	password: string;
+	confirmPassword: string;
 }
 
-export const useRegisterForm = () => {
-    const {
-        register,
-        formState: {
-            errors
-        },
-        setError,
-        handleSubmit,
-        reset
-    } = useForm<FormData>({ mode: "onSubmit" });
+export const useRegisterForm = (changeSign: Function) => {
+	const {
+		register,
+		formState: { errors },
+		setError,
+		handleSubmit,
+		reset,
+	} = useForm<FormData>({ mode: 'onSubmit' });
 
-    const tryRegister = (data: FormData) => {
-        // if (data.login !== "Pikatoise") {
-        //     setError("login", { type: "custom", message: "Пользователь не найден" });
-        //     return;
-        // }
-        alert(JSON.stringify(data));
+	const auth = useAuth();
+	const navigate = useNavigate();
 
-        reset();
-    };
+	const tryRegister = (data: FormData) => {
+		if (data.confirmPassword != data.password) {
+			setError('confirmPassword', { type: 'custom', message: 'Пароли не совпадают' });
+			return;
+		}
 
-    const onSubmit = handleSubmit(tryRegister);
+		const user: User = { Login: data.login, Password: data.password };
 
-    const registerLogin = register('login', {
-        required: "Введите логин",
-        minLength: {
-            value: 2,
-            message: "Логин слишком короткий"
-        }
-    });
+		const successful = () => {
+			changeSign();
+		};
 
-    const registerPassword = register('password', {
-        required: "Введите пароль",
-        minLength: {
-            value: 2,
-            message: "Пароль слишком короткий"
-        }
-    });
+		const throwError = (type: ErrorType, message: string) => {
+			switch (type) {
+				case ErrorType.login: {
+					setError('login', { type: 'custom', message: message });
+					return;
+				}
+				case ErrorType.password:
+					setError('password', { type: 'custom', message: message });
+					return;
+			}
+		};
 
-    const registerConfirmPassword = register('confirmPassword', {
-        required: "Введите пароль повторно"
-    });
+		auth?.signUp(user, successful, throwError);
 
-    return {registerLogin, registerPassword, registerConfirmPassword, onSubmit, errors};
-}
+		reset();
+	};
+
+	const onSubmit = handleSubmit(tryRegister);
+
+	const registerLogin = register('login', {
+		required: 'Введите логин',
+		minLength: {
+			value: 2,
+			message: 'Логин слишком короткий',
+		},
+	});
+
+	const registerPassword = register('password', {
+		required: 'Введите пароль',
+		minLength: {
+			value: 2,
+			message: 'Пароль слишком короткий',
+		},
+	});
+
+	const registerConfirmPassword = register('confirmPassword', {
+		required: 'Введите пароль повторно',
+	});
+
+	return { registerLogin, registerPassword, registerConfirmPassword, onSubmit, errors };
+};

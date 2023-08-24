@@ -17,7 +17,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeSign }) => {
         registerConfirmPassword,
         onSubmit,
         errors
-    } = useRegisterForm();
+    } = useRegisterForm(changeSign);
 
     return (
         <form
