@@ -13,10 +13,11 @@ namespace ToDo.AspApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors();
+
             builder.Services.AddControllers()
                             .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             builder.Services.AddEndpointsApiExplorer();
-            //builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -26,12 +27,12 @@ namespace ToDo.AspApi
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            /*if (app.Environment.IsDevelopment())
+            app.UseCors(builder =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }*/
+                builder.AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowAnyOrigin();
+            });
 
             app.UseAuthorization();
 

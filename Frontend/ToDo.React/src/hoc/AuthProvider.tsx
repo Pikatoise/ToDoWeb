@@ -3,10 +3,23 @@ import { createContext, useState, FC, PropsWithChildren, useEffect } from 'react
 import ErrorType from "@/models/errorTypes";
 import { useSession } from "@/hooks/useSession";
 
+interface SignInProps {
+    User: User,
+    IsRemember: boolean,
+    CallbackSuccess: () => void,
+    CallbackError: (type: ErrorType, message: string) => void;
+}
+
+interface SignUpProps {
+    User: User,
+    CallbackSuccess: () => void,
+    CallbackError: (type: ErrorType, message: string) => void;
+}
+
 interface ContextProps {
     user: User | null,
-    signIn: (user: User, isRemember: boolean, cbSuccess: Function, cbError: (type: ErrorType, message: string) => void) => void,
-    signUp: (user: User, cbSuccess: Function, cbError: (type: ErrorType, message: string) => void) => void,
+    signIn: (params: SignInProps) => void,
+    signUp: (params: SignUpProps) => void,
     signOut: (cb: () => void) => void;
 }
 
@@ -17,30 +30,30 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
     const [user, setUser] = useState<User | null>(getSession());
 
-    const signIn = (user: User, isRemember: boolean, cbSuccess: Function, cbError: (type: ErrorType, message: string) => void) => {
+    const signIn = (params: SignInProps) => {
         // fetch auth api
 
-        if (isRemember) {
-            createSession(user);
+        if (params.IsRemember) {
+            createSession(params.User);
         }
 
-        setUser(user);
+        setUser(params.User);
 
-        cbSuccess();
+        params.CallbackSuccess();
     };
 
-    const signUp = (user: User, cbSuccess: Function, cbError: (type: ErrorType, message: string) => void) => {
+    const signUp = (params: SignUpProps) => {
         // fetch auth api
 
-        cbSuccess();
+        params.CallbackSuccess();
     };
 
-    const signOut = (cb: () => void) => {
+    const signOut = (callback: () => void) => {
         clearSession();
 
         setUser(null);
 
-        cb();
+        callback();
     };
 
     const value: ContextProps = { user, signIn, signUp, signOut };

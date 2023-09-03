@@ -1,0 +1,7 @@
+.footer {
+	@apply absolute w-full bottom-1 text-center;
+}
+
+.copyrightLink {
+	@apply opacity-10 hover:opacity-80 transition-all ease-linear;
+}

@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLoginForm } from '@/hooks/useLoginForm';
 import { Label } from '@/components/ui/label';
-import styles from '@/styles/SignForm.module.css';
 import { FC } from 'react';
+import styles from '@/styles/SignForm.module.css';
 
 export interface LoginFormProps {
     changeSign: Function;
@@ -29,7 +29,7 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                         Авторизация
                     </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="mb-2">
                     <Input
                         {...registerLogin}
                         placeholder="Логин"
@@ -38,8 +38,6 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                     <div className={styles.errorText}>
                         {errors?.login && <p>{errors.login.message}</p>}
                     </div>
-
-                    <div className="mb-4" />
 
                     <Input
                         {...registerPassword}
@@ -50,8 +48,6 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                     <div className={styles.errorText}>
                         {errors?.password && <p>{errors.password.message}</p>}
                     </div>
-
-                    <div className="mb-4" />
 
                     <div className="flex justify-end">
                         <input
@@ -66,8 +62,6 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                         </Label>
                     </div>
                 </CardContent>
-
-                <div className="mb-2" />
 
                 <CardFooter className={styles.footer}>
                     <Button

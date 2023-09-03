@@ -20,8 +20,8 @@ export const useLoginForm = () => {
 		reset,
 	} = useForm<FormData>({ mode: 'onSubmit' });
 
-        const auth = useAuth();
-        const navigate = useNavigate();
+	const auth = useAuth();
+	const navigate = useNavigate();
 
 	const tryLogin = (data: FormData) => {
 		const user: User = { Login: data.login, Password: data.password };
@@ -42,7 +42,12 @@ export const useLoginForm = () => {
 			}
 		};
 
-		auth?.signIn(user, data.isRemember, successful, throwError);
+		auth?.signIn({
+			User: user,
+			IsRemember: data.isRemember,
+			CallbackSuccess: successful,
+			CallbackError: throwError,
+		});
 
 		reset();
 	};
