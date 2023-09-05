@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using Microsoft.AspNetCore.Mvc;
 using ToDo.AspApi.Dto;
 using ToDo.AspApi.Mappers;
 using ToDo.DAL.Interfaces;
-using ToDo.DAL.Repositories;
 using ToDo.Domain.Models;
 
 namespace ToDo.AspApi.Controllers

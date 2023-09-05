@@ -8,9 +8,10 @@ import { ArrowLeft } from "lucide-react";
 
 export interface RegisterFormProps {
     changeSign: Function;
+    interfaceStatus: boolean;
 }
 
-export const RegisterForm: FC<RegisterFormProps> = ({ changeSign }) => {
+export const RegisterForm: FC<RegisterFormProps> = ({ changeSign, interfaceStatus }) => {
     const {
         registerLogin,
         registerPassword,
@@ -19,16 +20,19 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeSign }) => {
         errors
     } = useRegisterForm(changeSign);
 
+    const tabIndex = interfaceStatus ? 0 : -1;
+
     return (
         <form
-            className={styles.form}
+            className={[styles.form, interfaceStatus ? "" : styles.blockedForm].join(' ')}
             onSubmit={onSubmit}>
             <Card className={styles.card}>
                 <CardHeader className="relative flex flex-row justify-center -left-5">
                     <Button
                         variant="ghost"
                         type="button"
-                        onClick={() => changeSign()}>
+                        onClick={() => changeSign()}
+                        tabIndex={tabIndex}>
                         <ArrowLeft />
                     </Button>
 
@@ -40,7 +44,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeSign }) => {
                     <Input
                         {...registerLogin}
                         placeholder="Логин"
-                        className={styles.input} />
+                        className={styles.input}
+                        tabIndex={tabIndex} />
 
                     <div className={styles.errorText}>
                         {errors?.login && <p>{errors.login.message}</p>}
@@ -52,7 +57,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeSign }) => {
                         {...registerPassword}
                         type="password"
                         placeholder="Пароль"
-                        className={styles.input} />
+                        className={styles.input}
+                        tabIndex={tabIndex} />
 
                     <div className={styles.errorText}>
                         {errors?.password && <p>{errors.password.message}</p>}
@@ -64,7 +70,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeSign }) => {
                         {...registerConfirmPassword}
                         type="password"
                         placeholder="Повторите пароль"
-                        className={styles.input} />
+                        className={styles.input}
+                        tabIndex={tabIndex} />
 
                     <div className={styles.errorText}>
                         {errors?.confirmPassword && <p>{errors.confirmPassword.message}</p>}
@@ -76,7 +83,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeSign }) => {
                 <CardFooter className={styles.footer}>
                     <Button
                         className={styles.buttonSubmit}
-                        type="submit">
+                        type="submit"
+                        tabIndex={tabIndex}>
                         Зарегистрироваться
                     </Button>
                 </CardFooter>

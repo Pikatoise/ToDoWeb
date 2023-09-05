@@ -8,9 +8,10 @@ import styles from '@/styles/SignForm.module.css';
 
 export interface LoginFormProps {
     changeSign: Function;
+    interfaceStatus: boolean;
 }
 
-export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
+export const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) => {
     const {
         registerLogin,
         registerPassword,
@@ -19,9 +20,11 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
         errors
     } = useLoginForm();
 
+    const tabIndex = interfaceStatus ? 0 : -1;
+
     return (
         <form
-            className={styles.form}
+            className={[styles.form, interfaceStatus ? "" : styles.blockedForm].join(' ')}
             onSubmit={onSubmit}>
             <Card className={styles.card}>
                 <CardHeader>
@@ -33,7 +36,8 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                     <Input
                         {...registerLogin}
                         placeholder="Логин"
-                        className={styles.input} />
+                        className={styles.input}
+                        tabIndex={tabIndex} />
 
                     <div className={styles.errorText}>
                         {errors?.login && <p>{errors.login.message}</p>}
@@ -43,7 +47,8 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                         {...registerPassword}
                         type="password"
                         placeholder="Пароль"
-                        className={styles.input} />
+                        className={styles.input}
+                        tabIndex={tabIndex} />
 
                     <div className={styles.errorText}>
                         {errors?.password && <p>{errors.password.message}</p>}
@@ -54,7 +59,8 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                             {...registerRemember}
                             id="remember"
                             type="checkbox"
-                            className={styles.checkboxRemember} />
+                            className={styles.checkboxRemember}
+                            tabIndex={tabIndex} />
                         <Label
                             htmlFor="remember"
                             className="font-normal -mt-px cursor-pointer">
@@ -66,7 +72,8 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                 <CardFooter className={styles.footer}>
                     <Button
                         className={styles.buttonSubmit}
-                        type="submit">
+                        type="submit"
+                        tabIndex={tabIndex}>
                         Войти
                     </Button>
 
@@ -74,7 +81,8 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign }) => {
                         variant="link"
                         type="button"
                         className="w-28 h-8 mb-4"
-                        onClick={() => changeSign()}>
+                        onClick={() => changeSign()}
+                        tabIndex={tabIndex}>
                         Регистрация
                     </Button>
                 </CardFooter>

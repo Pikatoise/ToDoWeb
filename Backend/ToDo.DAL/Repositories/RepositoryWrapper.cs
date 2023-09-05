@@ -67,5 +67,10 @@ namespace ToDo.DAL.Repositories
         {
             _appDbContext.SaveChanges();
         }
+
+        public bool DbStatus()
+        {
+            return _appDbContext.Database.CanConnect();
+        }
     }
 }

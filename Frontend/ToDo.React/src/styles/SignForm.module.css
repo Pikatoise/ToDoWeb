@@ -36,3 +36,8 @@
 	@apply border-slate-900 border-x border-y rounded-full;
 	@apply cursor-pointer;
 }
+
+.blockedForm {
+	@apply pointer-events-none;
+	@apply opacity-60;
+}

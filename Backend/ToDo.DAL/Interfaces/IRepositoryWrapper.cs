@@ -13,5 +13,6 @@ namespace ToDo.DAL.Interfaces
         ITaskRepository Tasks { get; }
         IFolderRepository Folders { get; }
         void Save();
+        bool DbStatus();
     }
 }
