@@ -46,7 +46,11 @@ export const useRegisterForm = (changeSign: Function) => {
 			}
 		};
 
-		auth?.signUp({ User: user, CallbackSuccess: successful, CallbackError: throwError });
+		auth?.signUp({
+			User: user,
+			CallbackSuccess: successful,
+			CallbackError: throwError,
+		});
 
 		reset();
 	};

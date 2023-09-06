@@ -39,5 +39,5 @@
 
 .blockedForm {
 	@apply pointer-events-none;
-	@apply opacity-60;
+	@apply opacity-50;
 }

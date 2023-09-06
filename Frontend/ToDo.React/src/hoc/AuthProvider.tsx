@@ -2,6 +2,7 @@ import User from "@/models/User";
 import { createContext, useState, FC, PropsWithChildren, useEffect } from 'react';
 import ErrorType from "@/models/errorTypes";
 import { useSession } from "@/hooks/useSession";
+import { AuthUser } from "@/api/Account";
 
 interface SignInProps {
     User: User,
@@ -30,16 +31,28 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
     const [user, setUser] = useState<User | null>(getSession());
 
-    const signIn = (params: SignInProps) => {
-        // fetch auth api
+    const signIn = async (params: SignInProps) => {
+        const response = AuthUser(params.User.Login ?? "", params.User.Password ?? "");
 
-        if (params.IsRemember) {
-            createSession(params.User);
-        }
+        console.log((await response).id);
+        //console.log(response);
+        // response.then(d => {
+        //     console.log(d);
 
-        setUser(params.User);
+        //     if (d.error) {
+        //         //params.CallbackError();
 
-        params.CallbackSuccess();
+        //         return;
+        //     }
+
+        //     if (params.IsRemember) {
+        //         createSession(params.User);
+        //     }
+
+        //     setUser(params.User);
+
+        //     params.CallbackSuccess();
+        // });
     };
 
     const signUp = (params: SignUpProps) => {
