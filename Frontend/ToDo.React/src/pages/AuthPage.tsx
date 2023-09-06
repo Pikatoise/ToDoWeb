@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { LoginForm } from '@/components/Form/LoginForm';
 import { RegisterForm } from "@/components/Form/RegisterForm";
 import { useAuth } from "@/hooks/useAuth";
@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { GetApiStatus } from "@/api/API.ts";
 import { LoadingCircle, LoadingCircleSize } from "@/components/Loading/LoadingCircle";
 
-export const AuthPage = () => {
+export const AuthPage: FC = () => {
     const [isSignIn, setSign] = useState(true);
     const [interfaceAccess, setInterfaceAccess] = useState<boolean>(false);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);

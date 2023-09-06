@@ -2,14 +2,9 @@ import { ListTodo } from "lucide-react";
 import { Link } from 'react-router-dom';
 import styles from '@/styles/Header.module.css';
 import { Button } from "@/components/ui/button";
+import { FC } from 'react';
 
-export function Header() {
-
-
-    const status = () => {
-        
-    };
-
+export const Header: FC = () => {
     return (
         <header className={styles.header}>
             <div className="flex">
@@ -24,8 +19,6 @@ export function Header() {
                         ToDo
                     </h1>
                 </Link>
-
-                <Button onClick={() => { status(); }}>Click Me</Button>
             </div>
         </header>
     );

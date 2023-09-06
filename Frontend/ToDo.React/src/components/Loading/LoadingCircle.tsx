@@ -1,6 +1,5 @@
 import { Loader2 } from "lucide-react";
-import React, { FC } from 'react';
-import styles from "@/styles/LoadingCircle.module.css";
+import { FC } from 'react';
 
 export enum LoadingCircleSize {
     Small = "w-8 h-8",
@@ -16,7 +15,7 @@ interface LoadingCircleProps {
 export const LoadingCircle: FC<LoadingCircleProps> = ({ size, ...props }) => {
     return (
         <div className="flex justify-center items-center w-full h-full">
-            <Loader2 className={[size, styles.spin].join(" ")} />
+            <Loader2 className={[size, "animate-spin"].join(" ")} />
         </div>
     );
 };
