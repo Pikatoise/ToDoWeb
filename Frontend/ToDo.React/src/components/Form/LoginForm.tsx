@@ -87,6 +87,10 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) =
                     </Button>
                 </CardFooter>
             </Card>
+
+            {
+                interfaceStatus ? <></> : <div className="text-red-700">Сервер недоступен</div>
+            }
         </form>
     );
 };

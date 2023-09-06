@@ -3,10 +3,13 @@ import { LoginForm } from '@/components/Form/LoginForm';
 import { RegisterForm } from "@/components/Form/RegisterForm";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { GetApiStatus } from "@/api/Api.ts";
+import { GetApiStatus } from "@/api/API.ts";
+import { LoadingCircle, LoadingCircleSize } from "@/components/Loading/LoadingCircle";
 
 export const AuthPage = () => {
     const [isSignIn, setSign] = useState(true);
+    const [interfaceAccess, setInterfaceAccess] = useState<boolean>(false);
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -19,10 +22,10 @@ export const AuthPage = () => {
     useEffect(() => {
         GetApiStatus().then(r => {
             setInterfaceAccess(r);
+
+            setIsLoaded(true);
         });
     }, []);
-
-    const [interfaceAccess, setInterfaceAccess] = useState(false);
 
     const signForm = () => {
         if (isSignIn)
@@ -39,7 +42,10 @@ export const AuthPage = () => {
     return (
         <>
             {
-                isAuthorized ? <></> : signForm()
+                isLoaded ?
+                    (isAuthorized ? <></> : signForm())
+                    :
+                    (<LoadingCircle size={LoadingCircleSize.Large} />)
             }
         </>
     );

@@ -2,14 +2,14 @@
 
 .form {
 	@apply w-full h-full pb-16;
-	@apply flex items-center justify-center;
+	@apply flex items-center justify-center flex-col;
 	@apply opacity-90;
 }
 
 .card {
 	@apply bg-zinc-200 border-0 shadow-2xl;
 	@apply min-w-max w-1/3 min-h-half;
-	@apply flex flex-col justify-between;
+	@apply flex flex-col justify-between mb-2;
 }
 
 .input {
