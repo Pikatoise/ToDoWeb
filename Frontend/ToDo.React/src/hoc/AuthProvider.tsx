@@ -2,7 +2,7 @@ import User from "@/models/User";
 import { createContext, useState, FC, PropsWithChildren, useEffect } from 'react';
 import ErrorType from "@/models/errorTypes";
 import { useSession } from "@/hooks/useSession";
-import { AuthUser } from "@/api/Account";
+import { AuthUser, RegUser } from "@/api/Account";
 
 interface SignInProps {
     User: User,
@@ -29,36 +29,54 @@ export const AuthContext = createContext<ContextProps | null>(null);
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     const { getSession, createSession, clearSession } = useSession();
 
-    const [user, setUser] = useState<User | null>(getSession());
+    //const [user, setUser] = useState<User | null>(getSession());
+    // На время теста
+    const [user, setUser] = useState<User | null>({ Id: 0, Login: "TestLogin", Password: "TestPassword" });
 
     const signIn = async (params: SignInProps) => {
-        const response = AuthUser(params.User.Login ?? "", params.User.Password ?? "");
+        const response = await AuthUser(params.User.Login ?? "", params.User.Password ?? "");
 
-        console.log((await response).id);
-        //console.log(response);
-        // response.then(d => {
-        //     console.log(d);
+        if (response.id == -1) {
+            switch (response.status) {
+                case 400:
+                    params.CallbackError(ErrorType.password, "Неверный пароль");
+                    break;
+                case 404:
+                    params.CallbackError(ErrorType.login, "Пользователь не найден");
+                    break;
+            }
 
-        //     if (d.error) {
-        //         //params.CallbackError();
+            return;
+        }
 
-        //         return;
-        //     }
+        const userWithId: User = { ...params.User, Id: response.id };
 
-        //     if (params.IsRemember) {
-        //         createSession(params.User);
-        //     }
+        setUser(userWithId);
 
-        //     setUser(params.User);
-
-        //     params.CallbackSuccess();
-        // });
-    };
-
-    const signUp = (params: SignUpProps) => {
-        // fetch auth api
+        if (params.IsRemember) {
+            createSession(userWithId);
+        }
 
         params.CallbackSuccess();
+    };
+
+    const signUp = async (params: SignUpProps) => {
+        const responseStatus = await RegUser(params.User.Login ?? "", params.User.Password ?? "");
+
+        switch (responseStatus) {
+            case 200:
+                params.CallbackSuccess();
+                break;
+            case 400:
+                params.CallbackError(ErrorType.login, "Неверный логин");
+                params.CallbackError(ErrorType.password, "Неверный пароль");
+                break;
+            case 409:
+                params.CallbackError(ErrorType.login, "Логин занят");
+                break;
+            default:
+                break;
+        }
     };
 
     const signOut = (callback: () => void) => {

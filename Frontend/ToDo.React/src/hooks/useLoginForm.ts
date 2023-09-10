@@ -60,6 +60,10 @@ export const useLoginForm = () => {
 			value: 2,
 			message: 'Неверный логин',
 		},
+		maxLength: {
+			value: 30,
+			message: 'Неверный логин',
+		},
 	});
 
 	const registerPassword = register('password', {
@@ -67,6 +71,10 @@ export const useLoginForm = () => {
 		minLength: {
 			value: 2,
 			message: 'Неверный пароль',
+		},
+		maxLength: {
+			value: 30,
+			message: 'Неверный логин',
 		},
 	});
 

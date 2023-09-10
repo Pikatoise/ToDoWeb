@@ -13,7 +13,6 @@ C:\Users\Pikatoise\Desktop\ToDo\ToDo.Models\obj\Debug\net6.0\ref\ToDo.Domain.dll
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\bin\Debug\net6.0\ToDo.Domain.deps.json
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\bin\Debug\net6.0\ToDo.Domain.dll
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\bin\Debug\net6.0\ToDo.Domain.pdb
-C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\obj\Debug\net6.0\ToDo.Domain.csproj.AssemblyReference.cache
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\obj\Debug\net6.0\ToDo.Domain.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\obj\Debug\net6.0\ToDo.Domain.AssemblyInfoInputs.cache
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\obj\Debug\net6.0\ToDo.Domain.AssemblyInfo.cs

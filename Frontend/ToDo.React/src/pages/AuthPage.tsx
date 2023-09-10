@@ -7,9 +7,9 @@ import { GetApiStatus } from "@/api/API.ts";
 import { LoadingCircle, LoadingCircleSize } from "@/components/Loading/LoadingCircle";
 
 export const AuthPage: FC = () => {
-    const [isSignIn, setSign] = useState(true);
     const [interfaceAccess, setInterfaceAccess] = useState<boolean>(false);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [isSignIn, setSign] = useState(true);
 
     const navigate = useNavigate();
 

@@ -37,7 +37,7 @@
 	@apply cursor-pointer;
 }
 
-.blockedForm {
+.blocked {
 	@apply pointer-events-none;
 	@apply opacity-50;
 }

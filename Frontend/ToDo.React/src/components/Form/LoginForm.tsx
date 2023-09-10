@@ -24,9 +24,9 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) =
 
     return (
         <form
-            className={[styles.form, interfaceStatus ? "" : styles.blockedForm].join(' ')}
+            className={styles.form}
             onSubmit={onSubmit}>
-            <Card className={styles.card}>
+            <Card className={[styles.card, interfaceStatus ? "" : styles.blocked].join(' ')}>
                 <CardHeader>
                     <CardTitle className="text-center">
                         Авторизация

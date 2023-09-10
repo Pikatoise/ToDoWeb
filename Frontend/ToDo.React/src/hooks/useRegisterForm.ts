@@ -20,7 +20,6 @@ export const useRegisterForm = (changeSign: Function) => {
 	} = useForm<FormData>({ mode: 'onSubmit' });
 
 	const auth = useAuth();
-	const navigate = useNavigate();
 
 	const tryRegister = (data: FormData) => {
 		if (data.confirmPassword != data.password) {
@@ -63,6 +62,10 @@ export const useRegisterForm = (changeSign: Function) => {
 			value: 2,
 			message: 'Логин слишком короткий',
 		},
+		maxLength: {
+			value: 30,
+			message: 'Логин слишком длинный',
+		},
 	});
 
 	const registerPassword = register('password', {
@@ -70,6 +73,10 @@ export const useRegisterForm = (changeSign: Function) => {
 		minLength: {
 			value: 2,
 			message: 'Пароль слишком короткий',
+		},
+		maxLength: {
+			value: 30,
+			message: 'Пароль слишком длинный',
 		},
 	});
 

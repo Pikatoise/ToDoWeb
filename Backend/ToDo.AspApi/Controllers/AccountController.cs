@@ -49,12 +49,12 @@ namespace ToDo.AspApi.Controllers
         }
 
         [HttpPost("Create")]
-        public ActionResult RegisterUser([FromForm]CreateUserData createUserData)
+        public ActionResult RegisterUser([FromBody]CreateUserData createUserData)
         {
             User? sameLoginUser = _repository.Users.GetByLogin(createUserData.Login);
 
             if (sameLoginUser != null)
-                return BadRequest("Логин занят");
+                return Conflict("Логин занят");
 
             var newUser = UserMapper.ToDomain(createUserData);
             _repository.Users.Create(newUser);
@@ -69,7 +69,7 @@ namespace ToDo.AspApi.Controllers
 
             _repository.Save();
 
-            return Ok(newUser.Id);
+            return Ok();
         }
 
         [HttpPut("ChangePassword")]
