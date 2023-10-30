@@ -10,8 +10,6 @@
 
         public bool isEmailNotificationEnabled { get; set; } = false;
 
-        //public int? UserId { get; set; }
-
         public User? User { get; set; } = null!;
 
         public ICollection<Task> Tasks { get; set; }
