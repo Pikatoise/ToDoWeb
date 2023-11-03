@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useRegisterForm } from "@/hooks/useRegisterForm";
+import useRegisterForm from "@/hooks/useRegisterForm";
 import styles from '@/styles/SignForm.module.css';
 import { FC } from 'react';
 import { ArrowLeft } from "lucide-react";
@@ -11,7 +11,7 @@ export interface RegisterFormProps {
     interfaceStatus: boolean;
 }
 
-export const RegisterForm: FC<RegisterFormProps> = ({ changeSign, interfaceStatus }) => {
+const RegisterForm: FC<RegisterFormProps> = ({ changeSign, interfaceStatus }) => {
     const {
         registerLogin,
         registerPassword,
@@ -92,3 +92,5 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeSign, interfaceStatu
         </form>
     );
 };
+
+export default RegisterForm;

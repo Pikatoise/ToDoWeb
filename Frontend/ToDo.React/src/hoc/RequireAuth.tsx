@@ -1,8 +1,8 @@
 import { useLocation, Navigate } from 'react-router-dom';
 import { FC, PropsWithChildren } from 'react';
-import { useAuth } from "@/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 
-export const RequireAuth: FC<PropsWithChildren> = ({ children }) => {
+const RequireAuth: FC<PropsWithChildren> = ({ children }) => {
     const location = useLocation();
     const auth = useAuth();
 
@@ -12,3 +12,5 @@ export const RequireAuth: FC<PropsWithChildren> = ({ children }) => {
 
     return children;
 };
+
+export default RequireAuth;

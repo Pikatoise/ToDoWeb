@@ -1,7 +1,7 @@
 import User from "@/models/User";
-import { createContext, useState, FC, PropsWithChildren, useEffect } from 'react';
+import { createContext, useState, FC, PropsWithChildren } from 'react';
 import ErrorType from "@/models/errorTypes";
-import { useSession } from "@/hooks/useSession";
+import useSession from "@/hooks/useSession";
 import { AuthUser, RegUser } from "@/api/Account";
 
 interface SignInProps {
@@ -26,7 +26,7 @@ interface ContextProps {
 
 export const AuthContext = createContext<ContextProps | null>(null);
 
-export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
+const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     const { getSession, createSession, clearSession } = useSession();
 
     //const [user, setUser] = useState<User | null>(getSession());
@@ -92,4 +92,6 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     return (<AuthContext.Provider value={value}>
         {children}
     </AuthContext.Provider>);
-}; 
+};
+
+export default AuthProvider;

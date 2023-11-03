@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useLoginForm } from '@/hooks/useLoginForm';
+import useLoginForm from '@/hooks/useLoginForm';
 import { Label } from '@/components/ui/label';
 import { FC } from 'react';
 import styles from '@/styles/SignForm.module.css';
@@ -11,7 +11,7 @@ export interface LoginFormProps {
     interfaceStatus: boolean;
 }
 
-export const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) => {
+const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) => {
     const {
         registerLogin,
         registerPassword,
@@ -94,3 +94,5 @@ export const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) =
         </form>
     );
 };
+
+export default LoginForm;

@@ -1,7 +1,6 @@
 import User from '@/models/User';
-import { useEffect, useState } from 'react';
 
-export const useSession = () => {
+const useSession = () => {
 	const getSession = (): User | null => {
 		if (localStorage.length == 0) return null;
 
@@ -30,3 +29,5 @@ export const useSession = () => {
 
 	return { getSession, createSession, clearSession };
 };
+
+export default useSession;

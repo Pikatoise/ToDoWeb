@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const NotFound: FC = () => {
+const NotFound: FC = () => {
     return (
         <div className="h-3/4 flex justify-center items-center flex-col">
             <p className="text-9xl font-mono">
@@ -13,3 +13,5 @@ export const NotFound: FC = () => {
         </div>
     );
 };
+
+export default NotFound;

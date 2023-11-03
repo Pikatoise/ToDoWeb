@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 export enum Orientation {
     Vertical = "min-h-max border-e-2",

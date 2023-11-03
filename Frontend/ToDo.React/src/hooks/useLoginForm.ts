@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { useForm, UseFormSetError } from 'react-hook-form';
-import { useAuth } from './useAuth';
+import { useForm } from 'react-hook-form';
+import useAuth from './useAuth';
 import User from '@/models/User';
 import { useNavigate } from 'react-router-dom';
 import ErrorType from '@/models/errorTypes';
@@ -11,7 +10,7 @@ interface FormData {
 	isRemember: boolean;
 }
 
-export const useLoginForm = () => {
+const useLoginForm = () => {
 	const {
 		register,
 		formState: { errors },
@@ -82,3 +81,5 @@ export const useLoginForm = () => {
 
 	return { registerLogin, registerPassword, registerRemember, onSubmit, errors };
 };
+
+export default useLoginForm;

@@ -1,13 +1,13 @@
-import React from 'react';
+import { FC } from 'react';
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
 import Separator, { Orientation } from "../Separator/Separator";
-import { useAuth } from "@/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 import styles from "@/styles/SidePanel.module.css";
 import { useNavigate } from "react-router-dom";
 
-const SidePanel = () => {
+const SidePanel: FC = () => {
     const auth = useAuth();
     const navigate = useNavigate();
 

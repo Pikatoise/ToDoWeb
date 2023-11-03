@@ -12,10 +12,12 @@ interface LoadingCircleProps {
 }
 
 
-export const LoadingCircle: FC<LoadingCircleProps> = ({ size, ...props }) => {
+const LoadingCircle: FC<LoadingCircleProps> = ({ size }) => {
     return (
         <div className="flex justify-center items-center w-full h-full">
             <Loader2 className={[size, "animate-spin"].join(" ")} />
         </div>
     );
 };
+
+export default LoadingCircle;

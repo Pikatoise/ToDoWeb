@@ -11,10 +11,12 @@ interface ContainerProps {
     className?: string | undefined;
 }
 
-export const Container: FC<PropsWithChildren<ContainerProps>> = ({ padding, children, className }) => {
+const Container: FC<PropsWithChildren<ContainerProps>> = ({ padding, children, className }) => {
     return (
         <div className={[padding, "min-h-full min-w-full", className].join(' ')}>
             {children}
         </div>
     );
 };
+
+export default Container;

@@ -1,7 +1,7 @@
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import styles from '@/styles/BurgerMenu.module.css';
 
-const BurgerMenu: FC<PropsWithChildren> = ({ children, ...props }) => {
+const BurgerMenu: FC<PropsWithChildren> = ({ children }) => {
     return (
         <div className={styles.burger}>
             {children}

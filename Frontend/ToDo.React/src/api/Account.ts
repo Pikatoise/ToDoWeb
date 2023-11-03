@@ -1,6 +1,4 @@
-import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { error } from 'console';
-import { useState } from 'react';
+import axios, { AxiosError } from 'axios';
 
 type AuthResponse = {
 	id: number;

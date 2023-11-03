@@ -1,12 +1,12 @@
 import { useEffect, useState, FC } from 'react';
-import { LoginForm } from '@/components/Form/LoginForm';
-import { RegisterForm } from "@/components/Form/RegisterForm";
-import { useAuth } from "@/hooks/useAuth";
+import LoginForm from '@/components/Form/LoginForm';
+import RegisterForm from "@/components/Form/RegisterForm";
+import useAuth from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { GetApiStatus } from "@/api/API.ts";
-import { LoadingCircle, LoadingCircleSize } from "@/components/Loading/LoadingCircle";
+import LoadingCircle, { LoadingCircleSize } from "@/components/Loading/LoadingCircle";
 
-export const AuthPage: FC = () => {
+const AuthPage: FC = () => {
     const [interfaceAccess, setInterfaceAccess] = useState<boolean>(false);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [isSignIn, setSign] = useState(true);
@@ -50,3 +50,5 @@ export const AuthPage: FC = () => {
         </>
     );
 };
+
+export default AuthPage;

@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useAuth } from './useAuth';
-import { useNavigate } from 'react-router-dom';
+import useAuth from './useAuth';
 import ErrorType from '@/models/errorTypes';
 import User from '@/models/User';
 
@@ -10,7 +9,7 @@ interface FormData {
 	confirmPassword: string;
 }
 
-export const useRegisterForm = (changeSign: Function) => {
+const useRegisterForm = (changeSign: Function) => {
 	const {
 		register,
 		formState: { errors },
@@ -86,3 +85,5 @@ export const useRegisterForm = (changeSign: Function) => {
 
 	return { registerLogin, registerPassword, registerConfirmPassword, onSubmit, errors };
 };
+
+export default useRegisterForm;

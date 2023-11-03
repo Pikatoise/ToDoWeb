@@ -1,6 +1,6 @@
 enum ErrorType {
 	'login',
-	'password', 
+	'password',
 }
 
 export default ErrorType;

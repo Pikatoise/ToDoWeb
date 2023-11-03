@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
-import { Header } from '@/components/Header/Header';
+import Header from '@/components/Header/Header';
 import styles from '@/styles/Layout.module.css';
-import { Footer } from "@/components/Footer/Footer";
+import Footer from "@/components/Footer/Footer";
 import { FC } from 'react';
 
-export const Layout: FC = () => {
+const Layout: FC = () => {
     return (
         <main>
             <Header />
@@ -17,3 +17,5 @@ export const Layout: FC = () => {
         </main>
     );
 };
+
+export default Layout;

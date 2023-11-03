@@ -1,10 +1,9 @@
 import { ListTodo } from "lucide-react";
 import { Link } from 'react-router-dom';
 import styles from '@/styles/Header.module.css';
-import { Button } from "@/components/ui/button";
 import { FC } from 'react';
 
-export const Header: FC = () => {
+const Header: FC = () => {
     return (
         <header className={styles.header}>
             <div className="flex">
@@ -23,3 +22,5 @@ export const Header: FC = () => {
         </header>
     );
 };
+
+export default Header;

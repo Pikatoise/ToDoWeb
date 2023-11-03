@@ -1,14 +1,10 @@
-import { useAuth } from "@/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import useAuth from "@/hooks/useAuth";
 import { FC } from 'react';
-import { Container, Padding } from "@/components/Container/Container";
-import BurgerMenu from "@/components/BurgerMenu/BurgerMenu";
+import Container, { Padding } from "@/components/Container/Container";
 import Separator, { Orientation } from "@/components/Separator/Separator";
-import { LogOut } from "lucide-react";
 import SidePanel from "@/components/SidePanel/SidePanel";
 
-export const HomePage: FC = () => {
+const HomePage: FC = () => {
     const auth = useAuth();
 
     return (
@@ -23,3 +19,5 @@ export const HomePage: FC = () => {
         </Container>
     );
 };
+
+export default HomePage;
