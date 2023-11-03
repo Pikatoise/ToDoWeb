@@ -1,0 +1,19 @@
+.sidePanel {
+	@apply flex flex-col h-24;
+
+	.head {
+		@apply flex justify-around mb-2;
+	}
+
+	.login {
+		@apply inline mt-1 text-2xl font-bold underline cursor-pointer;
+	}
+
+	.btnExit {
+		@apply bg-transparent hover:bg-zinc-400;
+
+		.icon {
+			@apply w-6 h-6;
+		}
+	}
+}

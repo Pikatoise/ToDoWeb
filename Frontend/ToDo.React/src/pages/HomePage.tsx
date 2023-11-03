@@ -10,7 +10,6 @@ import SidePanel from "@/components/SidePanel/SidePanel";
 
 export const HomePage: FC = () => {
     const auth = useAuth();
-    const navigate = useNavigate();
 
     return (
         <Container padding={Padding.Small} className="flex flex-row">

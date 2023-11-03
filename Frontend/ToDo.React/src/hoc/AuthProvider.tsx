@@ -21,7 +21,7 @@ interface ContextProps {
     user: User | null,
     signIn: (params: SignInProps) => void,
     signUp: (params: SignUpProps) => void,
-    signOut: (cb: () => void) => void;
+    signOut: (callback: () => void) => void;
 }
 
 export const AuthContext = createContext<ContextProps | null>(null);

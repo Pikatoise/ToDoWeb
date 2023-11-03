@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.mainContainer {
-    /* @apply md:w-64 md:min-h-full */
+.burger {
     @apply w-64 min-h-full
 }
