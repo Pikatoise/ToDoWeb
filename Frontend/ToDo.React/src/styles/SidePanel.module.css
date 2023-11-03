@@ -1,19 +1,36 @@
 .sidePanel {
-	@apply flex flex-col h-24;
+	@apply flex flex-col h-24 pe-2;
 
 	.head {
-		@apply flex justify-around mb-2;
-	}
+		@apply flex flex-col mb-4;
 
-	.login {
-		@apply inline mt-1 text-2xl font-bold underline cursor-pointer;
-	}
-
-	.btnExit {
-		@apply bg-transparent hover:bg-zinc-400;
-
-		.icon {
-			@apply w-6 h-6;
+		.user {
+			@apply flex justify-start items-center mb-2;
 		}
+
+		.login {
+			@apply inline text-2xl;
+		}
+
+		.btnProfile {
+			@apply bg-transparent hover:bg-zinc-500;
+
+			.icon {
+				@apply w-8 h-8;
+			}
+		}
+
+		.btnExit {
+			@apply w-full text-black shadow-zinc-700 shadow-sm;
+			@apply bg-transparent hover:bg-zinc-500 bg-zinc-400 bg-opacity-50;
+
+			.icon {
+				@apply w-5 h-5;
+			}
+		}
+	}
+
+	.folders {
+		@apply flex flex-col mt-2;
 	}
 }
