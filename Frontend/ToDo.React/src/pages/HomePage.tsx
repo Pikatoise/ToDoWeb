@@ -1,7 +1,7 @@
 import useAuth from "@/hooks/useAuth";
 import { FC } from 'react';
 import Container, { Padding } from "@/components/Container/Container";
-import Separator, { Orientation } from "@/components/Separator/Separator";
+import Separator, { Margin, Orientation } from "@/components/Separator/Separator";
 import SidePanel from "@/components/SidePanel/SidePanel";
 
 const HomePage: FC = () => {
@@ -11,7 +11,7 @@ const HomePage: FC = () => {
         <Container padding={Padding.Small} className="flex flex-row">
             <SidePanel />
 
-            <Separator orientation={Orientation.Vertical} />
+            <Separator orientation={Orientation.Vertical} margin={Margin.VerticalSmall} />
 
             <div className="w-full min-h-full">
                 123

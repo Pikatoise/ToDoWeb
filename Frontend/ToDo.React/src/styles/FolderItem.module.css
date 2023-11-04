@@ -1,0 +1,10 @@
+.folder {
+	@apply flex mb-2 hover:scale-y-110 hover:scale-x-105 hover:cursor-pointer;
+
+	.icon {
+        @apply me-2;
+	}
+
+	.name {
+	}
+}

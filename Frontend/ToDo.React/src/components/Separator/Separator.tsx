@@ -1,26 +1,33 @@
 import { FC } from 'react';
 
 export enum Orientation {
-    Vertical = "min-h-max border-e-",
-    Horizontal = "min-w-max border-b-"
+    Vertical = "min-h-max border-s-2",
+    Horizontal = "min-w-max border-t-2"
+}
+
+export enum Margin {
+    VerticalSmall = "my-2",
+    VerticalMedium = "my-4",
+    VerticalBig = "my-6",
+
+    HorizontalSmall = "mx-2",
+    HorizontalMedium = "mx-4",
+    HorizontalBig = "mx-6"
 }
 
 interface SeparatorProps {
     orientation: Orientation,
-    color?: string,
-    margin?: string,
-    stroke?: string;
+    margin?: Margin,
 }
 
-const Separator: FC<SeparatorProps> = ({ orientation, color = "border-zinc-500", margin = "0", stroke = "2" }) => {
-    const styles = [
-        orientation + stroke,
-        orientation === Orientation.Horizontal ? `mx-${margin}` : `my-${margin}`,
-        color
-    ].join(' ');
-
+const Separator: FC<SeparatorProps> = ({ ...props }) => {
     return (
-        <div className={styles} />
+        <div className={
+            [
+                props.orientation,
+                props.margin,
+                "border-zinc-700"
+            ].join(" ")} />
     );
 };
 

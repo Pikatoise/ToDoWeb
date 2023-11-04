@@ -1,28 +1,24 @@
 .sidePanel {
-	@apply flex flex-col h-24 pe-2;
+	@apply flex flex-col min-h-full pe-2 pb-3;
 
 	.head {
 		@apply flex flex-col mb-4;
 
 		.user {
-			@apply flex justify-start items-center mb-2;
+			@apply flex justify-start items-center mb-6 cursor-pointer hover:scale-105 transition-all;
 		}
 
 		.login {
 			@apply inline text-2xl;
 		}
 
-		.btnProfile {
-			@apply bg-transparent hover:bg-zinc-500;
-
-			.icon {
-				@apply w-8 h-8;
-			}
+		.icon {
+			@apply w-8 h-8 me-1;
 		}
 
 		.btnExit {
-			@apply w-full text-black shadow-zinc-700 shadow-sm;
-			@apply bg-transparent hover:bg-zinc-500 bg-zinc-400 bg-opacity-50;
+			@apply w-full text-black border-2 border-zinc-700;
+			@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
 
 			.icon {
 				@apply w-5 h-5;
@@ -31,6 +27,19 @@
 	}
 
 	.folders {
-		@apply flex flex-col mt-2;
+		@apply flex flex-col justify-between mt-4 min-h-full flex-grow;
+
+		.noFolders {
+			@apply text-lg text-center;
+		}
+
+		.btnAddFolder {
+			@apply w-full text-black border-2 border-zinc-700;
+			@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
+
+			.icon {
+				@apply w-5 h-5 me-1;
+			}
+		}
 	}
 }
