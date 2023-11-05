@@ -27,7 +27,7 @@
 	}
 
 	.folders {
-		@apply flex flex-col justify-between mt-4 min-h-full flex-grow;
+		@apply flex flex-col justify-start mt-4 min-h-full flex-grow;
 
 		.noFolders {
 			@apply text-lg text-center;
@@ -36,9 +36,24 @@
 		.btnAddFolder {
 			@apply w-full text-black border-2 border-zinc-700;
 			@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
+            @apply leading-none;
 
 			.icon {
-				@apply w-5 h-5 me-1;
+				@apply w-6 h-6 me-1;
+			}
+		}
+
+		.btnDeleteFolder {
+			@apply text-black border-2 border-zinc-700;
+			@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
+			@apply ms-1;
+
+			.icon {
+				@apply w-4 h-4;
+			}
+
+			.hide {
+				@apply hidden;
 			}
 		}
 	}

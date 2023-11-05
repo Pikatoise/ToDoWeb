@@ -3,5 +3,22 @@
 @tailwind utilities;
 
 .burger {
-    @apply w-64 min-h-full
+	@apply min-h-full flex max-sm:absolute max-sm:w-52 max-sm:left-0 max-sm:top-0 max-sm:min-h-fit pe-2;
+
+	.content {
+		@apply w-52 min-h-full flex-grow;
+		@apply max-sm:absolute max-sm:left-0 max-sm:top-2 max-sm:bg-zinc-100 max-sm:bg-opacity-80 max-sm:rounded-lg max-sm:ps-2 max-sm:pt-2;
+	}
+}
+
+.btnMenu {
+	@apply w-10 h-10 absolute left-52 top-2;
+}
+
+.hide {
+	@apply transform-gpu max-sm:-translate-x-52 transition duration-700 ease-out;
+}
+
+.open {
+	@apply transform-gpu max-sm:translate-x-0 transition duration-700 ease-out;
 }
