@@ -8,6 +8,7 @@ import styles from "@/styles/SidePanel.module.css";
 import { useNavigate } from "react-router-dom";
 import Folder from "@/models/Folder";
 import FolderItem from "../Items/FolderItem";
+import Dialog from "../Dialog/Dialog";
 
 const SidePanel: FC = () => {
     const auth = useAuth();
@@ -18,7 +19,9 @@ const SidePanel: FC = () => {
         { Id: 3, Name: "Хобби", ProfileId: 1 }
     ]);
 
-    const [selectedFolder, setSelectedFolder] = useState<Folder | null>(folders[0]);
+    const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
+
+    const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const ExitClick = () => {
         auth?.signOut(() => {
@@ -34,8 +37,24 @@ const SidePanel: FC = () => {
 
     };
 
-    const DeleteFolderClick = () => {
+    const DeleteFolder = () => {
+        setFolders(current => current.filter(f => f.Id != selectedFolder?.Id));
+        setSelectedFolder(null);
 
+        setDeleteDialogOpen(false);
+    };
+
+    const DeleteFolderCascade = () => {
+        // УДалить все таски связанные с папкой
+
+        DeleteFolder();
+    };
+
+    const SelectFolderCallBack = (folder: Folder) => {
+        if (folder.Id == selectedFolder?.Id)
+            setSelectedFolder(null);
+        else
+            setSelectedFolder(folder);
     };
 
     return (
@@ -43,15 +62,24 @@ const SidePanel: FC = () => {
             <div className={styles.sidePanel}>
                 <div className={styles.head}>
                     <div className={styles.user} onClick={ProfileClick}>
-                        <UserSquare2 color="#000" strokeWidth={2} className={styles.icon} />
+                        <UserSquare2 
+                            color="#000" 
+                            strokeWidth={2} 
+                            className={styles.icon} />
 
                         <div className={styles.login}>
                             {auth?.user?.Login}
                         </div>
                     </div>
 
-                    <Button size="icon" className={styles.btnExit} onClick={ExitClick}>
-                        <LogOut color="#000" strokeWidth={2} className={styles.icon} />
+                    <Button 
+                        size="icon" 
+                        className={styles.btnExit} 
+                        onClick={ExitClick}>
+                        <LogOut 
+                            color="#000" 
+                            strokeWidth={2} 
+                            className={styles.icon} />
                         Выйти
                     </Button>
                 </div>
@@ -60,7 +88,9 @@ const SidePanel: FC = () => {
 
                 <div className={styles.folders}>
                     <div className="flex mb-2">
-                        <Button className={styles.btnAddFolder} onClick={AddFolderClick}>
+                        <Button
+                            className={styles.btnAddFolder}
+                            onClick={AddFolderClick}>
                             Создать папку
                         </Button>
 
@@ -68,8 +98,14 @@ const SidePanel: FC = () => {
                             selectedFolder == null ?
                                 <></>
                                 :
-                                <Button size="icon" className={styles.btnDeleteFolder} onClick={DeleteFolderClick}>
-                                    <Trash color="#000" strokeWidth={2} className={styles.icon} />
+                                <Button
+                                    size="icon"
+                                    className={styles.btnDeleteFolder}
+                                    onClick={() => setDeleteDialogOpen(true)}>
+                                    <Trash
+                                        color="#000"
+                                        strokeWidth={2}
+                                        className={styles.icon} />
                                 </Button>
                         }
                     </div>
@@ -79,11 +115,27 @@ const SidePanel: FC = () => {
                             folders.length == 0 ?
                                 <div className={styles.noFolders}>Пусто</div>
                                 :
-                                folders.map(f => <FolderItem folder={f} key={f.Id} />)
+                                folders.map(f =>
+                                    <FolderItem
+                                        folder={f}
+                                        key={f.Id}
+                                        onClickCallBack={SelectFolderCallBack}
+                                        isSelected={selectedFolder?.Id == f.Id} />
+                                )
                         }
                     </div>
                 </div>
             </div>
+
+            <Dialog
+                isOpen={isDeleteDialogOpen}
+                title="Удалить папку"
+                message="Папка содержит задачи, удалить их вместе с ней?"
+                actionText="Да"
+                cancelText="Нет"
+                actionCallBack={() => DeleteFolderCascade()}
+                cancelCallBack={() => DeleteFolder()}
+            />
         </BurgerMenu>
     );
 };

@@ -1,10 +1,18 @@
 .folder {
-	@apply flex mb-2 hover:scale-y-110 hover:scale-x-105 hover:cursor-pointer;
+	@apply flex mb-2 p-1 hover:scale-110 hover:cursor-pointer;
 
 	.icon {
-        @apply me-2;
+		@apply me-2;
 	}
 
 	.name {
 	}
+}
+
+.selected {
+	@apply ps-2 ms-4 me-2 scale-110 bg-zinc-400 bg-opacity-70 rounded-md;
+}
+
+.notSelected {
+	@apply hover:ps-4;
 }
