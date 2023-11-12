@@ -27,12 +27,10 @@ const AuthPage: FC = () => {
         });
     }, []);
 
-    const signForm = () => {
-        if (isSignIn)
-            return <LoginForm changeSign={changeSign} interfaceStatus={interfaceAccess} />;
-        else
-            return <RegisterForm changeSign={changeSign} interfaceStatus={interfaceAccess} />;
-    };
+    const signForm = isSignIn ?
+        <LoginForm changeSign={changeSign} interfaceStatus={interfaceAccess} />
+        :
+        <RegisterForm changeSign={changeSign} interfaceStatus={interfaceAccess} />;
 
     useEffect(() => {
         if (isAuthorized)
@@ -43,7 +41,7 @@ const AuthPage: FC = () => {
         <>
             {
                 isLoaded ?
-                    (isAuthorized ? <></> : signForm())
+                    (isAuthorized ? <></> : signForm)
                     :
                     (<LoadingCircle size={LoadingCircleSize.Large} />)
             }

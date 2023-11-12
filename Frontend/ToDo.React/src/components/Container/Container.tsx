@@ -13,7 +13,7 @@ interface ContainerProps {
 
 const Container: FC<PropsWithChildren<ContainerProps>> = ({ padding, children, className }) => {
     return (
-        <div className={[padding, "min-h-full min-w-full relative", className].join(' ')}>
+        <div className={["flex flex-row min-h-full max-h-full min-w-full relative overflow-y-scroll", padding, className].join(' ')}>
             {children}
         </div>
     );

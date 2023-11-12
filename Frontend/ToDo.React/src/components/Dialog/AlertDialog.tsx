@@ -1,9 +1,7 @@
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import styles from '@/styles/Dialog.module.css';
 import {
     AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
@@ -15,13 +13,9 @@ interface DialogProps {
     isOpen: boolean,
     title: string,
     message: string,
-    actionText: string,
-    cancelText: string,
-    actionCallBack: () => void,
-    cancelCallBack: () => void;
 }
 
-const Dialog: FC<DialogProps> = ({ ...props }) => {
+const Dialog: FC<PropsWithChildren<DialogProps>> = ({ children, ...props }) => {
     return (
         <AlertDialog open={props.isOpen}>
             <AlertDialogContent>
@@ -30,12 +24,7 @@ const Dialog: FC<DialogProps> = ({ ...props }) => {
                     <AlertDialogDescription>{props.message}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel onClick={props.cancelCallBack}>
-                        {props.cancelText}
-                    </AlertDialogCancel>
-                    <AlertDialogAction onClick={props.actionCallBack}>
-                        {props.actionText}
-                    </AlertDialogAction>
+                    {children}
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

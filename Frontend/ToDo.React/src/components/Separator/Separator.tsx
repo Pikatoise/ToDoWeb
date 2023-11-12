@@ -6,13 +6,9 @@ export enum Orientation {
 }
 
 export enum Margin {
-    VerticalSmall = "my-2",
-    VerticalMedium = "my-4",
-    VerticalBig = "my-6",
-
-    HorizontalSmall = "mx-2",
-    HorizontalMedium = "mx-4",
-    HorizontalBig = "mx-6"
+    Small = "m-2",
+    Medium = "m-4",
+    Big = "m-6",
 }
 
 interface SeparatorProps {

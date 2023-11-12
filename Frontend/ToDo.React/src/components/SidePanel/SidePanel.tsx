@@ -8,9 +8,14 @@ import styles from "@/styles/SidePanel.module.css";
 import { useNavigate } from "react-router-dom";
 import Folder from "@/models/Folder";
 import FolderItem from "../Items/FolderItem";
-import Dialog from "../Dialog/Dialog";
+import AlertDialog from "../Dialog/AlertDialog";
+import { AlertDialogAction, AlertDialogCancel } from "../ui/alert-dialog";
 
-const SidePanel: FC = () => {
+interface SidePanelProps {
+    folderChange: (folder: Folder | null) => void;
+}
+
+const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     const auth = useAuth();
     const navigate = useNavigate();
     const [folders, setFolders] = useState<Folder[]>([
@@ -51,10 +56,14 @@ const SidePanel: FC = () => {
     };
 
     const SelectFolderCallBack = (folder: Folder) => {
-        if (folder.Id == selectedFolder?.Id)
+        if (folder.Id == selectedFolder?.Id) {
             setSelectedFolder(null);
-        else
+            props.folderChange(null);
+        }
+        else {
             setSelectedFolder(folder);
+            props.folderChange(folder);
+        }
     };
 
     return (
@@ -62,9 +71,9 @@ const SidePanel: FC = () => {
             <div className={styles.sidePanel}>
                 <div className={styles.head}>
                     <div className={styles.user} onClick={ProfileClick}>
-                        <UserSquare2 
-                            color="#000" 
-                            strokeWidth={2} 
+                        <UserSquare2
+                            color="#000"
+                            strokeWidth={2}
                             className={styles.icon} />
 
                         <div className={styles.login}>
@@ -72,13 +81,13 @@ const SidePanel: FC = () => {
                         </div>
                     </div>
 
-                    <Button 
-                        size="icon" 
-                        className={styles.btnExit} 
+                    <Button
+                        size="icon"
+                        className={styles.btnExit}
                         onClick={ExitClick}>
-                        <LogOut 
-                            color="#000" 
-                            strokeWidth={2} 
+                        <LogOut
+                            color="#000"
+                            strokeWidth={2}
                             className={styles.icon} />
                         Выйти
                     </Button>
@@ -127,15 +136,24 @@ const SidePanel: FC = () => {
                 </div>
             </div>
 
-            <Dialog
+            <AlertDialog
                 isOpen={isDeleteDialogOpen}
-                title="Удалить папку"
-                message="Папка содержит задачи, удалить их вместе с ней?"
-                actionText="Да"
-                cancelText="Нет"
-                actionCallBack={() => DeleteFolderCascade()}
-                cancelCallBack={() => DeleteFolder()}
-            />
+                title="Удаление папки"
+                message="Удалить связанные с папкой задачи?">
+                <>
+                    <AlertDialogCancel onClick={() => setDeleteDialogOpen(false)}>
+                        Отмена
+                    </AlertDialogCancel>
+
+                    <AlertDialogAction onClick={DeleteFolder}>
+                        Только папку
+                    </AlertDialogAction>
+
+                    <AlertDialogAction onClick={DeleteFolderCascade}>
+                        Папку и задачи
+                    </AlertDialogAction>
+                </>
+            </AlertDialog>
         </BurgerMenu>
     );
 };
