@@ -1,15 +1,15 @@
 import { FC, useState } from 'react';
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
-import { Button } from "../ui/button";
+import BurgerMenu from "@/components/BurgerMenu/BurgerMenu";
+import { Button } from "@/components/ui/button";
 import { LogOut, UserSquare2, Plus, Trash } from "lucide-react";
-import Separator, { Orientation } from "../Separator/Separator";
+import Separator, { Orientation } from "@/components/Separator/Separator";
 import useAuth from "@/hooks/useAuth";
 import styles from "@/styles/SidePanel.module.css";
 import { useNavigate } from "react-router-dom";
 import Folder from "@/models/Folder";
-import FolderItem from "../Items/FolderItem";
-import AlertDialog from "../Dialog/AlertDialog";
-import { AlertDialogAction, AlertDialogCancel } from "../ui/alert-dialog";
+import FolderItem from "@/components/Items/FolderItem";
+import AlertDialog from "@/components/Dialog/AlertDialog";
+import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 
 interface SidePanelProps {
     folderChange: (folder: Folder | null) => void;

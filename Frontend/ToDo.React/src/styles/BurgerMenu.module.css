@@ -4,10 +4,10 @@
 
 .burger {
 	@apply min-h-full flex;
-	@apply max-sm:absolute max-sm:w-52 max-sm:left-0 max-sm:top-0 max-sm:bg-zinc-100 max-sm:bg-opacity-70 max-sm:backdrop-blur-sm;
+	@apply max-sm:absolute max-sm:w-52 max-sm:left-0 max-sm:top-0 max-sm:bg-zinc-200 max-sm:bg-opacity-70 max-sm:backdrop-blur-sm;
 
 	.content {
-		@apply w-52 min-h-full flex-grow;
+		@apply w-52 flex-grow;
 		@apply max-sm:absolute max-sm:left-0 max-sm:top-2 max-sm:ps-2 max-sm:pt-2;
 	}
 }

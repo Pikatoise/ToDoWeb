@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useMemo } from 'react';
 import Container, { Padding } from "@/components/Container/Container";
 import Separator, { Margin, Orientation } from "@/components/Separator/Separator";
 import SidePanel from "@/components/SidePanel/SidePanel";
@@ -9,18 +9,25 @@ import TaskItem from "@/components/Items/TaskItem";
 const HomePage: FC = () => {
     const [width, setWidth] = useState(window.innerWidth);
     const [folder, setFolder] = useState<Folder | null>(null);
-    const [tasks, setTasks] = useState<Task[]>([
-        { Id: 0, Name: "Task 1", FolderId: 1 },
-        { Id: 1, Name: "Task 2", FolderId: 1 },
-        { Id: 2, Name: "Task 3", FolderId: 1 },
-        { Id: 3, Name: "Task 4", FolderId: 2 },
-        { Id: 4, Name: "Task 5", FolderId: 2 },
-        { Id: 5, Name: "Task 6", FolderId: 2 },
-        { Id: 6, Name: "Task 7", FolderId: 3 },
-        { Id: 7, Name: "Task 8", FolderId: 3 },
-        { Id: 8, Name: "Task 9", FolderId: 3 },
-        { Id: 9, Name: "Task 10", FolderId: 3 },
-    ]);
+    const [tasks, setTasks] = useState<Task[]>([]);
+
+    useMemo(() => {
+        setTasks([]);
+
+        for (let i = 0; i < 50; i++) {
+            let task: Task =
+            {
+                Id: i,
+                Name: `Task ${i + 1}`,
+                FolderId: Math.floor(Math.random() * (4 - 1) + 1),
+                Description: `Description of task dwdw fre wdwd${i + 1}`,
+                ExpiryDate: new Date("2023-11-13")
+            };
+            setTasks(t => [...t, task]);
+
+            //console.log(task);
+        }
+    }, []);
 
     const tasksByFolder = folder != null ? tasks.filter(t => t.FolderId === folder.Id) : tasks;
 
@@ -47,8 +54,12 @@ const HomePage: FC = () => {
 
             {separator}
 
-            <div className="w-full min-h-full pt-2 max-sm:pt-10">
-                <div className="flex flex-wrap">
+            <div className="w-full min-h-full max-sm:pt-2 overflow-y-scroll">
+                <div className="flex justify-center pe-10 text-2xl font-medium">
+                    Задачи
+                </div>
+
+                <div className="flex flex-wrap max-sm:justify-between px-4">
                     {
                         tasksByFolder.map(t => <TaskItem task={t} key={t.Id} />)
                     }
