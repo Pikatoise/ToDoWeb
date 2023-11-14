@@ -6,6 +6,8 @@ interface TaskItemProps {
 }
 
 const TaskItem: FC<TaskItemProps> = ({ task, ...props }) => {
+    let taskStatusColor = ["bg-red-500", "bg-zinc-500", "bg-green-500"].at(task.Status! + 1);
+
     return (
         <div className="w-32 h-32 flex flex-col justify-between mb-2 me-4 px-2 pt-4 pb-2 shadow-md rounded-xl hover:shadow-lg">
             <div className="text-lg font-medium">
@@ -24,7 +26,7 @@ const TaskItem: FC<TaskItemProps> = ({ task, ...props }) => {
             <div className="flex text-sm justify-between items-center me-2">
                 {task.ExpiryDate?.toLocaleDateString()}
 
-                <div className="w-2 h-2 rounded-full bg-red-600 " />
+                <div className={`w-2 h-2 rounded-full ${taskStatusColor}`} />
             </div>
         </div>
     );
