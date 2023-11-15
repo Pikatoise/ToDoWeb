@@ -1,4 +1,4 @@
-import { FC, useState, useMemo, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import TaskItem from "@/components/Items/TaskItem";
 import Folder from "@/models/Folder";
@@ -6,7 +6,7 @@ import Task from "@/models/Task";
 
 interface TasksListBodyProps {
     folder: Folder | null,
-    setTask: (task: Task) => void;
+    taskCallBack: (task: Task) => void;
 }
 
 const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
@@ -16,7 +16,7 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
     useEffect(() => {
         setTasks([]);
 
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 30; i++) {
             let task: Task =
             {
                 Id: i,
@@ -75,7 +75,9 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
 
             <div className="flex flex-wrap max-sm:justify-between px-4">
                 {
-                    tasksByFolderStatus.map(t => <TaskItem task={t} key={t.Id} clickCallBack={props.setTask} />)
+                    tasksByFolderStatus.map(
+                        t => <TaskItem task={t} key={t.Id} clickCallBack={props.taskCallBack} />
+                    )
                 }
             </div>
         </div>
