@@ -40,7 +40,7 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
     })();
 
     return (
-        <div className="w-full min-h-full max-sm:pt-2 overflow-y-scroll">
+        <div className="w-full min-h-full pt-2 overflow-y-scroll">
             <div className="flex justify-center pe-10 text-2xl font-medium mb-2">
                 Задачи
             </div>

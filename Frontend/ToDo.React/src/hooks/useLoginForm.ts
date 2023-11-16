@@ -73,7 +73,7 @@ const useLoginForm = () => {
 		},
 		maxLength: {
 			value: 30,
-			message: 'Неверный логин',
+			message: 'Неверный пароль',
 		},
 	});
 

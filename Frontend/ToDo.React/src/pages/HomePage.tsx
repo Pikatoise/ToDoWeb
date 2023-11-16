@@ -4,8 +4,8 @@ import Separator, { Margin, Orientation } from "@/components/Separator/Separator
 import SidePanel from "@/components/SidePanel/SidePanel";
 import Folder from "@/models/Folder";
 import Task from "@/models/Task";
-import TasksListBody from "@/components/List/TasksList";
-import TaskBody from "@/components/Form/TaskForm";
+import TasksList from "@/components/List/TasksList";
+import TaskForm from "@/components/Form/TaskForm";
 
 const HomePage: FC = () => {
     const [width, setWidth] = useState(window.innerWidth);
@@ -36,10 +36,10 @@ const HomePage: FC = () => {
 
             {
                 task == null ?
-                    <TasksListBody folder={folder} taskCallBack={setTask} />
+                    <TasksList folder={folder} taskCallBack={setTask} />
 
                     :
-                    <TaskBody task={task} exitCallBack={() => setTask(null)} />
+                    <TaskForm task={task} exitCallBack={() => setTask(null)} />
             }
         </Container>
     );
