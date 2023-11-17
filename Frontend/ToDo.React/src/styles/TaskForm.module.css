@@ -1,0 +1,19 @@
+.form {
+	@apply flex flex-col pb-2 justify-between w-full min-h-full pt-2;
+
+	.actions {
+		@apply flex justify-between px-10 items-center text-xl font-medium;
+	}
+
+	.actionButton {
+		@apply flex bg-transparent text-black hover:bg-transparent hover:scale-105 transition-all;
+	}
+
+	.delete {
+		@apply hover:text-red-500;
+	}
+
+	.submit {
+		@apply hover:text-green-600;
+	}
+}
