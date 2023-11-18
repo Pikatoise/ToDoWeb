@@ -1,5 +1,9 @@
 .form {
-	@apply flex flex-col pb-2 justify-between w-full min-h-full pt-2;
+	@apply flex flex-col justify-between w-full min-h-full pt-1 overflow-y-auto;
+
+	.title {
+		@apply flex justify-center text-xl font-bold mb-2;
+	}
 
 	.actions {
 		@apply flex justify-between px-10 items-center text-xl font-medium;
@@ -15,5 +19,25 @@
 
 	.submit {
 		@apply hover:text-green-600;
+	}
+
+	.inputText {
+		@apply mb-1 bg-zinc-100;
+	}
+
+	.secondHalf {
+		@apply flex justify-between ps-2 pe-10 max-sm:block;
+
+		.selectTrigger {
+			@apply w-32 mb-4 bg-zinc-300 shadow-md ring-0 ring-transparent border-none ring-offset-transparent;
+
+			.placeholder {
+				@apply text-zinc-500;
+			}
+
+			.text {
+				@apply text-zinc-700;
+			}
+		}
 	}
 }

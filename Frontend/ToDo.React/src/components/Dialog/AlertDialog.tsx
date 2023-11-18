@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren } from 'react';
-import styles from '@/styles/Dialog.module.css';
 import {
     AlertDialog,
     AlertDialogContent,

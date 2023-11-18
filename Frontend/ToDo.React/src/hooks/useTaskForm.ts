@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import Task from '@/models/Task';
+import useAuth from '@/hooks/useAuth';
 
 interface FormData {
 	name: string;
@@ -9,7 +10,7 @@ interface FormData {
 	status: number;
 }
 
-export const useUpdateTaskForm = (oldTask: Task) => {
+export const useUpdateTaskForm = (oldTask: Task | null) => {
 	const {
 		register,
 		formState: { errors },
@@ -19,27 +20,52 @@ export const useUpdateTaskForm = (oldTask: Task) => {
 		control,
 	} = useForm<FormData>({ mode: 'onSubmit' });
 
+	const auth = useAuth();
+
 	const tryUpdateTask = (data: FormData) => {
+		if (oldTask != null) {
+			const task: Task = {
+				Id: oldTask.Id,
+				Name: data.name,
+				Description: data.description,
+				ExpiryDate: data.expiryDate,
+				FolderId: data.folderId,
+				Status: data.status,
+				isNotificated: oldTask.isNotificated,
+				ProfileId: oldTask.ProfileId,
+			};
+
+			console.log('UPDATE TASK');
+
+			console.log(task);
+
+			reset();
+		} else throw Error('Old task is null');
+	};
+
+	const tryAddTask = (data: FormData) => {
 		const task: Task = {
-			Id: oldTask.Id,
 			Name: data.name,
 			Description: data.description,
 			ExpiryDate: data.expiryDate,
 			FolderId: data.folderId,
 			Status: data.status,
-			isNotificated: oldTask.isNotificated,
-			ProfileId: oldTask.ProfileId,
+			isNotificated: false,
+			ProfileId: auth?.user?.ProfileId,
 		};
+
+		console.log('NEW TASK');
 
 		console.log(task);
 
 		reset();
 	};
 
-	const onSubmit = handleSubmit(tryUpdateTask);
+	const onSubmitUpdate = handleSubmit(tryUpdateTask);
+	const onSubmitAdd = handleSubmit(tryAddTask);
 
 	const registerName = register('name', {
-		value: oldTask.Name!,
+		value: oldTask?.Name ?? '',
 		required: 'Введите имя',
 		minLength: {
 			value: 2,
@@ -52,7 +78,7 @@ export const useUpdateTaskForm = (oldTask: Task) => {
 	});
 
 	const registerDescription = register('description', {
-		value: oldTask.Description ?? '',
+		value: oldTask?.Description ?? '',
 		maxLength: {
 			value: 150,
 			message: 'Описание слишком длинное',
@@ -60,15 +86,15 @@ export const useUpdateTaskForm = (oldTask: Task) => {
 	});
 
 	const registerExpiryDate = register('expiryDate', {
-		value: oldTask.ExpiryDate,
+		value: oldTask?.ExpiryDate ?? new Date(),
 	});
 
 	const registerFolderId = register('folderId', {
-		value: oldTask.FolderId,
+		value: oldTask?.FolderId ?? -1,
 	});
 
 	const registerStatus = register('status', {
-		value: oldTask.Status ?? 0,
+		value: oldTask?.Status ?? 0,
 	});
 
 	return {
@@ -77,7 +103,8 @@ export const useUpdateTaskForm = (oldTask: Task) => {
 		registerExpiryDate,
 		registerFolderId,
 		registerStatus,
-		onSubmit,
+		onSubmitUpdate,
+		onSubmitAdd,
 		errors,
 		control,
 	};

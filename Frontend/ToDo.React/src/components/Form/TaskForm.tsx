@@ -9,6 +9,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Controller } from 'react-hook-form';
 import Folder from "@/models/Folder";
+import { Label } from "@/components/ui/label";
+import { ru } from "date-fns/locale";
 
 interface TaskBodyProps {
     task: Task;
@@ -22,7 +24,7 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
         registerExpiryDate,
         registerFolderId,
         registerStatus,
-        onSubmit,
+        onSubmitUpdate,
         errors,
         control
     } = useUpdateTaskForm(task);
@@ -40,68 +42,104 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
     return (
         <form
             className={styles.form}
-            onSubmit={onSubmit}>
-            <Input
-                {...registerName}
-                placeholder="Название" />
+            onSubmit={onSubmitUpdate}>
+
+            <div className={styles.title}>
+                Редактировать
+            </div>
+
+            <div>
+                <Label htmlFor="Name">Название *</Label>
+                <Input
+                    id="Name"
+                    minLength={2}
+                    maxLength={15}
+                    className={styles.inputText}
+                    {...registerName}
+                    placeholder="Название" />
+            </div>
+
 
             {/* <div className={styles.errorText}>
                 {errors?.name && <p>{errors.name.message}</p>}
             </div> */}
 
-            <Input
-                {...registerDescription}
-                placeholder="Описание" />
+            <div>
+                <Label htmlFor="Description">Описание</Label>
+                <Input
+                    id="Description"
+                    maxLength={150}
+                    className={styles.inputText}
+                    {...registerDescription}
+                    placeholder="Описание" />
+            </div>
 
-            <Controller
-                control={control}
-                name="expiryDate"
-                render={({ field }) =>
-                    <Calendar
-                        mode="single"
-                        onSelect={field.onChange}
-                        selected={field.value!} />
-                } />
+            <div className={styles.secondHalf}>
+                <div className="max-sm:flex max-sm:justify-between">
+                    <div>
+                        <Label htmlFor="StatusSelect">Статус</Label>
+                        <Controller
+                            control={control}
+                            name="status"
+                            render={({ field }) =>
+                                <Select name="StatusSelect" onValueChange={field.onChange} value={field.value.toString()}>
+                                    <SelectTrigger className={styles.selectTrigger}>
+                                        <SelectValue placeholder="Статус" className={styles.placeholder} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="-1">
+                                            <span className={styles.text}>Провалено</span>
+                                        </SelectItem>
+                                        <SelectItem value="0">
+                                            <span className={styles.text}>В процессе</span>
+                                        </SelectItem>
+                                        <SelectItem value="1">
+                                            <span className={styles.text}>Выполнено</span>
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            } />
+                    </div>
 
-            <Controller
-                control={control}
-                name="status"
-                render={({ field }) =>
-                    <Select onValueChange={field.onChange} value={field.value.toString()}>
-                        <SelectTrigger className="w-32 bg-zinc-300 border-zinc-300">
-                            <SelectValue placeholder="Статус" className="text-zinc-500" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="-1">
-                                <span className="text-zinc-500">Провалено</span>
-                            </SelectItem>
-                            <SelectItem value="0">
-                                <span className="text-zinc-500">В процессе</span>
-                            </SelectItem>
-                            <SelectItem value="1">
-                                <span className="text-zinc-500">Выполнено</span>
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
-                } />
+                    <div>
+                        <Label htmlFor="FolderSelect">Папка</Label>
+                        <Controller
+                            control={control}
+                            name="folderId"
+                            render={({ field }) =>
+                                <Select name="FolderSelect" onValueChange={field.onChange} value={field.value!.toString()}>
+                                    <SelectTrigger className={styles.selectTrigger}>
+                                        <SelectValue placeholder="Папка" className={styles.placeholder} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {
+                                            folders.map(f =>
+                                                <SelectItem value={f.Id!.toString()} key={f.Id}>
+                                                    <span className={styles.text}>{f.Name}</span>
+                                                </SelectItem>
+                                            )
+                                        }
+                                    </SelectContent>
+                                </Select>
+                            } />
+                    </div>
+                </div>
 
-            <Controller
-                control={control}
-                name="folderId"
-                render={({ field }) =>
-                    <Select onValueChange={field.onChange} value={field.value!.toString()}>
-                        <SelectTrigger className="w-32 bg-zinc-300 border-zinc-300">
-                            <SelectValue placeholder="Папка" className="text-zinc-500" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {folders.map(f =>
-                                <SelectItem value={f.Id!.toString()} key={f.Id}>
-                                    <span className="text-zinc-500">{f.Name}</span>
-                                </SelectItem>
-                            )}
-                        </SelectContent>
-                    </Select>
-                } />
+                <div>
+                    <Controller
+                        control={control}
+                        name="expiryDate"
+                        render={({ field }) =>
+                            <Calendar
+                                id="ExpiryDate"
+                                mode="single"
+                                locale={ru}
+                                today={undefined}
+                                onSelect={field.onChange}
+                                selected={field.value!} />
+                        } />
+                </div>
+            </div>
 
             <div className={styles.actions}>
                 <Button className={styles.actionButton} onClick={exitCallBack}>
