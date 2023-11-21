@@ -27,7 +27,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ changeSign, interfaceStatus }) =>
             className={[styles.form, interfaceStatus ? "" : styles.blockedForm].join(' ')}
             onSubmit={onSubmit}>
             <Card className={styles.card}>
-                <CardHeader className="relative flex flex-row justify-center -left-5">
+                <CardHeader className={styles.header}>
                     <Button
                         variant="ghost"
                         type="button"
@@ -51,7 +51,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ changeSign, interfaceStatus }) =>
                         {errors?.login && <p>{errors.login.message}</p>}
                     </div>
 
-                    <div className="mb-4" />
+                    <div className={styles.divider} />
 
                     <Input
                         {...registerPassword}
@@ -64,7 +64,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ changeSign, interfaceStatus }) =>
                         {errors?.password && <p>{errors.password.message}</p>}
                     </div>
 
-                    <div className="mb-4" />
+                    <div className={styles.divider} />
 
                     <Input
                         {...registerConfirmPassword}
@@ -78,7 +78,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ changeSign, interfaceStatus }) =>
                     </div>
                 </CardContent>
 
-                <div className="mb-4" />
+                <div className={styles.divider} />
 
                 <CardFooter className={styles.footer}>
                     <Button

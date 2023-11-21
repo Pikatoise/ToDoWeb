@@ -1,0 +1,31 @@
+.card {
+	@apply w-32 h-32 flex flex-col justify-between mb-2 me-4 px-2 pt-4 pb-2 shadow-md rounded-xl hover:shadow-lg cursor-pointer;
+
+	.name {
+		@apply text-lg font-medium;
+	}
+
+	.description {
+		@apply font-medium text-zinc-500;
+	}
+
+	.footer {
+		@apply flex text-sm justify-between items-center me-2;
+
+		.status {
+			@apply w-2 h-2 rounded-full;
+		}
+
+		.statusFailed {
+			@apply bg-red-500;
+		}
+
+		.statusInProgress {
+			@apply bg-zinc-500;
+		}
+
+		.statusDone {
+			@apply bg-green-500;
+		}
+	}
+}

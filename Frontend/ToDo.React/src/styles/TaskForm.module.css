@@ -5,12 +5,20 @@
 		@apply flex justify-center text-xl font-bold mb-2;
 	}
 
-	.actions {
-		@apply flex justify-between px-10 items-center text-xl font-medium;
+	.label {
+		@apply text-base;
 	}
 
-	.actionButton {
-		@apply flex bg-transparent text-black hover:bg-transparent hover:scale-105 transition-all;
+	.actions {
+		@apply flex justify-between px-10 items-center text-xl font-medium;
+
+		.actionButton {
+			@apply flex bg-transparent text-black hover:bg-transparent hover:scale-105 hover:-translate-y-1 transition-all;
+
+			.actionText {
+				@apply max-sm:hidden;
+			}
+		}
 	}
 
 	.delete {
@@ -26,7 +34,11 @@
 	}
 
 	.secondHalf {
-		@apply flex justify-between ps-2 pe-10 max-sm:block;
+		@apply flex justify-between px-2 max-sm:block;
+
+		.mobile {
+			@apply max-sm:flex max-sm:justify-between;
+		}
 
 		.selectTrigger {
 			@apply w-32 mb-4 bg-zinc-300 shadow-md ring-0 ring-transparent border-none ring-offset-transparent;
@@ -38,6 +50,10 @@
 			.text {
 				@apply text-zinc-700;
 			}
+		}
+
+		.calendarContainer {
+			@apply flex flex-col justify-center items-center;
 		}
 	}
 }

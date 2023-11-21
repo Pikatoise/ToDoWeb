@@ -10,6 +10,7 @@ import Folder from "@/models/Folder";
 import FolderItem from "@/components/Items/FolderItem";
 import AlertDialog from "@/components/Dialog/AlertDialog";
 import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
+import { GetFoldersByProfileId } from "@/api/FolderApi";
 
 interface SidePanelProps {
     folderChange: (folder: Folder | null) => void;
@@ -18,11 +19,7 @@ interface SidePanelProps {
 const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     const auth = useAuth();
     const navigate = useNavigate();
-    const [folders, setFolders] = useState<Folder[]>([
-        { Id: 1, Name: "Работа", ProfileId: 1 },
-        { Id: 2, Name: "Дом", ProfileId: 1 },
-        { Id: 3, Name: "Хобби", ProfileId: 1 }
-    ]);
+    const [folders, setFolders] = useState<Folder[]>(GetFoldersByProfileId(auth?.user?.ProfileId!));
 
     const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
 

@@ -2,7 +2,7 @@ import User from "@/models/User";
 import { createContext, useState, FC, PropsWithChildren } from 'react';
 import ErrorType from "@/models/errorTypes";
 import useSession from "@/hooks/useSession";
-import { AuthUser, RegUser } from "@/api/Account";
+import { AuthUser, RegUser } from "@/api/AccountApi";
 
 interface SignInProps {
     User: User,

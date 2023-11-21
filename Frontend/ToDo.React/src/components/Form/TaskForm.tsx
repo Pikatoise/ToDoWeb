@@ -11,6 +11,8 @@ import { Controller } from 'react-hook-form';
 import Folder from "@/models/Folder";
 import { Label } from "@/components/ui/label";
 import { ru } from "date-fns/locale";
+import { GetFoldersByProfileId } from "@/api/FolderApi";
+import useAuth from "@/hooks/useAuth";
 
 interface TaskBodyProps {
     task: Task;
@@ -29,11 +31,9 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
         control
     } = useUpdateTaskForm(task);
 
-    const [folders, setFolders] = useState<Folder[]>([
-        { Id: 1, Name: "Работа", ProfileId: 1 },
-        { Id: 2, Name: "Дом", ProfileId: 1 },
-        { Id: 3, Name: "Хобби", ProfileId: 1 }
-    ]);
+    const auth = useAuth();
+
+    const [folders, setFolders] = useState<Folder[]>([{ Id: -1, Name: "Отсутствует", ProfileId: -1 }, ...GetFoldersByProfileId(auth?.user?.ProfileId!)]);
 
     const DeleteTask = () => {
         // Delete task through api call
@@ -49,7 +49,7 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
             </div>
 
             <div>
-                <Label htmlFor="Name">Название *</Label>
+                <Label htmlFor="Name" className={styles.label}>Название *</Label>
                 <Input
                     id="Name"
                     minLength={2}
@@ -65,7 +65,7 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
             </div> */}
 
             <div>
-                <Label htmlFor="Description">Описание</Label>
+                <Label htmlFor="Description" className={styles.label}>Описание</Label>
                 <Input
                     id="Description"
                     maxLength={150}
@@ -75,9 +75,9 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
             </div>
 
             <div className={styles.secondHalf}>
-                <div className="max-sm:flex max-sm:justify-between">
+                <div className={styles.mobile}>
                     <div>
-                        <Label htmlFor="StatusSelect">Статус</Label>
+                        <Label htmlFor="StatusSelect" className={styles.label}>Статус</Label>
                         <Controller
                             control={control}
                             name="status"
@@ -102,7 +102,7 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
                     </div>
 
                     <div>
-                        <Label htmlFor="FolderSelect">Папка</Label>
+                        <Label htmlFor="FolderSelect" className={styles.label}>Папка</Label>
                         <Controller
                             control={control}
                             name="folderId"
@@ -125,7 +125,8 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
                     </div>
                 </div>
 
-                <div>
+                <div className={styles.calendarContainer}>
+                    <Label htmlFor="ExpiryDate" className={styles.label}>Срок *</Label>
                     <Controller
                         control={control}
                         name="expiryDate"
@@ -144,17 +145,17 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
             <div className={styles.actions}>
                 <Button className={styles.actionButton} onClick={exitCallBack}>
                     <ArrowLeft width={30} height={30} />
-                    <span className="max-sm:hidden">Назад</span>
+                    <span className={styles.actionText}>Назад</span>
                 </Button>
 
                 <Button className={[styles.actionButton, styles.delete].join(' ')} onClick={DeleteTask}>
                     <Trash width={30} height={30} />
-                    <span className="max-sm:hidden">Удалить</span>
+                    <span className={styles.actionText}>Удалить</span>
                 </Button>
 
                 <Button className={[styles.actionButton, styles.submit].join(' ')} type="submit">
                     <Check width={30} height={30} />
-                    <span className="max-sm:hidden">Сохранить</span>
+                    <span className={styles.actionText}>Сохранить</span>
                 </Button>
             </div>
         </form>

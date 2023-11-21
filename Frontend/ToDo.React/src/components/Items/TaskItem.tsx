@@ -1,5 +1,6 @@
 import Task from "@/models/Task";
 import { FC } from 'react';
+import styles from "@/styles/TaskItem.module.css";
 
 interface TaskItemProps {
     task: Task;
@@ -7,17 +8,17 @@ interface TaskItemProps {
 }
 
 const TaskItem: FC<TaskItemProps> = ({ task, clickCallBack, ...props }) => {
-    let taskStatusColor = ["bg-red-500", "bg-zinc-500", "bg-green-500"].at(task.Status! + 1);
+    let taskStatusColor = [styles.statusFailed, styles.statusInProgress, styles.statusDone].at(task.Status! + 1);
 
     return (
         <div
-            className="w-32 h-32 flex flex-col justify-between mb-2 me-4 px-2 pt-4 pb-2 shadow-md rounded-xl hover:shadow-lg cursor-pointer"
+            className={styles.card}
             onClick={() => clickCallBack(task)}>
-            <div className="text-lg font-medium">
+            <div className={styles.name}>
                 {task.Name}
             </div>
 
-            <div className="font-medium text-zinc-500">
+            <div className={styles.description}>
                 {
                     task.Description?.length!! > 30 ?
                         `${task.Description?.slice(0, 25)}...`
@@ -26,10 +27,10 @@ const TaskItem: FC<TaskItemProps> = ({ task, clickCallBack, ...props }) => {
                 }
             </div>
 
-            <div className="flex text-sm justify-between items-center me-2">
+            <div className={styles.footer}>
                 {task.ExpiryDate?.toLocaleDateString()}
 
-                <div className={`w-2 h-2 rounded-full ${taskStatusColor}`} />
+                <div className={[styles.status, taskStatusColor].join(' ')} />
             </div>
         </div>
     );

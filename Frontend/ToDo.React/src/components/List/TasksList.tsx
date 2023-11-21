@@ -3,6 +3,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import TaskItem from "@/components/Items/TaskItem";
 import Folder from "@/models/Folder";
 import Task from "@/models/Task";
+import { GetTasksByProfile, GetTasksByProfileId } from "@/api/TaskApi";
+import useAuth from "@/hooks/useAuth";
+import styles from "@/styles/TaskList.module.css";
 
 interface TasksListBodyProps {
     folder: Folder | null,
@@ -12,22 +15,10 @@ interface TasksListBodyProps {
 const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [statusFilter, setStatusFilter] = useState<string | null>(null);
+    const auth = useAuth();
 
     useEffect(() => {
-        setTasks([]);
-
-        for (let i = 0; i < 30; i++) {
-            let task: Task =
-            {
-                Id: i,
-                Name: `Task ${i + 1}`,
-                FolderId: Math.floor(Math.random() * (4 - 1) + 1),
-                Description: `Description of task dwdw fre wdwd${i + 1}`,
-                ExpiryDate: new Date("2023-11-13"),
-                Status: Math.floor(Math.random() * (2 - (-1)) + (-1))
-            };
-            setTasks(t => [...t, task]);
-        }
+        setTasks(t => GetTasksByProfileId(auth?.user?.ProfileId!));
     }, []);
 
     const tasksByFolder = props.folder != null ? tasks.filter(t => t.FolderId === props.folder!!.Id) : tasks;
@@ -40,40 +31,40 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
     })();
 
     return (
-        <div className="w-full min-h-full pt-2 overflow-y-scroll">
-            <div className="flex justify-center pe-10 text-2xl font-medium mb-2">
+        <div className={styles.list}>
+            <div className={styles.title}>
                 Задачи
             </div>
 
-            <div className="flex justify-between items-center ps-6 pe-16 max-sm:pe-10 mb-4">
-                <div className="text-zinc-500">
+            <div className={styles.info}>
+                <div className={styles.text}>
                     Количество: <b>{tasksByFolderStatus.length}</b>
                 </div>
 
                 <div>
                     <Select onValueChange={s => setStatusFilter(s)}>
-                        <SelectTrigger className="w-32 bg-zinc-300 border-zinc-300">
-                            <SelectValue placeholder="Статус" className="text-zinc-500" />
+                        <SelectTrigger className={styles.statusSelector}>
+                            <SelectValue placeholder="Статус" className={styles.text} />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="Without">
-                                <span className="text-zinc-500">Без фильтра</span>
+                                <span className={styles.text}>Без фильтра</span>
                             </SelectItem>
                             <SelectItem value="-1">
-                                <span className="text-zinc-500">Провалено</span>
+                                <span className={styles.text}>Провалено</span>
                             </SelectItem>
                             <SelectItem value="0">
-                                <span className="text-zinc-500">В процессе</span>
+                                <span className={styles.text}>В процессе</span>
                             </SelectItem>
                             <SelectItem value="1">
-                                <span className="text-zinc-500">Выполнено</span>
+                                <span className={styles.text}>Выполнено</span>
                             </SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
             </div>
 
-            <div className="flex flex-wrap max-sm:justify-between px-4">
+            <div className={styles.items}>
                 {
                     tasksByFolderStatus.map(
                         t => <TaskItem task={t} key={t.Id} clickCallBack={props.taskCallBack} />

@@ -10,6 +10,34 @@
 	@apply bg-zinc-200 border-0 shadow-2xl;
 	@apply min-w-max w-1/3 min-h-half;
 	@apply flex flex-col justify-between mb-2;
+
+	.title {
+		@apply text-center;
+	}
+
+	.content {
+		@apply mb-2;
+	}
+
+	.header {
+		@apply relative flex flex-row justify-center -left-5;
+	}
+
+	.reg {
+		@apply w-28 h-8 mb-4;
+	}
+
+	.rememberContainer {
+		@apply flex justify-end;
+	}
+
+	.rememberLabel {
+		@apply font-normal -mt-px cursor-pointer;
+	}
+
+	.divider {
+		@apply mb-4;
+	}
 }
 
 .input {

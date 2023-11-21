@@ -1,0 +1,23 @@
+.list {
+	@apply w-full min-h-full pt-2 overflow-y-scroll;
+
+	.title {
+		@apply flex justify-center pe-10 text-2xl font-medium mb-2;
+	}
+
+	.info {
+		@apply flex justify-between items-center ps-6 pe-16 max-sm:pe-10 mb-4;
+
+		.text {
+			@apply text-zinc-500;
+		}
+
+		.statusSelector {
+			@apply w-32 bg-zinc-300 border-zinc-300;
+		}
+	}
+
+	.items {
+		@apply flex flex-wrap max-sm:justify-between px-4;
+	}
+}

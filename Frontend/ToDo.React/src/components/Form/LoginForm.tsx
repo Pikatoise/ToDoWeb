@@ -28,11 +28,11 @@ const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) => {
             onSubmit={onSubmit}>
             <Card className={[styles.card, interfaceStatus ? "" : styles.blocked].join(' ')}>
                 <CardHeader>
-                    <CardTitle className="text-center">
+                    <CardTitle className={styles.title}>
                         Авторизация
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="mb-2">
+                <CardContent className={styles.container}>
                     <Input
                         {...registerLogin}
                         placeholder="Логин"
@@ -54,7 +54,7 @@ const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) => {
                         {errors?.password && <p>{errors.password.message}</p>}
                     </div>
 
-                    <div className="flex justify-end">
+                    <div className={styles.rememberContainer}>
                         <input
                             {...registerRemember}
                             id="remember"
@@ -63,7 +63,7 @@ const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) => {
                             tabIndex={tabIndex} />
                         <Label
                             htmlFor="remember"
-                            className="font-normal -mt-px cursor-pointer">
+                            className={styles.rememberLabel}>
                             Запомнить аккаунт
                         </Label>
                     </div>
@@ -80,7 +80,7 @@ const LoginForm: FC<LoginFormProps> = ({ changeSign, interfaceStatus }) => {
                     <Button
                         variant="link"
                         type="button"
-                        className="w-28 h-8 mb-4"
+                        className={styles.reg}
                         onClick={() => changeSign()}
                         tabIndex={tabIndex}>
                         Регистрация
