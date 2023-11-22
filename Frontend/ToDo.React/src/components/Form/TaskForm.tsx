@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Pencil, ArrowLeft, Trash, Check } from "lucide-react";
 import styles from "@/styles/TaskForm.module.css";
-import { useUpdateTaskForm } from "@/hooks/useTaskForm";
+import { useTaskForm } from "@/hooks/useTaskForm";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -15,7 +15,7 @@ import { GetFoldersByProfileId } from "@/api/FolderApi";
 import useAuth from "@/hooks/useAuth";
 
 interface TaskBodyProps {
-    task: Task;
+    task: Task | null;
     exitCallBack: () => void;
 }
 
@@ -27,13 +27,16 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
         registerFolderId,
         registerStatus,
         onSubmitUpdate,
+        onSubmitAdd,
         errors,
         control
-    } = useUpdateTaskForm(task);
+    } = useTaskForm(task);
 
     const auth = useAuth();
 
     const [folders, setFolders] = useState<Folder[]>([{ Id: -1, Name: "Отсутствует", ProfileId: -1 }, ...GetFoldersByProfileId(auth?.user?.ProfileId!)]);
+
+    const isAddOrUpdate = task == null;
 
     const DeleteTask = () => {
         // Delete task through api call
@@ -42,10 +45,15 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
     return (
         <form
             className={styles.form}
-            onSubmit={onSubmitUpdate}>
+            onSubmit={isAddOrUpdate ? onSubmitAdd : onSubmitUpdate}>
 
             <div className={styles.title}>
-                Редактировать
+                {
+                    isAddOrUpdate ?
+                        "Добавить"
+                        :
+                        "Редактировать"
+                }
             </div>
 
             <div>
@@ -148,10 +156,16 @@ const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
                     <span className={styles.actionText}>Назад</span>
                 </Button>
 
-                <Button className={[styles.actionButton, styles.delete].join(' ')} onClick={DeleteTask}>
-                    <Trash width={30} height={30} />
-                    <span className={styles.actionText}>Удалить</span>
-                </Button>
+                {
+                    isAddOrUpdate ?
+                        <></>
+                        :
+                        <Button className={[styles.actionButton, styles.delete].join(' ')} onClick={DeleteTask}>
+                            <Trash width={30} height={30} />
+                            <span className={styles.actionText}>Удалить</span>
+                        </Button>
+
+                }
 
                 <Button className={[styles.actionButton, styles.submit].join(' ')} type="submit">
                     <Check width={30} height={30} />

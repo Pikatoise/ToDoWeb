@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useMemo } from 'react';
 import BurgerMenu from "@/components/BurgerMenu/BurgerMenu";
 import { Button } from "@/components/ui/button";
 import { LogOut, UserSquare2, Plus, Trash } from "lucide-react";
@@ -11,6 +11,7 @@ import FolderItem from "@/components/Items/FolderItem";
 import AlertDialog from "@/components/Dialog/AlertDialog";
 import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { GetFoldersByProfileId } from "@/api/FolderApi";
+import LoadingCircle, { LoadingCircleSize } from "../Loading/LoadingCircle";
 
 interface SidePanelProps {
     folderChange: (folder: Folder | null) => void;
@@ -19,11 +20,15 @@ interface SidePanelProps {
 const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     const auth = useAuth();
     const navigate = useNavigate();
-    const [folders, setFolders] = useState<Folder[]>(GetFoldersByProfileId(auth?.user?.ProfileId!));
-
+    const [folders, setFolders] = useState<Folder[]>([]);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
-
     const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    useMemo(() => {
+        setFolders(GetFoldersByProfileId(auth?.user?.ProfileId!));
+        setIsLoaded(true);
+    }, []);
 
     const ExitClick = () => {
         auth?.signOut(() => {
@@ -118,16 +123,20 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
 
                     <div>
                         {
-                            folders.length == 0 ?
-                                <div className={styles.noFolders}>Пусто</div>
+                            isLoaded ?
+                                folders.length == 0 ?
+                                    <div className={styles.noFolders}>Пусто</div>
+                                    :
+                                    folders.map(f =>
+                                        <FolderItem
+                                            folder={f}
+                                            key={f.Id}
+                                            onClickCallBack={SelectFolderCallBack}
+                                            isSelected={selectedFolder?.Id == f.Id} />
+                                    )
                                 :
-                                folders.map(f =>
-                                    <FolderItem
-                                        folder={f}
-                                        key={f.Id}
-                                        onClickCallBack={SelectFolderCallBack}
-                                        isSelected={selectedFolder?.Id == f.Id} />
-                                )
+                                <LoadingCircle size={LoadingCircleSize.Small} />
+
                         }
                     </div>
                 </div>

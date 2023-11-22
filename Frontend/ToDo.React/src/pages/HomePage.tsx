@@ -11,6 +11,7 @@ const HomePage: FC = () => {
     const [width, setWidth] = useState(window.innerWidth);
     const [folder, setFolder] = useState<Folder | null>(null);
     const [task, setTask] = useState<Task | null>(null);
+    const [isAddingTask, setIsAddingTask] = useState<Boolean>(false);
 
     const separator = width > 640 ?
         <Separator orientation={Orientation.Vertical} margin={Margin.Small} />
@@ -36,8 +37,10 @@ const HomePage: FC = () => {
 
             {
                 task == null ?
-                    <TasksList folder={folder} taskCallBack={setTask} />
-
+                    isAddingTask ?
+                        <TaskForm task={null} exitCallBack={() => setIsAddingTask(false)} />
+                        :
+                        <TasksList folder={folder} taskCallBack={setTask} addTaskCallBack={() => setIsAddingTask(true)} />
                     :
                     <TaskForm task={task} exitCallBack={() => setTask(null)} />
             }

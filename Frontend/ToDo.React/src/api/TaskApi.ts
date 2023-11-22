@@ -39,6 +39,8 @@ export const GetTasksByProfileId = (profileId: number): Array<Folder> => {
 			Description: `Description of task dwdw fre wdwd${i + 1}`,
 			ExpiryDate: new Date('2023-11-13'),
 			Status: Math.floor(Math.random() * (2 - -1) + -1),
+			ProfileId: -1,
+			isNotificated: Math.random() == 0,
 		};
 
 		tasks.push(task);

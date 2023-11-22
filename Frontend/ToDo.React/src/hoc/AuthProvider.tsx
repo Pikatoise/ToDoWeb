@@ -31,7 +31,13 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
     //const [user, setUser] = useState<User | null>(getSession());
     // На время теста
-    const [user, setUser] = useState<User | null>({ Id: 0, Login: "TestLogin", Password: "TestPassword" });
+    const [user, setUser] = useState<User | null>(
+        {
+            Id: -1,
+            Login: "TestLogin",
+            Password: "TestPassword",
+            ProfileId: -1
+        });
 
     const signIn = async (params: SignInProps) => {
         const response = await AuthUser(params.User.Login ?? "", params.User.Password ?? "");

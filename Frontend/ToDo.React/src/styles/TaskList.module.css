@@ -20,4 +20,12 @@
 	.items {
 		@apply flex flex-wrap max-sm:justify-between px-4;
 	}
+
+	.card {
+		@apply w-32 h-32 flex flex-col justify-center items-center text-center bg-zinc-200 mb-2 me-4 px-2 pt-4 pb-2 shadow-md rounded-xl hover:shadow-lg cursor-pointer;
+
+		.icon {
+			@apply w-10 h-10;
+		}
+	}
 }

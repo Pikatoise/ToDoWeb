@@ -10,7 +10,7 @@ interface FormData {
 	status: number;
 }
 
-export const useUpdateTaskForm = (oldTask: Task | null) => {
+export const useTaskForm = (oldTask: Task | null) => {
 	const {
 		register,
 		formState: { errors },

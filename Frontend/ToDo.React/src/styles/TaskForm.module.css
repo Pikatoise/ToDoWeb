@@ -1,5 +1,5 @@
 .form {
-	@apply flex flex-col justify-between w-full min-h-full pt-1 overflow-y-auto;
+	@apply flex flex-col justify-between px-2 w-full min-h-full pt-1 overflow-y-auto;
 
 	.title {
 		@apply flex justify-center text-xl font-bold mb-2;

@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useMemo } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import TaskItem from "@/components/Items/TaskItem";
 import Folder from "@/models/Folder";
@@ -6,19 +6,24 @@ import Task from "@/models/Task";
 import { GetTasksByProfile, GetTasksByProfileId } from "@/api/TaskApi";
 import useAuth from "@/hooks/useAuth";
 import styles from "@/styles/TaskList.module.css";
+import LoadingCircle, { LoadingCircleSize } from "@/components/Loading/LoadingCircle";
+import { Plus } from "lucide-react";
 
 interface TasksListBodyProps {
     folder: Folder | null,
     taskCallBack: (task: Task) => void;
+    addTaskCallBack: () => void;
 }
 
 const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [statusFilter, setStatusFilter] = useState<string | null>(null);
     const auth = useAuth();
 
-    useEffect(() => {
-        setTasks(t => GetTasksByProfileId(auth?.user?.ProfileId!));
+    useMemo(() => {
+        setTasks(GetTasksByProfileId(auth?.user?.ProfileId!));
+        setIsLoaded(true);
     }, []);
 
     const tasksByFolder = props.folder != null ? tasks.filter(t => t.FolderId === props.folder!!.Id) : tasks;
@@ -66,9 +71,20 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
 
             <div className={styles.items}>
                 {
-                    tasksByFolderStatus.map(
-                        t => <TaskItem task={t} key={t.Id} clickCallBack={props.taskCallBack} />
-                    )
+                    isLoaded ?
+                        <>
+                            <div className={styles.card} onClick={() => props.addTaskCallBack()}>
+                                <Plus className={styles.icon} />
+                                Добавить задачу
+                            </div>
+
+                            {
+                                tasksByFolderStatus.map(
+                                    t => <TaskItem task={t} key={t.Id} clickCallBack={props.taskCallBack} />)
+                            }
+                        </>
+                        :
+                        <LoadingCircle size={LoadingCircleSize.Large} />
                 }
             </div>
         </div>
