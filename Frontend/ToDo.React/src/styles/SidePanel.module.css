@@ -36,7 +36,7 @@
 		.btnAddFolder {
 			@apply w-full text-black border-2 border-zinc-700;
 			@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
-            @apply leading-none;
+			@apply leading-none;
 
 			.icon {
 				@apply w-6 h-6 me-1;
@@ -47,10 +47,7 @@
 			@apply text-black border-2 border-zinc-700;
 			@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
 			@apply ms-1;
-
-			.icon {
-				@apply w-4 h-4;
-			}
+			@apply ring-0;
 
 			.hide {
 				@apply hidden;

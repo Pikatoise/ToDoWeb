@@ -12,8 +12,24 @@
 			@apply text-zinc-500;
 		}
 
+		.deleteTasks {
+			@apply hidden z-50;
+			@apply text-black border-2 border-zinc-700;
+			@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
+			@apply ms-1;
+			@apply max-sm:absolute max-sm:left-1/4 max-sm:bottom-2 max-sm:bg-zinc-800 max-sm:text-zinc-200 max-sm:hover:bg-zinc-800 max-sm:hover:bg-opacity-100;
+
+			.icon {
+				@apply w-4 h-4;
+			}
+		}
+
+		.visible {
+			@apply flex;
+		}
+
 		.statusSelector {
-			@apply w-32 bg-zinc-300 border-zinc-300;
+			@apply w-32 bg-zinc-300 shadow-md ring-0 ring-transparent border-none ring-offset-transparent;
 		}
 	}
 

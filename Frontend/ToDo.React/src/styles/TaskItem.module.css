@@ -1,8 +1,20 @@
 .card {
-	@apply w-32 h-32 flex flex-col justify-between mb-2 me-4 px-2 pt-4 pb-2 shadow-md rounded-xl hover:shadow-lg cursor-pointer;
+	@apply relative w-32 h-32 flex flex-col justify-between mb-2 me-4 px-2 pt-4 pb-2 transition-all duration-300 shadow-md rounded-xl hover:shadow-lg cursor-pointer;
 
-	.name {
-		@apply text-lg font-medium;
+	.title {
+		@apply flex justify-between items-center z-50;
+
+		.name {
+			@apply text-lg font-medium;
+		}
+
+		.checkbox {
+			@apply opacity-0 transition-all duration-300 border-2;
+		}
+
+		.visible {
+			@apply opacity-100;
+		}
 	}
 
 	.description {
