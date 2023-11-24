@@ -6,6 +6,7 @@ import Folder from "@/models/Folder";
 import Task from "@/models/Task";
 import TasksList from "@/components/List/TasksList";
 import TaskForm from "@/components/Form/TaskForm";
+import BurgerMenu from "@/components/BurgerMenu/BurgerMenu";
 
 const HomePage: FC = () => {
     const [width, setWidth] = useState(window.innerWidth);
@@ -31,7 +32,9 @@ const HomePage: FC = () => {
 
     return (
         <Container padding={Padding.Small}>
-            <SidePanel folderChange={FolderCallBack} />
+            <BurgerMenu>
+                <SidePanel folderChange={FolderCallBack} />
+            </BurgerMenu>
 
             {separator}
 

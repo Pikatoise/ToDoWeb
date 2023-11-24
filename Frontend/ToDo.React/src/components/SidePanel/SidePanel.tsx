@@ -12,6 +12,7 @@ import AlertDialog from "@/components/Dialog/AlertDialog";
 import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { GetFoldersByProfileId } from "@/api/FolderApi";
 import LoadingCircle, { LoadingCircleSize } from "../Loading/LoadingCircle";
+import { Input } from "../ui/input";
 
 interface SidePanelProps {
     folderChange: (folder: Folder | null) => void;
@@ -24,6 +25,8 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
     const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [isAddDialogOpen, setAddDialogOpen] = useState(false);
+    const [newFolderName, setNewFolderName] = useState<string>("");
 
     useMemo(() => {
         setFolders(GetFoldersByProfileId(auth?.user?.ProfileId!));
@@ -40,8 +43,16 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
 
     };
 
-    const AddFolderClick = () => {
+    const AddFolder = () => {
+        if (newFolderName.length > 0) {
+            setAddDialogOpen(false);
 
+            console.log(newFolderName);
+
+            setNewFolderName("");
+        }
+        else
+            (document.getElementById("inputNewName") as HTMLInputElement).focus();
     };
 
     const DeleteFolder = () => {
@@ -69,7 +80,7 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     };
 
     return (
-        <BurgerMenu>
+        <>
             <div className={styles.sidePanel}>
                 <div className={styles.head}>
                     <div className={styles.user} onClick={ProfileClick}>
@@ -101,7 +112,7 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
                     <div className="flex mb-2">
                         <Button
                             className={styles.btnAddFolder}
-                            onClick={AddFolderClick}>
+                            onClick={() => setAddDialogOpen(true)}>
                             Создать папку
                         </Button>
 
@@ -155,12 +166,33 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
                         Только папку
                     </AlertDialogAction>
 
+                    <div className="max-sm:mb-2" />
+
                     <AlertDialogAction onClick={DeleteFolderCascade}>
                         Папку и задачи
                     </AlertDialogAction>
                 </>
             </AlertDialog>
-        </BurgerMenu>
+
+            <AlertDialog
+                isOpen={isAddDialogOpen}
+                title="Создать папку"
+                message="Введите название новой папки:">
+                <>
+                    <AlertDialogCancel onClick={() => setAddDialogOpen(false)}>
+                        Отмена
+                    </AlertDialogCancel>
+
+                    <AlertDialogAction onClick={AddFolder}>
+                        Сохранить
+                    </AlertDialogAction>
+
+                    <div className="max-sm:mb-2" />
+
+                    <Input id="inputNewName" value={newFolderName} onChange={(e) => setNewFolderName(e.target.value)} />
+                </>
+            </AlertDialog>
+        </>
     );
 };
 
