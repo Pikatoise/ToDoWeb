@@ -17,7 +17,7 @@ export const GetTasksByProfile = (profile: Profile): Array<Task> => {
 			Id: i,
 			Name: `Task ${i + 1}`,
 			FolderId: Math.floor(Math.random() * (4 - 1) + 1),
-			Description: `Description of task dwdw fre wdwd${i + 1}`,
+			Description: `Fictional description of task${i + 1}`,
 			ExpiryDate: new Date('2023-11-13'),
 			Status: Math.floor(Math.random() * (2 - -1) + -1),
 		};
@@ -36,7 +36,8 @@ export const GetTasksByProfileId = (profileId: number): Array<Folder> => {
 			Id: i,
 			Name: `Task ${i + 1}`,
 			FolderId: Math.floor(Math.random() * (4 - 1) + 1),
-			Description: `Description of task dwdw fre wdwd${i + 1}`,
+			Description: `Fictional description of task ${i}`,
+			// Description: `Fictional description of task ${i + 1}`,
 			ExpiryDate: new Date('2023-11-13'),
 			Status: Math.floor(Math.random() * (2 - -1) + -1),
 			ProfileId: -1,

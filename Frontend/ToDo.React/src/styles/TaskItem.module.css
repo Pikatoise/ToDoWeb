@@ -2,7 +2,7 @@
 	@apply relative w-32 h-32 flex flex-col justify-between mb-2 me-4 px-2 pt-4 pb-2 transition-all duration-300 shadow-md rounded-xl hover:shadow-lg cursor-pointer;
 
 	.title {
-		@apply flex justify-between items-center z-50;
+		@apply flex justify-between items-center;
 
 		.name {
 			@apply text-lg font-medium;
@@ -18,7 +18,7 @@
 	}
 
 	.description {
-		@apply font-medium text-zinc-500;
+		@apply flex h-12 justify-start font-medium text-zinc-500 font-mono;
 	}
 
 	.footer {

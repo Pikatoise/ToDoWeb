@@ -15,6 +15,29 @@ const TaskItem: FC<TaskItemProps> = ({ task, clickCallBack, changeSelectedTasks,
     const [isSelected, setIsSelected] = useState<CheckedState>(false);
     const taskStatusColor = [styles.statusFailed, styles.statusInProgress, styles.statusDone].at(task.Status! + 1);
     const showSelectAlways = isCanSelect || isSelected;
+    const TEXTMAXSIZE = 20;
+    const TEXTLINEMAXSIZE = 12;
+
+    const croppedText = (): string => {
+        var result: string = "";
+
+        if (task.Description == null)
+            return result;
+
+        result = task.Description;
+
+        if (task.Description.length > TEXTMAXSIZE)
+            result = result.slice(0, TEXTMAXSIZE) + "...";
+
+        if (result.length > TEXTLINEMAXSIZE)
+            for (let i = 0; i < result.length; i += TEXTLINEMAXSIZE)
+                if (result.length < i + TEXTLINEMAXSIZE)
+                    break;
+                else
+                    result = result.substring(0, i + TEXTLINEMAXSIZE) + "\n" + result.substring(i + TEXTLINEMAXSIZE, result.length);
+
+        return result;
+    };
 
     useEffect(() => {
         changeSelectedTasks(task, isSelected == true ? true : false);
@@ -33,12 +56,7 @@ const TaskItem: FC<TaskItemProps> = ({ task, clickCallBack, changeSelectedTasks,
 
             <div onClick={() => clickCallBack(task)}>
                 <div className={styles.description}>
-                    {
-                        task.Description?.length!! > 30 ?
-                            `${task.Description?.slice(0, 25)}...`
-                            :
-                            task.Description
-                    }
+                    {croppedText()}
                 </div>
 
                 <div className={styles.footer}>
