@@ -1,7 +1,7 @@
 import { FC, useState, useMemo } from 'react';
 import BurgerMenu from "@/components/BurgerMenu/BurgerMenu";
 import { Button } from "@/components/ui/button";
-import { LogOut, UserSquare2, Plus, Trash } from "lucide-react";
+import { LogOut, UserSquare2, Plus, Trash, Pen, PenIcon, Pencil } from "lucide-react";
 import Separator, { Orientation } from "@/components/Separator/Separator";
 import useAuth from "@/hooks/useAuth";
 import styles from "@/styles/SidePanel.module.css";
@@ -26,7 +26,8 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
     const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [isAddDialogOpen, setAddDialogOpen] = useState(false);
-    const [newFolderName, setNewFolderName] = useState<string>("");
+    const [isEditDialogOpen, setEditDialogOpen] = useState(false);
+    const [folderName, setFolderName] = useState<string>("");
 
     useMemo(() => {
         setFolders(GetFoldersByProfileId(auth?.user?.ProfileId!));
@@ -44,12 +45,12 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     };
 
     const AddFolder = () => {
-        if (newFolderName.length > 0) {
+        if (folderName.length > 0) {
             setAddDialogOpen(false);
 
-            console.log(newFolderName);
+            console.log(folderName);
 
-            setNewFolderName("");
+            setFolderName("");
         }
         else
             (document.getElementById("inputNewName") as HTMLInputElement).focus();
@@ -60,6 +61,18 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
         setSelectedFolder(null);
 
         setDeleteDialogOpen(false);
+    };
+
+    const EditFolder = () => {
+        if (folderName.length > 0) {
+            setEditDialogOpen(false);
+
+            console.log(folderName);
+
+            setFolderName("");
+        }
+        else
+            (document.getElementById("inputEditName") as HTMLInputElement).focus();
     };
 
     const DeleteFolderCascade = () => {
@@ -122,9 +135,29 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
                                 :
                                 <Button
                                     size="icon"
-                                    className={styles.btnDeleteFolder}
+                                    className={styles.btnFolder}
                                     onClick={() => setDeleteDialogOpen(true)}>
                                     <Trash
+                                        color="#000"
+                                        strokeWidth={2}
+                                        className={styles.icon} />
+                                </Button>
+                        }
+
+                        {
+                            selectedFolder == null ?
+                                <></>
+                                :
+                                <Button
+                                    size="icon"
+                                    className={styles.btnFolder}
+                                    onClick={() => {
+                                        setFolderName(selectedFolder.Name!);
+                                        setEditDialogOpen(true);
+                                    }}>
+                                    <Pencil
+                                        width={20}
+                                        height={20}
                                         color="#000"
                                         strokeWidth={2}
                                         className={styles.icon} />
@@ -189,7 +222,26 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
 
                     <div className="max-sm:mb-2" />
 
-                    <Input id="inputNewName" value={newFolderName} onChange={(e) => setNewFolderName(e.target.value)} />
+                    <Input id="inputNewName" value={folderName} onChange={(e) => setFolderName(e.target.value)} />
+                </>
+            </AlertDialog>
+
+            <AlertDialog
+                isOpen={isEditDialogOpen}
+                title="Редактировать название"
+                message="Введите название папки:">
+                <>
+                    <AlertDialogCancel onClick={() => setEditDialogOpen(false)}>
+                        Отмена
+                    </AlertDialogCancel>
+
+                    <AlertDialogAction onClick={EditFolder}>
+                        Сохранить
+                    </AlertDialogAction>
+
+                    <div className="max-sm:mb-2" />
+
+                    <Input id="inputEditName" value={folderName} onChange={(e) => setFolderName(e.target.value)} />
                 </>
             </AlertDialog>
         </>
