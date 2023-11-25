@@ -5,6 +5,7 @@ import AuthPage from "@/pages/AuthPage";
 import NotFound from "@/pages/NotFound";
 import RequireAuth from "@/hoc/RequireAuth";
 import AuthProvider from "@/hoc/AuthProvider";
+import ProfilePage from "@/pages/ProfilePage";
 
 function App() {
     return (
@@ -19,6 +20,8 @@ function App() {
                         } />
 
                         <Route path="/login" element={<AuthPage />} />
+
+                        <Route path="/profile" element={<ProfilePage />} />
 
                         <Route path="*" element={<NotFound />} />
                     </Route>

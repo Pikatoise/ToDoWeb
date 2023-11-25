@@ -41,7 +41,7 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     };
 
     const ProfileClick = () => {
-
+        navigate('/profile', { replace: true });
     };
 
     const AddFolder = () => {
