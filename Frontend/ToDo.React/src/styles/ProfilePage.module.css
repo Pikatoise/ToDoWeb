@@ -1,0 +1,42 @@
+.header {
+	@apply relative flex justify-center w-full h-min;
+
+	.title {
+		@apply text-3xl font-medium;
+	}
+
+	.exitArrow {
+		@apply absolute left-0 top-0.5 hover:cursor-pointer hover:scale-110 transition-all;
+	}
+}
+
+.body {
+	@apply flex max-sm:flex-col justify-around w-full min-h-full pt-10;
+
+	.block {
+		@apply flex flex-col shadow-md rounded-sm;
+
+		.title {
+			@apply flex justify-center items-center mx-8 text-xl font-medium text-center;
+
+			.icon {
+				@apply me-2;
+			}
+		}
+
+		.field {
+			@apply py-2 px-4;
+
+			.label {
+			}
+
+			.input {
+				@apply h-8 bg-zinc-300 font-semibold ring-0 border-b-2 border-0 focus:ring-offset-0 border-black focus:border-2;
+			}
+
+			.readOnly {
+				@apply hover:cursor-default focus:ring-0;
+			}
+		}
+	}
+}

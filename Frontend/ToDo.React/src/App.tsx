@@ -13,15 +13,19 @@ function App() {
             <AuthProvider>
                 <Routes>
                     <Route path="/" element={<Layout />}>
+                        <Route path="/login" element={<AuthPage />} />
+
                         <Route index element={
                             <RequireAuth >
                                 <HomePage />
                             </RequireAuth>
                         } />
 
-                        <Route path="/login" element={<AuthPage />} />
-
-                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/profile" element={
+                            <RequireAuth>
+                                <ProfilePage />
+                            </RequireAuth>
+                        } />
 
                         <Route path="*" element={<NotFound />} />
                     </Route>
