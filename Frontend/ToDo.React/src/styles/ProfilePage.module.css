@@ -14,7 +14,7 @@
 	@apply flex max-sm:flex-col justify-around w-full min-h-full pt-10;
 
 	.block {
-		@apply flex flex-col shadow-md rounded-sm;
+		@apply flex flex-col shadow-lg rounded-md max-sm:mb-4 py-4 w-1/4 max-sm:w-auto;
 
 		.title {
 			@apply flex justify-center items-center mx-8 text-xl font-medium text-center;
@@ -38,5 +38,11 @@
 				@apply hover:cursor-default focus:ring-0;
 			}
 		}
+	}
+
+	.btn {
+		@apply text-black border-2 border-zinc-700 mt-2 mx-6;
+		@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
+		@apply leading-none ring-0 ring-offset-0 focus:ring-0 focus:outline-none focus:ring-offset-0 focus:bg-zinc-400;
 	}
 }
