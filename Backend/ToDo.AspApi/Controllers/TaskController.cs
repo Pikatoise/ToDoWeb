@@ -7,7 +7,7 @@ using ToDo.DAL.Interfaces;
 namespace ToDo.AspApi.Controllers
 {
     [ApiController]
-    [Route("api/{controller}")]
+    [Route("api/[controller]")]
     public class TaskController : ControllerBase
     {
         private readonly IRepositoryWrapper _repository;
@@ -41,7 +41,7 @@ namespace ToDo.AspApi.Controllers
         }
 
         [HttpPost("Create")]
-        public IActionResult CreateTask([FromForm]CreateTaskData createTaskData)
+        public IActionResult CreateTask([FromBody]CreateTaskData createTaskData)
         {
             var task = TaskMapper.ToDomain(createTaskData);
 
@@ -53,7 +53,7 @@ namespace ToDo.AspApi.Controllers
         }
 
         [HttpPut("Change")]
-        public IActionResult ChangeTask([FromForm]ChangeTaskData changeTaskData)
+        public IActionResult ChangeTask([FromBody]ChangeTaskData changeTaskData)
         {
             var task = _repository.Tasks.GetById(changeTaskData.Id);
 
@@ -73,7 +73,7 @@ namespace ToDo.AspApi.Controllers
             return Ok();
         }
 
-        [HttpPut("Change/Status/id={id}&status={status}")]
+        [HttpPut("ChangeStatus/id={id}&status={status}")]
         public IActionResult ChangeTaskStatus(int id,int status)
         {
             var task = _repository.Tasks.GetById(id);

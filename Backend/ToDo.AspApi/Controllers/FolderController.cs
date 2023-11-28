@@ -5,7 +5,7 @@ using ToDo.Domain.Models;
 namespace ToDo.AspApi.Controllers
 {
     [ApiController]
-    [Route("api/{controller}")]
+    [Route("api/[controller]")]
     public class FolderController : ControllerBase
     {
         private readonly IRepositoryWrapper _repository;
@@ -30,6 +30,14 @@ namespace ToDo.AspApi.Controllers
                 return NotFound("Папка не найдена");
 
             return Ok(folder);
+        }
+
+        [HttpGet("profileId={profileId}")]
+        public IActionResult GetFoldersByProfileId(int profileId)
+        {
+            var folders = _repository.Folders.GetByCondition(f => f.ProfileId == profileId);
+
+            return Ok(folders);
         }
 
         [HttpPost("Create/profileId={profileId}&name={folderName}")]

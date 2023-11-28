@@ -17,15 +17,27 @@ namespace ToDo.AspApi
 
             builder.Services.AddControllers()
                             .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-            builder.Services.AddEndpointsApiExplorer();
 
+            builder.Services.AddEndpointsApiExplorer();
+            
+            builder.Services.AddSwaggerGen(); // for swagger
+            
             builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration["ConnectionStrings:PgSql"]);
             });
 
             var app = builder.Build();
+
+            //app.UseDeveloperExceptionPage();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.UseCors(builder =>
             {

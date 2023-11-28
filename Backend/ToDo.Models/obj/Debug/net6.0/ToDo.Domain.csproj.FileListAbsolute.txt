@@ -21,3 +21,4 @@ C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\obj\Debug\net6.0\ToDo.Domain
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\obj\Debug\net6.0\refint\ToDo.Domain.dll
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\obj\Debug\net6.0\ToDo.Domain.pdb
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\obj\Debug\net6.0\ref\ToDo.Domain.dll
+C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.Models\obj\Debug\net6.0\ToDo.Domain.sourcelink.json

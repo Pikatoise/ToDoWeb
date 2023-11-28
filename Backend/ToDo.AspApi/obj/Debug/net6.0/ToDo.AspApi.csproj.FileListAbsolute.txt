@@ -167,3 +167,4 @@ C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.AspApi\obj\Debug\net6.0\refint\ToDo
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.AspApi\obj\Debug\net6.0\ToDo.AspApi.pdb
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.AspApi\obj\Debug\net6.0\ToDo.AspApi.genruntimeconfig.cache
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.AspApi\obj\Debug\net6.0\ref\ToDo.AspApi.dll
+C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.AspApi\obj\Debug\net6.0\ToDo.AspApi.sourcelink.json

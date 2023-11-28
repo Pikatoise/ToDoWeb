@@ -28,3 +28,4 @@ C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.DAL\obj\Debug\net6.0\ToDo.DAL.dll
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.DAL\obj\Debug\net6.0\refint\ToDo.DAL.dll
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.DAL\obj\Debug\net6.0\ToDo.DAL.pdb
 C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.DAL\obj\Debug\net6.0\ref\ToDo.DAL.dll
+C:\Users\Pikatoise\Desktop\ToDo\Backend\ToDo.DAL\obj\Debug\net6.0\ToDo.DAL.sourcelink.json

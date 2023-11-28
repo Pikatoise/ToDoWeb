@@ -73,7 +73,7 @@ namespace ToDo.AspApi.Controllers
         }
 
         [HttpPut("ChangePassword")]
-        public ActionResult ChangePassword([FromForm]ChangePasswordData changePasswordData)
+        public ActionResult ChangePassword([FromBody]ChangePasswordData changePasswordData)
         {
             User? user = _repository.Users.GetById(changePasswordData.UserId);
 

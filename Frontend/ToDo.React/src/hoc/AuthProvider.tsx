@@ -29,15 +29,15 @@ export const AuthContext = createContext<ContextProps | null>(null);
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     const { getSession, createSession, clearSession } = useSession();
 
-    //const [user, setUser] = useState<User | null>(getSession());
+    const [user, setUser] = useState<User | null>(getSession());
     // На время теста
-    const [user, setUser] = useState<User | null>(
-        {
-            Id: -1,
-            Login: "TestLogin",
-            Password: "TestPassword",
-            ProfileId: -1
-        });
+    // const [user, setUser] = useState<User | null>(
+    //     {
+    //         Id: -1,
+    //         Login: "TestLogin",
+    //         Password: "TestPassword",
+    //         ProfileId: -1
+    //     });
 
     const signIn = async (params: SignInProps) => {
         const response = await AuthUser(params.User.Login ?? "", params.User.Password ?? "");

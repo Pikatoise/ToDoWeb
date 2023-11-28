@@ -27,6 +27,7 @@ const useLoginForm = () => {
 
 		const successful = () => {
 			navigate('/', { replace: true });
+			reset();
 		};
 
 		const throwError = (type: ErrorType, message: string) => {
@@ -47,8 +48,6 @@ const useLoginForm = () => {
 			CallbackSuccess: successful,
 			CallbackError: throwError,
 		});
-
-		reset();
 	};
 
 	const onSubmit = handleSubmit(tryLogin);
