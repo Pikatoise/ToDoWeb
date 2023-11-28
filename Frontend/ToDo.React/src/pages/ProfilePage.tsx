@@ -14,8 +14,8 @@ const ProfilePage: FC = () => {
 
     const [profile, setProfile] = useState<Profile>({
         Id: -1,
-        Email: "wierwolf@inbox.ru",
-        isEmailVerificated: true,
+        Email: null,
+        isEmailVerificated: false,
         isEmailNotificationEnabled: false,
     });
     const [newPassword, setNewPassword] = useState<string>("");
@@ -57,17 +57,16 @@ const ProfilePage: FC = () => {
     };
 
     const ChangeNotify = () => {
-        setProfile(v => {
-            var newProfile = v;
-            newProfile.isEmailNotificationEnabled = !newProfile.isEmailNotificationEnabled;
-            return newProfile;
-        });
+        setProfile(v => ({
+            ...v,
+            isEmailNotificationEnabled: !v.isEmailNotificationEnabled
+        }));
     };
 
     const Return = () => navigate("/", { replace: true });
 
     return (
-        <div className="flex flex-col pt-5 px-4">
+        <div className={styles.profile}>
             <header className={styles.header}>
                 <div onClick={Return}>
                     <ArrowLeft
@@ -195,7 +194,7 @@ const ProfilePage: FC = () => {
 
                                 <Checkbox
                                     checked={profile.isEmailNotificationEnabled!}
-                                    onChange={ChangeNotify} />
+                                    onClick={ChangeNotify} />
                             </div>
                             :
                             <></>

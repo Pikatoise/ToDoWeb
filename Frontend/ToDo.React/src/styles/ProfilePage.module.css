@@ -1,48 +1,52 @@
-.header {
-	@apply relative flex justify-center w-full h-min;
+.profile {
+	@apply flex flex-col px-4 overflow-y-scroll max-h-full;
 
-	.title {
-		@apply text-3xl font-medium;
-	}
-
-	.exitArrow {
-		@apply absolute left-0 top-0.5 hover:cursor-pointer hover:scale-110 transition-all;
-	}
-}
-
-.body {
-	@apply flex max-sm:flex-col justify-around w-full min-h-full pt-10;
-
-	.block {
-		@apply flex flex-col shadow-lg rounded-md max-sm:mb-4 py-4 w-1/4 max-sm:w-auto;
+	.header {
+		@apply relative flex justify-center w-full h-min mt-5;
 
 		.title {
-			@apply flex justify-center items-center mx-8 text-xl font-medium text-center;
-
-			.icon {
-				@apply me-2;
-			}
+			@apply text-3xl font-medium;
 		}
 
-		.field {
-			@apply py-2 px-4;
-
-			.label {
-			}
-
-			.input {
-				@apply h-8 bg-zinc-300 font-semibold ring-0 border-b-2 border-0 focus:ring-offset-0 border-black focus:border-2;
-			}
-
-			.readOnly {
-				@apply hover:cursor-default focus:ring-0;
-			}
+		.exitArrow {
+			@apply absolute left-0 top-0.5 hover:cursor-pointer hover:scale-110 transition-all;
 		}
 	}
 
-	.btn {
-		@apply text-black border-2 border-zinc-700 mt-2 mx-6;
-		@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
-		@apply leading-none ring-0 ring-offset-0 focus:ring-0 focus:outline-none focus:ring-offset-0 focus:bg-zinc-400;
+	.body {
+		@apply flex max-sm:flex-col justify-between flex-wrap w-full mb-10;
+
+		.block {
+			@apply flex flex-col shadow-lg rounded-md mb-4 py-4 mx-2 w-1/4 max-sm:w-auto;
+
+			.title {
+				@apply flex justify-center items-center mx-8 text-xl font-medium text-center;
+
+				.icon {
+					@apply me-2;
+				}
+			}
+
+			.field {
+				@apply py-2 px-4;
+
+				.label {
+				}
+
+				.input {
+					@apply h-8 bg-zinc-300 font-semibold ring-0 border-b-2 border-0 focus:ring-offset-0 border-black focus:border-2;
+				}
+
+				.readOnly {
+					@apply hover:cursor-default focus:ring-0;
+				}
+			}
+		}
+
+		.btn {
+			@apply text-black border-2 border-zinc-700 mt-2 mx-6;
+			@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;
+			@apply leading-none ring-0 ring-offset-0 focus:ring-0 focus:outline-none focus:ring-offset-0 focus:bg-zinc-400;
+		}
 	}
 }
