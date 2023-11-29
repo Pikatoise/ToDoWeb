@@ -34,10 +34,16 @@ namespace ToDo.AspApi.Controllers
             return Ok(task);
         }
 
-        [HttpGet("folderId={id}")]
-        public IActionResult GetTasksByFolderId(int id)
+        [HttpGet("folderId={folderId}")]
+        public IActionResult GetTasksByFolderId(int folderId)
         {
-            return Ok(_repository.Tasks.GetAll().Where(x => x.FolderId == id));
+            return Ok(_repository.Tasks.GetAll().Where(x => x.FolderId == folderId));
+        }
+
+        [HttpGet("profileId={profileId}")]
+        public IActionResult GetTasksByProfileId(int profileId)
+        {
+            return Ok(_repository.Tasks.GetAll().Where(x => x.ProfileId == profileId));
         }
 
         [HttpPost("Create")]

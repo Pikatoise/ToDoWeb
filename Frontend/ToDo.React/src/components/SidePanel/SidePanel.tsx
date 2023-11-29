@@ -30,7 +30,7 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     const [folderName, setFolderName] = useState<string>("");
 
     useMemo(() => {
-        setFolders(GetFoldersByProfileId(auth?.user?.ProfileId!));
+        GetFoldersByProfileId(auth?.user?.ProfileId!,setFolders);
         setIsLoaded(true);
     }, []);
 

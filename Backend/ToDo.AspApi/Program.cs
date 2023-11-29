@@ -16,7 +16,10 @@ namespace ToDo.AspApi
             builder.Services.AddCors();
 
             builder.Services.AddControllers()
-                            .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+                            .AddJsonOptions(options => {
+                                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                                });
 
             builder.Services.AddEndpointsApiExplorer();
             

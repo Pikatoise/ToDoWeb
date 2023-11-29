@@ -11,8 +11,6 @@ const useSession = () => {
 			ProfileId: Number.parseInt(localStorage.getItem('ProfileId') ?? '-1'),
 		};
 
-		console.log(localUser);
-
 		return localUser;
 	};
 

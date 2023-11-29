@@ -1,19 +1,18 @@
+import User from '@/models/User';
 import axios, { AxiosError } from 'axios';
 
 type AuthResponse = {
-	id: number;
+	user: User;
 	status: number;
 };
 
-export const AuthUser = async (login: string, password: string): Promise<AuthResponse> => {
+export const AuthUser = async (login: string, password: string, callBack: (user: User, status: number) => void) => {
 	try {
-		const { data, status } = await axios.get<number>(`http://localhost:5038/api/Account/${login}&${password}`);
-
-		return { id: data, status: status };
-	} catch (_e: any) {
-		const e: AxiosError = _e;
-
-		return { id: -1, status: e.response?.status ?? 404 };
+		await axios
+			.get<User>(`http://localhost:5038/api/Account/${login}&${password}`)
+			.then((v) => callBack(v.data, v.status));
+	} catch (error) {
+		console.log(error);
 	}
 };
 

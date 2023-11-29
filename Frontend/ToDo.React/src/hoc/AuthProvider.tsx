@@ -40,30 +40,28 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     //     });
 
     const signIn = async (params: SignInProps) => {
-        const response = await AuthUser(params.User.Login ?? "", params.User.Password ?? "");
+        AuthUser(params.User.Login ?? "", params.User.Password ?? "", (user: User, status: number) => {
+            if (user?.Id == -1) {
+                switch (status) {
+                    case 400:
+                        params.CallbackError(ErrorType.password, "Неверный пароль");
+                        break;
+                    case 404:
+                        params.CallbackError(ErrorType.login, "Пользователь не найден");
+                        break;
+                }
 
-        if (response.id == -1) {
-            switch (response.status) {
-                case 400:
-                    params.CallbackError(ErrorType.password, "Неверный пароль");
-                    break;
-                case 404:
-                    params.CallbackError(ErrorType.login, "Пользователь не найден");
-                    break;
+                return;
             }
 
-            return;
-        }
+            setUser(user);
 
-        const userWithId: User = { ...params.User, Id: response.id };
+            if (params.IsRemember) {
+                createSession(user!);
+            }
 
-        setUser(userWithId);
-
-        if (params.IsRemember) {
-            createSession(userWithId);
-        }
-
-        params.CallbackSuccess();
+            params.CallbackSuccess();
+        });
     };
 
     const signUp = async (params: SignUpProps) => {

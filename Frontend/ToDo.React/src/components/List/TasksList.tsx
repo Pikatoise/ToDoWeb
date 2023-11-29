@@ -3,7 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import TaskItem from "@/components/Items/TaskItem";
 import Folder from "@/models/Folder";
 import Task from "@/models/Task";
-import { GetTasksByProfile, GetTasksByProfileId } from "@/api/TaskApi";
+import { GetTasksByProfileId } from "@/api/TaskApi";
 import useAuth from "@/hooks/useAuth";
 import styles from "@/styles/TaskList.module.css";
 import LoadingCircle, { LoadingCircleSize } from "@/components/Loading/LoadingCircle";
@@ -24,7 +24,7 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
     const auth = useAuth();
 
     useMemo(() => {
-        setTasks(GetTasksByProfileId(auth?.user?.ProfileId!));
+        GetTasksByProfileId(auth?.user?.ProfileId!, setTasks);
         setIsLoaded(true);
     }, []);
 

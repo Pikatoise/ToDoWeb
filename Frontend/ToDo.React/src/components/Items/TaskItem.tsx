@@ -3,6 +3,7 @@ import { FC, useState, useEffect } from 'react';
 import styles from "@/styles/TaskItem.module.css";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import { parseISO, toDate } from "date-fns";
 
 interface TaskItemProps {
     task: Task;
@@ -60,7 +61,7 @@ const TaskItem: FC<TaskItemProps> = ({ task, clickCallBack, changeSelectedTasks,
                 </div>
 
                 <div className={styles.footer}>
-                    {task.ExpiryDate?.toLocaleDateString()}
+                    {parseISO(task.ExpiryDate?.toString()!).toLocaleDateString()}
 
                     <div className={[styles.status, taskStatusColor].join(' ')} />
                 </div>
