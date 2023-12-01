@@ -43,7 +43,10 @@ namespace ToDo.AspApi.Controllers
                 return NotFound("Пользователь не найден");
 
             if (requestedUser.Password.Equals(password))
+            {
+                requestedUser.Password = "";
                 return Ok(requestedUser);
+            }
 
             return BadRequest("Неверный пароль");
         }

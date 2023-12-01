@@ -7,7 +7,7 @@ const useSession = () => {
 		const localUser = {
 			Id: Number.parseInt(localStorage.getItem('Id') ?? '-1'),
 			Login: localStorage.getItem('Login'),
-			Password: localStorage.getItem('Password'),
+			Password: null,
 			ProfileId: Number.parseInt(localStorage.getItem('ProfileId') ?? '-1'),
 		};
 
@@ -17,7 +17,6 @@ const useSession = () => {
 	const createSession = (newUser: User) => {
 		localStorage.setItem('Id', `${newUser.Id}`);
 		localStorage.setItem('Login', newUser.Login ?? 'null');
-		localStorage.setItem('Password', newUser.Password ?? 'null');
 		localStorage.setItem('ProfileId', `${newUser.ProfileId}`);
 	};
 
