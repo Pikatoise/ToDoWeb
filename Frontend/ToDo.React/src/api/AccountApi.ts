@@ -39,3 +39,16 @@ export const RegUser = async (login: string, password: string): Promise<number> 
 		return e.response?.status ?? 409;
 	}
 };
+
+export const ChangePasswordUser = async (id: number, newPassword: string, callBack: (status: number) => void) => {
+	try {
+		await axios
+			.put<number>(`http://localhost:5038/api/Account/ChangePassword`, {
+				UserId: id,
+				NewPassword: newPassword,
+			})
+			.then((v) => callBack(v.status));
+	} catch (error) {
+		console.log(error);
+	}
+};

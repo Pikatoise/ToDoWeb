@@ -1,17 +1,17 @@
+import { LogOut, UserSquare2, Trash, Pencil } from "lucide-react";
 import { FC, useState, useMemo } from 'react';
-import { Button } from "@/components/ui/button";
-import { LogOut, UserSquare2, Plus, Trash, Pen, PenIcon, Pencil } from "lucide-react";
-import Separator, { Orientation } from "@/components/Separator/Separator";
-import useAuth from "@/hooks/useAuth";
-import styles from "@/styles/SidePanel.module.css";
 import { useNavigate } from "react-router-dom";
-import Folder from "@/models/Folder";
-import FolderItem from "@/components/Items/FolderItem";
-import AlertDialog from "@/components/Dialog/AlertDialog";
+import LoadingCircle, { LoadingCircleSize } from "@/components/Loading/LoadingCircle";
 import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
+import Separator, { Orientation } from "@/components/Separator/Separator";
+import AlertDialog from "@/components/Dialog/AlertDialog";
 import { GetFoldersByProfileId } from "@/api/FolderApi";
-import LoadingCircle, { LoadingCircleSize } from "../Loading/LoadingCircle";
-import { Input } from "../ui/input";
+import FolderItem from "@/components/Items/FolderItem";
+import styles from "@/styles/SidePanel.module.css";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import useAuth from "@/hooks/useAuth";
+import Folder from "@/models/Folder";
 
 interface SidePanelProps {
     folderChange: (folder: Folder | null) => void;
@@ -29,7 +29,7 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     const [folderName, setFolderName] = useState<string>("");
 
     useMemo(() => {
-        GetFoldersByProfileId(auth?.user?.ProfileId!,setFolders);
+        GetFoldersByProfileId(auth?.user?.ProfileId!, setFolders);
         setIsLoaded(true);
     }, []);
 

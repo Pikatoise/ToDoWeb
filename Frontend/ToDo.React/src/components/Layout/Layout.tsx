@@ -3,6 +3,7 @@ import Header from '@/components/Header/Header';
 import styles from '@/styles/Layout.module.css';
 import Footer from "@/components/Footer/Footer";
 import { FC } from 'react';
+import { Toaster } from "@/components/ui/toaster";
 
 const Layout: FC = () => {
     return (
@@ -11,6 +12,7 @@ const Layout: FC = () => {
 
             <div className={styles.layoutBody}>
                 <Outlet />
+                <Toaster />
             </div>
 
             <Footer />

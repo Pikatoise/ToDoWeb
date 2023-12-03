@@ -5,7 +5,7 @@
 		@apply flex flex-col mb-4;
 
 		.user {
-			@apply flex justify-start items-center mb-6 cursor-pointer hover:scale-105 transition-all;
+			@apply flex justify-start items-center mb-6 cursor-pointer hover:scale-105 hover:translate-x-1 transition-all;
 		}
 
 		.login {

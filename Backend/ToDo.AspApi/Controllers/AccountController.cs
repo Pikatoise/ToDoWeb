@@ -83,9 +83,6 @@ namespace ToDo.AspApi.Controllers
             if (user == null)
                 return NotFound("Пользователь не найден");
 
-            if (!user.Password.Equals(changePasswordData.OldPassword))
-                return BadRequest("Неверный пароль");
-
             user.Password = changePasswordData.NewPassword;
 
             _repository.Users.Update(user);

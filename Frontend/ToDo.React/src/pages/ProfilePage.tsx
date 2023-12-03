@@ -1,12 +1,14 @@
-import useAuth from "@/hooks/useAuth";
-import { FC, useState } from 'react';
-import styles from "@/styles/ProfilePage.module.css";
 import { ArrowLeft, Bell, Info, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { FC, useState } from 'react';
+import { ChangePasswordUser } from "@/api/AccountApi";
 import Profile from "@/models/Profile";
+import useAuth from "@/hooks/useAuth";
+import { useToast } from '@/components/ui/use-toast';
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import styles from "@/styles/ProfilePage.module.css";
 
 const ProfilePage: FC = () => {
     const auth = useAuth();
@@ -22,16 +24,33 @@ const ProfilePage: FC = () => {
     const [newPasswordConfirm, setNewPasswordConfirm] = useState<string>("");
     const [email, setEmail] = useState<string>(profile.Email ?? "");
     const [code, setCode] = useState<string>("");
+    const { toast } = useToast();
 
     const [isShowCode, setShowCode] = useState<boolean>(profile.Email !== null && !profile.isEmailVerificated);
     const [isShowNotifyBox, setShowNotifyBox] = useState<boolean>(profile.isEmailVerificated!);
     const [isShowEmptyEmail, setShowEmptyEmail] = useState<boolean>(profile.Email === null);
 
     const ChangePassword = () => {
+        if (newPassword.length < 5) {
+            document.getElementById("newPassword")?.focus();
+            return;
+        }
+
         if (newPassword !== newPasswordConfirm) {
             document.getElementById("newPasswordConfirm")?.focus();
             return;
         }
+
+        ChangePasswordUser(auth?.user?.Id!, newPassword, (status: number) => {
+            switch (status) {
+                case 200:
+                    toast({ title: "Успешно", description: "Пароль изменен" });
+                    break;
+                default:
+                    toast({ title: "Ошибка", description: "Не удалось изменить пароль" });
+                    break;
+            }
+        });
 
         setNewPassword("");
         setNewPasswordConfirm("");
