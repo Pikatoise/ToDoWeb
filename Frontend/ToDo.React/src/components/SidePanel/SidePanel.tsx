@@ -1,17 +1,18 @@
 import { LogOut, UserSquare2, Trash, Pencil } from "lucide-react";
-import { FC, useState, useMemo } from 'react';
+import { FC, useState, useMemo, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import LoadingCircle, { LoadingCircleSize } from "@/components/Loading/LoadingCircle";
 import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import Separator, { Orientation } from "@/components/Separator/Separator";
 import AlertDialog from "@/components/Dialog/AlertDialog";
-import { GetFoldersByProfileId } from "@/api/FolderApi";
+import { AddFolderToProfile, GetFoldersByProfileId, RemoveFolderById } from "@/api/FolderApi";
 import FolderItem from "@/components/Items/FolderItem";
 import styles from "@/styles/SidePanel.module.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useAuth from "@/hooks/useAuth";
 import Folder from "@/models/Folder";
+import { useToast } from "@/components/ui/use-toast";
 
 interface SidePanelProps {
     folderChange: (folder: Folder | null) => void;
@@ -20,6 +21,7 @@ interface SidePanelProps {
 const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     const auth = useAuth();
     const navigate = useNavigate();
+    const { toast } = useToast();
     const [folders, setFolders] = useState<Folder[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
@@ -28,9 +30,25 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     const [isEditDialogOpen, setEditDialogOpen] = useState(false);
     const [folderName, setFolderName] = useState<string>("");
 
+    const UpdateFolders = () => {
+        setFolders([]);
+        setIsLoaded(false);
+        setSelectedFolder(null);
+        setSelectedFolder(null);
+        props.folderChange(null);
+
+        GetFoldersByProfileId(
+            auth?.user?.ProfileId!,
+            (folders: Folder[]) => {
+                setFolders(folders);
+                setIsLoaded(true);
+            });
+    };
+
     useMemo(() => {
-        GetFoldersByProfileId(auth?.user?.ProfileId!, setFolders);
-        setIsLoaded(true);
+        UpdateFolders();
+
+        console.log("update folders");
     }, []);
 
     const ExitClick = () => {
@@ -47,7 +65,18 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
         if (folderName.length > 0) {
             setAddDialogOpen(false);
 
-            console.log(folderName);
+            AddFolderToProfile(auth?.user?.ProfileId!, folderName, (status) => {
+                switch (status) {
+                    case 200:
+                        toast({ title: "Успешно", description: "Папка создана" });
+                        break;
+                    default:
+                        toast({ title: "Ошибка", description: "Не удалось создать папку" });
+                        break;
+                }
+
+                UpdateFolders();
+            });
 
             setFolderName("");
         }
@@ -56,8 +85,18 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
     };
 
     const DeleteFolder = () => {
-        setFolders(current => current.filter(f => f.Id != selectedFolder?.Id));
-        setSelectedFolder(null);
+        RemoveFolderById(selectedFolder?.Id!, (status: number) => {
+            switch (status) {
+                case 200:
+                    toast({ title: "Успешно", description: "Папка удалена" });
+                    break;
+                default:
+                    toast({ title: "Ошибка", description: "Не удалось удалить папку" });
+                    break;
+            }
+
+            UpdateFolders();
+        });
 
         setDeleteDialogOpen(false);
     };

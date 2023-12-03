@@ -13,3 +13,27 @@ export const GetFoldersByProfileId = async (profileId: number, callBack: (folder
 		console.log(e);
 	}
 };
+
+export const AddFolderToProfile = async (profileId: number, folderName: string, callBack: (status: number) => void) => {
+	try {
+		await axios
+			.post<number>(`http://localhost:5038/api/Folder/Create/profileId=${profileId}&name=${folderName}`)
+			.then((v) => callBack(v.status));
+	} catch (_e: any) {
+		const e: AxiosError = _e;
+
+		console.log(e);
+	}
+};
+
+export const RemoveFolderById = async (folderId: number, callBack: (status: number) => void) => {
+	try {
+		await axios
+			.delete<number>(`http://localhost:5038/api/Folder/Delete/${folderId}`)
+			.then((v) => callBack(v.status));
+	} catch (_e: any) {
+		const e: AxiosError = _e;
+
+		console.log(e);
+	}
+};

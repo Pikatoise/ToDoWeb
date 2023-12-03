@@ -43,7 +43,9 @@ namespace ToDo.DAL.Configurations
 
             builder.HasOne<Folder>(t => t.Folder)
                 .WithMany(f => f.Tasks)
-                .HasForeignKey(t => t.FolderId);
+                .IsRequired(false)
+                .HasForeignKey(t => t.FolderId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

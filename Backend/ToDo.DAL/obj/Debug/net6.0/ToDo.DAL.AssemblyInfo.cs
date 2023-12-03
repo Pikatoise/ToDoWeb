@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ToDo.DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fcac4bc35587f5b772ba7cf8547822bfd37ce79b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ToDo.DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ToDo.DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

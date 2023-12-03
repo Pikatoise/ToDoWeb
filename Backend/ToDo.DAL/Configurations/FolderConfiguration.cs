@@ -27,6 +27,10 @@ namespace ToDo.DAL.Configurations
             builder.HasOne<Profile>(f => f.Profile)
                 .WithMany(p => p.Folders)
                 .HasForeignKey(p => p.ProfileId);
+
+            builder.HasMany<Domain.Models.Task>(f => f.Tasks)
+                .WithOne(t => t.Folder)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

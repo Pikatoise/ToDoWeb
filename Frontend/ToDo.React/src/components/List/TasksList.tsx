@@ -24,8 +24,10 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
     const auth = useAuth();
 
     useMemo(() => {
-        GetTasksByProfileId(auth?.user?.ProfileId!, setTasks);
-        setIsLoaded(true);
+        GetTasksByProfileId(auth?.user?.ProfileId!, (tasks: Task[]) => {
+            setTasks(tasks);
+            setIsLoaded(true);
+        });
     }, []);
 
     const tasksByFolder = props.folder != null ? tasks.filter(t => t.FolderId === props.folder!!.Id) : tasks;
