@@ -110,5 +110,24 @@ namespace ToDo.AspApi.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("Delete/folderId={folderId}")]
+        public IActionResult DeleteTasksByFolderId(int folderId)
+        {
+            var tasks = _repository.Tasks.GetByCondition(t => t.FolderId == folderId);
+            int count = tasks.Count();
+
+            if (count > 0)
+            {
+                foreach (var task in tasks)
+                    _repository.Tasks.Delete(task);
+
+                _repository.Save();
+
+                return Ok(count);
+            }
+            else
+                return Ok(0);
+        }
     }
 }

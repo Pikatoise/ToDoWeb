@@ -37,3 +37,15 @@ export const RemoveFolderById = async (folderId: number, callBack: (status: numb
 		console.log(e);
 	}
 };
+
+export const ChangeFolderName = async (folderId: number, newName: string, callBack: (status: number) => void) => {
+	try {
+		await axios
+			.put<number>(`http://localhost:5038/api/Folder/Change/Name/id=${folderId}&name=${newName}`)
+			.then((v) => callBack(v.status));
+	} catch (_e: any) {
+		const e: AxiosError = _e;
+
+		console.log(e);
+	}
+};

@@ -16,10 +16,10 @@ import useAuth from "@/hooks/useAuth";
 
 interface TaskBodyProps {
     task: Task | null;
-    exitCallBack: () => void;
+    ExitCallBack: () => void;
 }
 
-const TaskBody: FC<TaskBodyProps> = ({ task, exitCallBack }) => {
+const TaskBody: FC<TaskBodyProps> = ({ task, ExitCallBack }) => {
     const {
         registerName,
         registerDescription,

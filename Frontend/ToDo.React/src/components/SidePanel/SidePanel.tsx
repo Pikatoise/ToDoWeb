@@ -5,7 +5,7 @@ import LoadingCircle, { LoadingCircleSize } from "@/components/Loading/LoadingCi
 import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import Separator, { Orientation } from "@/components/Separator/Separator";
 import AlertDialog from "@/components/Dialog/AlertDialog";
-import { AddFolderToProfile, GetFoldersByProfileId, RemoveFolderById } from "@/api/FolderApi";
+import { AddFolderToProfile, ChangeFolderName, GetFoldersByProfileId, RemoveFolderById } from "@/api/FolderApi";
 import FolderItem from "@/components/Items/FolderItem";
 import styles from "@/styles/SidePanel.module.css";
 import { Button } from "@/components/ui/button";
@@ -13,9 +13,12 @@ import { Input } from "@/components/ui/input";
 import useAuth from "@/hooks/useAuth";
 import Folder from "@/models/Folder";
 import { useToast } from "@/components/ui/use-toast";
+import { RemoveTasksByFolderId } from "@/api/TaskApi";
 
 interface SidePanelProps {
     folderChange: (folder: Folder | null) => void;
+    UpdateTasks: (v: boolean) => void;
+    updateTasks: boolean;
 }
 
 const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
@@ -34,7 +37,6 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
         setFolders([]);
         setIsLoaded(false);
         setSelectedFolder(null);
-        setSelectedFolder(null);
         props.folderChange(null);
 
         GetFoldersByProfileId(
@@ -47,8 +49,6 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
 
     useMemo(() => {
         UpdateFolders();
-
-        console.log("update folders");
     }, []);
 
     const ExitClick = () => {
@@ -84,6 +84,17 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
             (document.getElementById("inputNewName") as HTMLInputElement).focus();
     };
 
+    const SelectFolderCallBack = (folder: Folder) => {
+        if (folder.Id == selectedFolder?.Id) {
+            setSelectedFolder(null);
+            props.folderChange(null);
+        }
+        else {
+            setSelectedFolder(folder);
+            props.folderChange(folder);
+        }
+    };
+
     const DeleteFolder = () => {
         RemoveFolderById(selectedFolder?.Id!, (status: number) => {
             switch (status) {
@@ -101,33 +112,36 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
         setDeleteDialogOpen(false);
     };
 
+    const DeleteFolderCascade = () => {
+        RemoveTasksByFolderId(selectedFolder?.Id!, (removedCount: number) => {
+            console.log(`Remove ${removedCount} tasks`);
+
+            props.UpdateTasks(!props.updateTasks);
+
+            DeleteFolder();
+        });
+    };
+
     const EditFolder = () => {
         if (folderName.length > 0) {
+            ChangeFolderName(selectedFolder?.Id!, folderName, (status: number) => {
+                switch (status) {
+                    case 200:
+                        toast({ title: "Успешно", description: "Название папки изменено" });
+                        break;
+                    default:
+                        toast({ title: "Ошибка", description: "Не удалось изменить название" });
+                        break;
+                }
+
+                UpdateFolders();
+            });
+
             setEditDialogOpen(false);
-
-            console.log(folderName);
-
             setFolderName("");
         }
         else
             (document.getElementById("inputEditName") as HTMLInputElement).focus();
-    };
-
-    const DeleteFolderCascade = () => {
-        // УДалить все таски связанные с папкой
-
-        DeleteFolder();
-    };
-
-    const SelectFolderCallBack = (folder: Folder) => {
-        if (folder.Id == selectedFolder?.Id) {
-            setSelectedFolder(null);
-            props.folderChange(null);
-        }
-        else {
-            setSelectedFolder(folder);
-            props.folderChange(folder);
-        }
     };
 
     return (

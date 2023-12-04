@@ -11,9 +11,10 @@ import { Plus, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface TasksListBodyProps {
-    folder: Folder | null,
-    taskCallBack: (task: Task) => void;
-    addTaskCallBack: () => void;
+    selectedFolder: Folder | null,
+    ChangeTaskCallBack: (task: Task) => void;
+    AddTaskCallBack: () => void;
+    updateTasks: boolean;
 }
 
 const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
@@ -23,14 +24,30 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
     const [statusFilter, setStatusFilter] = useState<string | null>(null);
     const auth = useAuth();
 
+    const UpdateTasks = () => {
+        setSelectedTasks([]);
+        setTasks([]);
+        setIsLoaded(false);
+
+        GetTasksByProfileId(
+            auth?.user?.ProfileId!,
+            (tasks: Task[]) => {
+                setTasks(tasks);
+                setIsLoaded(true);
+            });
+    };
+
     useMemo(() => {
-        GetTasksByProfileId(auth?.user?.ProfileId!, (tasks: Task[]) => {
-            setTasks(tasks);
-            setIsLoaded(true);
-        });
+        UpdateTasks();
     }, []);
 
-    const tasksByFolder = props.folder != null ? tasks.filter(t => t.FolderId === props.folder!!.Id) : tasks;
+    useMemo(() => {
+        UpdateTasks();
+
+        console.log("Update tasks");
+    }, [props.updateTasks]);
+
+    const tasksByFolder = props.selectedFolder != null ? tasks.filter(t => t.FolderId === props.selectedFolder!!.Id) : tasks;
 
     const tasksByFolderStatus = ((): Task[] => {
         if (statusFilter == null || statusFilter === "Without")
@@ -39,17 +56,17 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
         return tasksByFolder.filter(t => t.Status === parseInt(statusFilter));
     })();
 
-    const changeSelectedTasks = (task: Task, isAdd: Boolean) => {
+    const ChangeSelectedTasks = (task: Task, isAdd: Boolean) => {
         if (isAdd)
             setSelectedTasks(v => [task, ...v]);
         else
             setSelectedTasks(v => v.filter(t => t.Id != task.Id));
     };
 
-    const deleteTasks = () => {
-        setTasks(v => v.filter(i => !selectedTasks.includes(i)));
+    const DeleteSelectedTasks = () => {
+        // Api Удалить все выбранные таски
 
-        setSelectedTasks([]);
+        UpdateTasks();
     };
 
     return (
@@ -65,7 +82,7 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
 
                 <Button
                     className={[styles.deleteTasks, selectedTasks.length > 0 ? styles.visible : ''].join(' ')}
-                    onClick={deleteTasks}>
+                    onClick={DeleteSelectedTasks}>
                     <Trash />
                     Удалить {`(${selectedTasks.length})`}
                 </Button>
@@ -97,7 +114,7 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
                 {
                     isLoaded ?
                         <>
-                            <div className={styles.card} onClick={() => props.addTaskCallBack()}>
+                            <div className={styles.card} onClick={() => props.AddTaskCallBack()}>
                                 <Plus className={styles.icon} />
                                 Добавить задачу
                             </div>
@@ -107,8 +124,8 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
                                     t => <TaskItem
                                         task={t}
                                         key={t.Id}
-                                        clickCallBack={props.taskCallBack}
-                                        changeSelectedTasks={changeSelectedTasks} />)
+                                        clickCallBack={props.ChangeTaskCallBack}
+                                        changeSelectedTasks={ChangeSelectedTasks} />)
                             }
                         </>
                         :

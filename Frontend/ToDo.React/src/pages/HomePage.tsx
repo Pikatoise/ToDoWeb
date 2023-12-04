@@ -15,9 +15,10 @@ const HomePage: FC = () => {
     const navigate = useNavigate();
     const auth = useAuth();
     const [width, setWidth] = useState(window.innerWidth);
-    const [folder, setFolder] = useState<Folder | null>(null);
+    const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
     const [task, setTask] = useState<Task | null>(null);
     const [isAddingTask, setIsAddingTask] = useState<Boolean>(false);
+    const [updateTasks, UpdateTasks] = useState<boolean>(false);
 
     useEffect(() => {
         GetApiStatus().then(status => {
@@ -39,12 +40,12 @@ const HomePage: FC = () => {
         :
         <></>;
 
-    const FolderCallBack = (newFolder: Folder | null) => setFolder(newFolder);
+    const FolderCallBack = (newFolder: Folder | null) => setSelectedFolder(newFolder);
 
     return (
         <Container padding={Padding.Small}>
             <BurgerMenu>
-                <SidePanel folderChange={FolderCallBack} />
+                <SidePanel folderChange={FolderCallBack} UpdateTasks={UpdateTasks} updateTasks={updateTasks} />
             </BurgerMenu>
 
             {separator}
@@ -52,11 +53,19 @@ const HomePage: FC = () => {
             {
                 task == null ?
                     isAddingTask ?
-                        <TaskForm task={null} exitCallBack={() => setIsAddingTask(false)} />
+                        <TaskForm
+                            task={null}
+                            ExitCallBack={() => setIsAddingTask(false)} />
                         :
-                        <TasksList folder={folder} taskCallBack={setTask} addTaskCallBack={() => setIsAddingTask(true)} />
+                        <TasksList
+                            updateTasks={updateTasks}
+                            selectedFolder={selectedFolder}
+                            ChangeTaskCallBack={setTask}
+                            AddTaskCallBack={() => setIsAddingTask(true)} />
                     :
-                    <TaskForm task={task} exitCallBack={() => setTask(null)} />
+                    <TaskForm
+                        task={task}
+                        ExitCallBack={() => setTask(null)} />
             }
         </Container>
     );

@@ -14,3 +14,15 @@ export const GetTasksByProfileId = async (profileId: number, callBack: (tasks: T
 		console.log(e);
 	}
 };
+
+export const RemoveTasksByFolderId = async (folderId: number, callBack: (count: number) => void) => {
+	try {
+		await axios
+			.delete<number>(`http://localhost:5038/api/Task/Delete/folderId=${folderId}`)
+			.then((v) => callBack(v.data));
+	} catch (_e: any) {
+		const e: AxiosError = _e;
+
+		console.log(e);
+	}
+};
