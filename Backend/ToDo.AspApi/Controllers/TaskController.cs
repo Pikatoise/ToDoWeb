@@ -111,6 +111,22 @@ namespace ToDo.AspApi.Controllers
             return Ok();
         }
 
+        [HttpDelete("Delete")]
+        public IActionResult DeleteManyTasks([FromBody]DeleteManyTasksData manyTasksData)
+        {
+            foreach (var taskId in manyTasksData.Tasks)
+            {
+                var task = _repository.Tasks.GetById(taskId);
+
+                if (task != null)
+                    _repository.Tasks.Delete(task);
+            }
+
+            _repository.Save();
+
+            return Ok();
+        }
+
         [HttpDelete("Delete/folderId={folderId}")]
         public IActionResult DeleteTasksByFolderId(int folderId)
         {

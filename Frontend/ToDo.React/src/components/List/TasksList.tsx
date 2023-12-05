@@ -3,12 +3,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import TaskItem from "@/components/Items/TaskItem";
 import Folder from "@/models/Folder";
 import Task from "@/models/Task";
-import { GetTasksByProfileId } from "@/api/TaskApi";
+import { GetTasksByProfileId, RemoveManyTasksById } from "@/api/TaskApi";
 import useAuth from "@/hooks/useAuth";
 import styles from "@/styles/TaskList.module.css";
 import LoadingCircle, { LoadingCircleSize } from "@/components/Loading/LoadingCircle";
 import { Plus, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 interface TasksListBodyProps {
     selectedFolder: Folder | null,
@@ -18,11 +19,12 @@ interface TasksListBodyProps {
 }
 
 const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
-    const [tasks, setTasks] = useState<Task[]>([]);
-    const [selectedTasks, setSelectedTasks] = useState<Task[]>([]);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [statusFilter, setStatusFilter] = useState<string | null>(null);
     const auth = useAuth();
+    const { toast } = useToast();
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [selectedTasks, setSelectedTasks] = useState<Task[]>([]);
+    const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
     const UpdateTasks = () => {
         setSelectedTasks([]);
@@ -43,8 +45,6 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
 
     useMemo(() => {
         UpdateTasks();
-
-        console.log("Update tasks");
     }, [props.updateTasks]);
 
     const tasksByFolder = props.selectedFolder != null ? tasks.filter(t => t.FolderId === props.selectedFolder!!.Id) : tasks;
@@ -64,9 +64,16 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
     };
 
     const DeleteSelectedTasks = () => {
-        // Api Удалить все выбранные таски
+        var toDelete: number[] = [];
 
-        UpdateTasks();
+        selectedTasks.forEach(t => toDelete = [...toDelete, t.Id!]);
+
+        RemoveManyTasksById(toDelete, () => {
+            toast({ title: "Успешно", description: "Задачи удалены" });
+
+            UpdateTasks();
+        });
+
     };
 
     return (

@@ -26,3 +26,15 @@ export const RemoveTasksByFolderId = async (folderId: number, callBack: (count: 
 		console.log(e);
 	}
 };
+
+export const RemoveManyTasksById = async (tasksId: number[], callBack: () => void) => {
+	try {
+		await axios
+			.delete(`http://localhost:5038/api/Task/Delete`, { data: { Tasks: tasksId } })
+			.then(() => callBack());
+	} catch (_e: any) {
+		const e: AxiosError = _e;
+
+		console.log(e);
+	}
+};

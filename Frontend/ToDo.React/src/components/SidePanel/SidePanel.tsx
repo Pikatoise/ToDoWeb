@@ -61,8 +61,19 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
         navigate('/profile', { replace: true });
     };
 
+    const SelectFolderCallBack = (folder: Folder) => {
+        if (folder.Id == selectedFolder?.Id) {
+            setSelectedFolder(null);
+            props.folderChange(null);
+        }
+        else {
+            setSelectedFolder(folder);
+            props.folderChange(folder);
+        }
+    };
+
     const AddFolder = () => {
-        if (folderName.length > 0) {
+        if (folderName.length > 0 && folderName.length <= 15) {
             setAddDialogOpen(false);
 
             AddFolderToProfile(auth?.user?.ProfileId!, folderName, (status) => {
@@ -84,15 +95,26 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
             (document.getElementById("inputNewName") as HTMLInputElement).focus();
     };
 
-    const SelectFolderCallBack = (folder: Folder) => {
-        if (folder.Id == selectedFolder?.Id) {
-            setSelectedFolder(null);
-            props.folderChange(null);
+    const EditFolder = () => {
+        if (folderName.length > 0 && folderName.length <= 15) {
+            ChangeFolderName(selectedFolder?.Id!, folderName, (status: number) => {
+                switch (status) {
+                    case 200:
+                        toast({ title: "Успешно", description: "Название папки изменено" });
+                        break;
+                    default:
+                        toast({ title: "Ошибка", description: "Не удалось изменить название" });
+                        break;
+                }
+
+                UpdateFolders();
+            });
+
+            setEditDialogOpen(false);
+            setFolderName("");
         }
-        else {
-            setSelectedFolder(folder);
-            props.folderChange(folder);
-        }
+        else
+            (document.getElementById("inputEditName") as HTMLInputElement).focus();
     };
 
     const DeleteFolder = () => {
@@ -120,28 +142,6 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
 
             DeleteFolder();
         });
-    };
-
-    const EditFolder = () => {
-        if (folderName.length > 0) {
-            ChangeFolderName(selectedFolder?.Id!, folderName, (status: number) => {
-                switch (status) {
-                    case 200:
-                        toast({ title: "Успешно", description: "Название папки изменено" });
-                        break;
-                    default:
-                        toast({ title: "Ошибка", description: "Не удалось изменить название" });
-                        break;
-                }
-
-                UpdateFolders();
-            });
-
-            setEditDialogOpen(false);
-            setFolderName("");
-        }
-        else
-            (document.getElementById("inputEditName") as HTMLInputElement).focus();
     };
 
     return (
@@ -232,7 +232,6 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
                                     )
                                 :
                                 <LoadingCircle size={LoadingCircleSize.Small} />
-
                         }
                     </div>
                 </div>

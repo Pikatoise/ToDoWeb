@@ -1,16 +1,17 @@
 .folder {
-	@apply flex mb-2 p-1 hover:scale-110 hover:cursor-pointer;
+	@apply flex mb-2 p-1 hover:scale-110 hover:-translate-x-1 hover:cursor-pointer text-ellipsis;
 
 	.icon {
 		@apply me-2;
 	}
 
 	.name {
+		@apply text-ellipsis;
 	}
 }
 
 .selected {
-	@apply ps-2 ms-4 me-2 scale-110 bg-zinc-400 bg-opacity-70 rounded-md;
+	@apply ps-2 ms-4 me-2 scale-110 -translate-x-1 bg-zinc-400 bg-opacity-70 rounded-md;
 }
 
 .notSelected {

@@ -12,14 +12,26 @@ interface TaskItemProps {
 }
 
 const TaskItem: FC<TaskItemProps> = ({ task, clickCallBack, changeSelectedTasks, ...props }) => {
+    const NAMEMAXSIZE = 8;
+    const DESCMAXSIZE = 20;
+    const DESCLINEMAXSIZE = 12;
+
     const [isCanSelect, setIsCanSelect] = useState<Boolean>(false);
     const [isSelected, setIsSelected] = useState<CheckedState>(false);
+
     const taskStatusColor = [styles.statusFailed, styles.statusInProgress, styles.statusDone].at(task.Status! + 1);
     const showSelectAlways = isCanSelect || isSelected;
-    const TEXTMAXSIZE = 20;
-    const TEXTLINEMAXSIZE = 12;
 
-    const croppedText = (): string => {
+    const croppedName = (): string => {
+        var result = task.Name;
+
+        if (result!.length > NAMEMAXSIZE)
+            result = result?.slice(0, NAMEMAXSIZE) + "...";
+
+        return result as string;
+    };
+
+    const croppedDescription = (): string => {
         var result: string = "";
 
         if (task.Description == null)
@@ -27,15 +39,15 @@ const TaskItem: FC<TaskItemProps> = ({ task, clickCallBack, changeSelectedTasks,
 
         result = task.Description;
 
-        if (task.Description.length > TEXTMAXSIZE)
-            result = result.slice(0, TEXTMAXSIZE) + "...";
+        if (task.Description.length > DESCMAXSIZE)
+            result = result.slice(0, DESCMAXSIZE) + "...";
 
-        if (result.length > TEXTLINEMAXSIZE)
-            for (let i = 0; i < result.length; i += TEXTLINEMAXSIZE)
-                if (result.length < i + TEXTLINEMAXSIZE)
+        if (result.length > DESCLINEMAXSIZE)
+            for (let i = 0; i < result.length; i += DESCLINEMAXSIZE)
+                if (result.length < i + DESCLINEMAXSIZE)
                     break;
                 else
-                    result = result.substring(0, i + TEXTLINEMAXSIZE) + "\n" + result.substring(i + TEXTLINEMAXSIZE, result.length);
+                    result = result.substring(0, i + DESCLINEMAXSIZE) + "\n" + result.substring(i + DESCLINEMAXSIZE, result.length);
 
         return result;
     };
@@ -50,14 +62,18 @@ const TaskItem: FC<TaskItemProps> = ({ task, clickCallBack, changeSelectedTasks,
             onMouseEnter={() => setIsCanSelect(true)}
             onMouseLeave={() => setIsCanSelect(false)}>
             <div className={styles.title} onClick={() => setIsSelected(v => !v)}>
-                <span className={styles.name}>{task.Name}</span>
+                <span className={styles.name}>
+                    {croppedName()}
+                </span>
 
-                <Checkbox checked={isSelected} className={[styles.checkbox, showSelectAlways ? styles.visible : ""].join(' ')} />
+                <Checkbox
+                    checked={isSelected}
+                    className={[styles.checkbox, showSelectAlways ? styles.visible : ""].join(' ')} />
             </div>
 
             <div onClick={() => clickCallBack(task)}>
                 <div className={styles.description}>
-                    {croppedText()}
+                    {croppedDescription()}
                 </div>
 
                 <div className={styles.footer}>
