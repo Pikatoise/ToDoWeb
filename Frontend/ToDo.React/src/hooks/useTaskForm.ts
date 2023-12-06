@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import Task from '@/models/Task';
 import useAuth from '@/hooks/useAuth';
+import { CreateNewTask } from '@/api/TaskApi';
 
 interface FormData {
 	name: string;
@@ -10,7 +11,7 @@ interface FormData {
 	status: number;
 }
 
-export const useTaskForm = (oldTask: Task | null) => {
+export const useTaskForm = (oldTask: Task | null, callBack: () => void) => {
 	const {
 		register,
 		formState: { errors },
@@ -35,11 +36,9 @@ export const useTaskForm = (oldTask: Task | null) => {
 				ProfileId: oldTask.ProfileId,
 			};
 
-			console.log('UPDATE TASK');
-
-			console.log(task);
-
 			reset();
+
+			callBack();
 		} else throw Error('Old task is null');
 	};
 
@@ -54,11 +53,13 @@ export const useTaskForm = (oldTask: Task | null) => {
 			ProfileId: auth?.user?.ProfileId,
 		};
 
-		console.log('NEW TASK');
+		if (task.FolderId == -1) task.FolderId = null;
 
-		console.log(task);
+		CreateNewTask(task, () => {
+			reset();
 
-		reset();
+			callBack();
+		});
 	};
 
 	const onSubmitUpdate = handleSubmit(tryUpdateTask);

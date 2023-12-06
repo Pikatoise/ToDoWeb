@@ -18,7 +18,8 @@ const HomePage: FC = () => {
     const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
     const [task, setTask] = useState<Task | null>(null);
     const [isAddingTask, setIsAddingTask] = useState<Boolean>(false);
-    const [updateTasks, UpdateTasks] = useState<boolean>(false);
+    const UpdateTasksEvent = useState<boolean>(false);
+    const UpdateFoldersEvent = useState<boolean>(false);
 
     useEffect(() => {
         GetApiStatus().then(status => {
@@ -35,6 +36,11 @@ const HomePage: FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        setTask(null);
+        setIsAddingTask(false);
+    }, [UpdateFoldersEvent[0]]);
+
     const separator = width > 640 ?
         <Separator orientation={Orientation.Vertical} margin={Margin.Small} />
         :
@@ -45,7 +51,11 @@ const HomePage: FC = () => {
     return (
         <Container padding={Padding.Small}>
             <BurgerMenu>
-                <SidePanel folderChange={FolderCallBack} UpdateTasks={UpdateTasks} updateTasks={updateTasks} />
+                <SidePanel
+                    folderChange={FolderCallBack}
+                    UpdateTasksEvent={UpdateTasksEvent}
+                    UpdateFoldersEvent={UpdateFoldersEvent}
+                />
             </BurgerMenu>
 
             {separator}
@@ -58,7 +68,7 @@ const HomePage: FC = () => {
                             ExitCallBack={() => setIsAddingTask(false)} />
                         :
                         <TasksList
-                            updateTasks={updateTasks}
+                            updateTasks={UpdateTasksEvent[0]}
                             selectedFolder={selectedFolder}
                             ChangeTaskCallBack={setTask}
                             AddTaskCallBack={() => setIsAddingTask(true)} />

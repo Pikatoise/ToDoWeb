@@ -17,8 +17,8 @@ import { RemoveTasksByFolderId } from "@/api/TaskApi";
 
 interface SidePanelProps {
     folderChange: (folder: Folder | null) => void;
-    UpdateTasks: (v: boolean) => void;
-    updateTasks: boolean;
+    UpdateTasksEvent: [boolean, (v: boolean) => void];
+    UpdateFoldersEvent: [boolean, (v: boolean) => void];
 }
 
 const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
@@ -86,6 +86,8 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
                         break;
                 }
 
+                props.UpdateFoldersEvent[1](!props.UpdateFoldersEvent[0]);
+
                 UpdateFolders();
             });
 
@@ -106,6 +108,8 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
                         toast({ title: "Ошибка", description: "Не удалось изменить название" });
                         break;
                 }
+
+                props.UpdateFoldersEvent[1](!props.UpdateFoldersEvent[0]);
 
                 UpdateFolders();
             });
@@ -128,6 +132,8 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
                     break;
             }
 
+            props.UpdateFoldersEvent[1](!props.UpdateFoldersEvent[0]);
+
             UpdateFolders();
         });
 
@@ -138,7 +144,8 @@ const SidePanel: FC<SidePanelProps> = ({ ...props }) => {
         RemoveTasksByFolderId(selectedFolder?.Id!, (removedCount: number) => {
             console.log(`Remove ${removedCount} tasks`);
 
-            props.UpdateTasks(!props.updateTasks);
+            props.UpdateTasksEvent[1](!props.UpdateTasksEvent[0]);
+            props.UpdateFoldersEvent[1](!props.UpdateFoldersEvent[0]);
 
             DeleteFolder();
         });

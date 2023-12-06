@@ -1,18 +1,19 @@
-import Task from "@/models/Task";
-import { FC, useState } from 'react';
-import { Input } from "@/components/ui/input";
-import { Pencil, ArrowLeft, Trash, Check } from "lucide-react";
+import { ArrowLeft, Trash, Check } from "lucide-react";
+import { FC, useState, useMemo } from 'react';
+import { Controller } from 'react-hook-form';
+import { ru } from "date-fns/locale";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { GetFoldersByProfileId } from "@/api/FolderApi";
+import { Calendar } from "@/components/ui/calendar";
 import styles from "@/styles/TaskForm.module.css";
 import { useTaskForm } from "@/hooks/useTaskForm";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Controller } from 'react-hook-form';
-import Folder from "@/models/Folder";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ru } from "date-fns/locale";
-import { GetFoldersByProfileId } from "@/api/FolderApi";
 import useAuth from "@/hooks/useAuth";
+import Folder from "@/models/Folder";
+import Task from "@/models/Task";
+import { RemoveTaskById } from "@/api/TaskApi";
 
 interface TaskBodyProps {
     task: Task | null;
@@ -20,26 +21,40 @@ interface TaskBodyProps {
 }
 
 const TaskBody: FC<TaskBodyProps> = ({ task, ExitCallBack }) => {
+    const auth = useAuth();
     const {
         registerName,
         registerDescription,
         registerExpiryDate,
         registerFolderId,
-        registerStatus,
         onSubmitUpdate,
         onSubmitAdd,
         errors,
         control
-    } = useTaskForm(task);
+    } = useTaskForm(task, ExitCallBack);
+    const [folders, setFolders] = useState<Folder[]>([]);
 
-    const auth = useAuth();
+    const UpdateFolders = () => {
+        setFolders([]);
 
-    const [folders, setFolders] = useState<Folder[]>([{ Id: -1, Name: "Отсутствует", ProfileId: -1 }, ...GetFoldersByProfileId(auth?.user?.ProfileId!)]);
+        GetFoldersByProfileId(
+            auth?.user?.ProfileId!,
+            (folders: Folder[]) => {
+                setFolders([{ Id: -1, Name: "Отсутствует", ProfileId: -1 }, ...folders]);
+            });
+    };
+
+    useMemo(() => {
+        UpdateFolders();
+    }, []);
+
 
     const isAddOrUpdate = task == null;
 
     const DeleteTask = () => {
-        // Delete task through api call
+        RemoveTaskById(task?.Id!, (status: number) => {
+            ExitCallBack();
+        });
     };
 
     return (
@@ -84,30 +99,35 @@ const TaskBody: FC<TaskBodyProps> = ({ task, ExitCallBack }) => {
 
             <div className={styles.secondHalf}>
                 <div className={styles.mobile}>
-                    <div>
-                        <Label htmlFor="StatusSelect" className={styles.label}>Статус</Label>
-                        <Controller
-                            control={control}
-                            name="status"
-                            render={({ field }) =>
-                                <Select name="StatusSelect" onValueChange={field.onChange} value={field.value.toString()}>
-                                    <SelectTrigger className={styles.selectTrigger}>
-                                        <SelectValue placeholder="Статус" className={styles.placeholder} />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="-1">
-                                            <span className={styles.text}>Провалено</span>
-                                        </SelectItem>
-                                        <SelectItem value="0">
-                                            <span className={styles.text}>В процессе</span>
-                                        </SelectItem>
-                                        <SelectItem value="1">
-                                            <span className={styles.text}>Выполнено</span>
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            } />
-                    </div>
+                    {
+                        isAddOrUpdate ?
+                            <></>
+                            :
+                            <div>
+                                <Label htmlFor="StatusSelect" className={styles.label}>Статус</Label>
+                                <Controller
+                                    control={control}
+                                    name="status"
+                                    render={({ field }) =>
+                                        <Select name="StatusSelect" onValueChange={field.onChange} value={field.value.toString()}>
+                                            <SelectTrigger className={styles.selectTrigger}>
+                                                <SelectValue placeholder="Статус" className={styles.placeholder} />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="-1">
+                                                    <span className={styles.text}>Провалено</span>
+                                                </SelectItem>
+                                                <SelectItem value="0">
+                                                    <span className={styles.text}>В процессе</span>
+                                                </SelectItem>
+                                                <SelectItem value="1">
+                                                    <span className={styles.text}>Выполнено</span>
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    } />
+                            </div>
+                    }
 
                     <div>
                         <Label htmlFor="FolderSelect" className={styles.label}>Папка</Label>
@@ -151,7 +171,7 @@ const TaskBody: FC<TaskBodyProps> = ({ task, ExitCallBack }) => {
             </div>
 
             <div className={styles.actions}>
-                <Button className={styles.actionButton} onClick={exitCallBack}>
+                <Button className={styles.actionButton} onClick={ExitCallBack}>
                     <ArrowLeft width={30} height={30} />
                     <span className={styles.actionText}>Назад</span>
                 </Button>

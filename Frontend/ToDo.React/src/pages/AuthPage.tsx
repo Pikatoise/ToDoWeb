@@ -20,22 +20,25 @@ const AuthPage: FC = () => {
     const changeSign = () => setSign(currentSign => !currentSign);
 
     useEffect(() => {
+        if (isAuthorized)
+            navigate('/', { replace: true });
+
+        console.log("isAuth");
+    },[]);
+
+    useEffect(() => {
+        console.log("GetApiStatus");
         GetApiStatus().then(r => {
             setInterfaceAccess(r);
 
             setIsLoaded(true);
         });
-    }, []);
+    },[]);
 
     const signForm = isSignIn ?
         <LoginForm changeSign={changeSign} interfaceStatus={interfaceAccess} />
         :
         <RegisterForm changeSign={changeSign} interfaceStatus={interfaceAccess} />;
-
-    useEffect(() => {
-        if (isAuthorized)
-            navigate('/', { replace: true });
-    });
 
     return (
         <>
