@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import Task from '@/models/Task';
 import useAuth from '@/hooks/useAuth';
-import { CreateNewTask } from '@/api/TaskApi';
+import { CreateNewTask, UpdateTask } from '@/api/TaskApi';
 
 interface FormData {
 	name: string;
@@ -32,13 +32,15 @@ export const useTaskForm = (oldTask: Task | null, callBack: () => void) => {
 				ExpiryDate: data.expiryDate,
 				FolderId: data.folderId,
 				Status: data.status,
-				isNotificated: oldTask.isNotificated,
-				ProfileId: oldTask.ProfileId,
 			};
 
-			reset();
+			if (task.FolderId == -1) task.FolderId = null;
 
-			callBack();
+			UpdateTask(task, () => {
+				reset();
+
+				callBack();
+			});
 		} else throw Error('Old task is null');
 	};
 
@@ -101,8 +103,6 @@ export const useTaskForm = (oldTask: Task | null, callBack: () => void) => {
 	return {
 		registerName,
 		registerDescription,
-		registerExpiryDate,
-		registerFolderId,
 		registerStatus,
 		onSubmitUpdate,
 		onSubmitAdd,

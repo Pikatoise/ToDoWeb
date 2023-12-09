@@ -75,3 +75,33 @@ export const CreateNewTask = async (task: Task, callBack: () => void) => {
 		console.log(e);
 	}
 };
+
+export const UpdateTask = async (task: Task, callBack: () => void) => {
+	try {
+		task.ExpiryDate?.setDate(task.ExpiryDate?.getDate() + 1);
+
+		await axios
+			.put(
+				`http://localhost:5038/api/Task/Change`,
+				{
+					Id: task.Id,
+					Name: task.Name,
+					Description: task.Description,
+					Status: task.Status,
+					ExpiryDate: task.ExpiryDate,
+					FolderId: task.FolderId,
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Accept: 'application/json',
+					},
+				}
+			)
+			.then(() => callBack());
+	} catch (_e: any) {
+		const e: AxiosError = _e;
+
+		console.log(e);
+	}
+};

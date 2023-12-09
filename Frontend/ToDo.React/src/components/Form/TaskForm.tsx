@@ -14,6 +14,7 @@ import useAuth from "@/hooks/useAuth";
 import Folder from "@/models/Folder";
 import Task from "@/models/Task";
 import { RemoveTaskById } from "@/api/TaskApi";
+import { parseISO } from "date-fns";
 
 interface TaskBodyProps {
     task: Task | null;
@@ -25,14 +26,13 @@ const TaskBody: FC<TaskBodyProps> = ({ task, ExitCallBack }) => {
     const {
         registerName,
         registerDescription,
-        registerExpiryDate,
-        registerFolderId,
         onSubmitUpdate,
         onSubmitAdd,
         errors,
         control
     } = useTaskForm(task, ExitCallBack);
     const [folders, setFolders] = useState<Folder[]>([]);
+    const [selectedMonth, setSelectedMonth] = useState(new Date(task?.ExpiryDate ?? new Date()));
 
     const UpdateFolders = () => {
         setFolders([]);
@@ -158,14 +158,20 @@ const TaskBody: FC<TaskBodyProps> = ({ task, ExitCallBack }) => {
                     <Controller
                         control={control}
                         name="expiryDate"
-                        render={({ field }) =>
-                            <Calendar
-                                id="ExpiryDate"
-                                mode="single"
-                                locale={ru}
-                                today={undefined}
-                                onSelect={field.onChange}
-                                selected={field.value!} />
+                        render={
+                            ({ field }) =>
+                                <Calendar
+                                    id="ExpiryDate"
+                                    mode="single"
+                                    locale={ru}
+                                    today={undefined}
+                                    onSelect={field.onChange}
+                                    month={selectedMonth}
+                                    onMonthChange={v => setSelectedMonth(v)}
+                                    toYear={2030}
+                                    fromYear={2020}
+                                    selected={new Date(field.value!)} />
+
                         } />
                 </div>
             </div>

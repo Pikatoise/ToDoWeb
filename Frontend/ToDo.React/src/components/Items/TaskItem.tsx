@@ -31,6 +31,7 @@ const TaskItem: FC<TaskItemProps> = ({ task, clickCallBack, changeSelectedTasks,
         return result as string;
     };
 
+
     const croppedDescription = (): string => {
         var result: string = "";
 
