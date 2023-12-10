@@ -43,6 +43,10 @@
 			}
 		}
 
+		.disabledBlock {
+			@apply opacity-70 cursor-not-allowed;
+		}
+
 		.btn {
 			@apply text-black border-2 border-zinc-700 mt-2 mx-6;
 			@apply bg-transparent hover:bg-zinc-400 hover:bg-opacity-50;

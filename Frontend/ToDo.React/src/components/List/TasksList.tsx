@@ -3,13 +3,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import TaskItem from "@/components/Items/TaskItem";
 import Folder from "@/models/Folder";
 import Task from "@/models/Task";
-import { GetTasksByProfileId, RemoveManyTasksById } from "@/api/TaskApi";
+import { GetTasksByProfileId, RemoveManyTasksById, UpdateTaskStatusById } from "@/api/TaskApi";
 import useAuth from "@/hooks/useAuth";
 import styles from "@/styles/TaskList.module.css";
 import LoadingCircle, { LoadingCircleSize } from "@/components/Loading/LoadingCircle";
 import { Plus, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { parseISO } from "date-fns";
 
 interface TasksListBodyProps {
     selectedFolder: Folder | null,
@@ -34,16 +35,27 @@ const TasksListBody: FC<TasksListBodyProps> = ({ ...props }) => {
         GetTasksByProfileId(
             auth?.user?.ProfileId!,
             (tasks: Task[]) => {
+                tasks.forEach(t => {
+                    var taskDate = parseISO(t.ExpiryDate?.toString()!).getTime();
+                    var currentDate = new Date().getTime();
+
+                    if (taskDate < currentDate && t.Status == 0) {
+                        t.Status = -1;
+
+                        UpdateTaskStatusById(t.Id as number, -1, () => { });
+                    }
+                });
+
                 setTasks(tasks);
                 setIsLoaded(true);
             });
     };
 
-    useMemo(() => {
+    useEffect(() => {
         UpdateTasks();
     }, []);
 
-    useMemo(() => {
+    useEffect(() => {
         UpdateTasks();
     }, [props.updateTasks]);
 

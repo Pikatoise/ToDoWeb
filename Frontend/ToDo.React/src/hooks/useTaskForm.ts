@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import Task from '@/models/Task';
 import useAuth from '@/hooks/useAuth';
 import { CreateNewTask, UpdateTask } from '@/api/TaskApi';
+import { parseISO } from 'date-fns';
 
 interface FormData {
 	name: string;
@@ -54,6 +55,8 @@ export const useTaskForm = (oldTask: Task | null, callBack: () => void) => {
 			isNotificated: false,
 			ProfileId: auth?.user?.ProfileId,
 		};
+
+		task.ExpiryDate?.setDate(task.ExpiryDate.getDate() + 1);
 
 		if (task.FolderId == -1) task.FolderId = null;
 

@@ -145,7 +145,7 @@ const ProfilePage: FC = () => {
                     </Button>
                 </div>
 
-                <div className={styles.block}>
+                <div className={[styles.block, styles.disabledBlock].join(' ')}>
                     <span className={styles.title}>
                         <Bell className={styles.icon} />
                         Уведомления
@@ -161,13 +161,14 @@ const ProfilePage: FC = () => {
                                         type="email"
                                         className={styles.input}
                                         value={email}
+                                        disabled
                                         onChange={(e) => setEmail(e.target.value)} />
 
                                 </div>
 
                                 {
                                     profile.Email == null ?
-                                        <Button className={styles.btn} onClick={SaveEmail}>
+                                        <Button className={styles.btn} disabled onClick={SaveEmail}>
                                             Подписаться
                                         </Button>
                                         :
@@ -195,6 +196,7 @@ const ProfilePage: FC = () => {
                                         id="code"
                                         className={styles.input}
                                         value={code}
+                                        disabled
                                         onChange={(e) => setCode(e.target.value)} />
                                 </div>
 
@@ -213,6 +215,7 @@ const ProfilePage: FC = () => {
 
                                 <Checkbox
                                     checked={profile.isEmailNotificationEnabled!}
+                                    disabled
                                     onClick={ChangeNotify} />
                             </div>
                             :

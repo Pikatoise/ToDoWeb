@@ -165,7 +165,7 @@ const TaskBody: FC<TaskBodyProps> = ({ task, ExitCallBack }) => {
                                     mode="single"
                                     locale={ru}
                                     today={undefined}
-                                    onSelect={field.onChange}
+                                    onSelect={(e) => field.onChange(e)}
                                     month={selectedMonth}
                                     onMonthChange={v => setSelectedMonth(v)}
                                     toYear={2030}
